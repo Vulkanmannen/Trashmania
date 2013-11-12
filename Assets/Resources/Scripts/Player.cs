@@ -102,7 +102,10 @@ public class Player : MonoBehaviour
 		//	velocity = -maxSpeed;
 		
 		// set velocity 
-		if(animationMode != AnimationMode.PICKUP && animationMode != AnimationMode.TOIDLE)
+		if(	animationMode != AnimationMode.PICKUP 
+			&& animationMode != AnimationMode.TOIDLE
+			&&(!(transform.position.x > 570) || (velocity < 0))
+			&&(!(transform.position.x < -570) || (velocity > 0)))
 			rigidbody.velocity = new Vector3(velocity, 0, 0);
 		else
 			rigidbody.velocity = new Vector3(0, 0, 0);

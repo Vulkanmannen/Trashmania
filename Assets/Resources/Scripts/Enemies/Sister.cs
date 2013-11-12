@@ -63,7 +63,7 @@ public class Sister : Enemy
 		}
 		
 		// move enemy
-		if(animationMode == AnimationMode.WALK)
+		if(animationMode == AnimationMode.WALK && currentEvent != GlobalGameObject.GameEvent.INLOVE)
 		{
 			moveVec = nodes[nextNode] - transform.position;		
 			moveVec.Normalize();
@@ -189,11 +189,29 @@ public class Sister : Enemy
 		float probability = Random.value;
 		int objectToThrowIndex = 0;
 		
-		if(probability < 0.60f) 
-			objectToThrowIndex = 0; // 60%
+		// if 2 objects
+		if(objectToSpawn.Length == 2)
+		{
+			if(probability < 0.60f) 
+				objectToThrowIndex = 0; // 60%
 
-		else
-			objectToThrowIndex = 1; // 40 %
+			else
+				objectToThrowIndex = 1; // 40 %
+		}
+		
+		// if three objects
+		else if(objectToSpawn.Length == 3)
+		{
+			if(probability < 0.50f) 
+				objectToThrowIndex = 0; // 50%
+
+			else if(probability < 0.75f) 
+				objectToThrowIndex = 1; // 25 %
+			
+			else
+				objectToThrowIndex = 2; // 25 %
+		}
+		
 		
 		return objectToThrowIndex;
 	}

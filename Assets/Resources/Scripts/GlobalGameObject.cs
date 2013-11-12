@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class GlobalGameObject : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class GlobalGameObject : MonoBehaviour
 	
 	public bool pause = false;
 	
-	public enum GameEvent {NOEVENT, CATCHFIVE, RAIN, GAMEOVER};
+	public enum GameEvent {NOEVENT, CATCHFIVE, RAIN, INLOVE, GAMEOVER};
 	public GameEvent currentEvent = GameEvent.NOEVENT;
 	
 	public int numberOfCatchedBonusTrash = 0;
@@ -60,7 +61,7 @@ public class GlobalGameObject : MonoBehaviour
 	void Update ()
 	{
 		//Generate enemies if not in game over
-		if(currentEvent != GameEvent.GAMEOVER)
+		if(currentEvent != GameEvent.GAMEOVER && currentEvent != GameEvent.INLOVE)
 		{
 			//--------------------------------------GenerateEnemys---------------------------------------------------
 			//-------------------------------------------------------------------------------------------------------
@@ -78,32 +79,11 @@ public class GlobalGameObject : MonoBehaviour
 						numberOfEnemies++;
 			}
 			
-			// probability of eatch enemy
-			
-			float probability = Random.value;
-			int objectToSpawnIndex = 0;
-			
-			if(probability < 0.20f) 
-				objectToSpawnIndex = 0; // 20%
-			
-			else if(probability < 0.40f)
-				objectToSpawnIndex = 1; // 20% 
-			
-			else if(probability < 0.70f)
-				objectToSpawnIndex = 2; // 30%
-			
-			else if(!sisterInPlay)
-				objectToSpawnIndex = 3; // 30%
-			
 			// create object
 			if(timerCount <= 0f && numberOfEnemies < maxEnemies[currentState])
 			{	
-				GameObject newObject = (GameObject)Instantiate(objectToSpawn[objectToSpawnIndex], transform.position, transform.rotation);					
-				newObject.transform.parent = transform;
-				
-				// if sister set sister in play
-				if(objectToSpawnIndex == 3)
-					sisterInPlay = true;
+				GameObject newObject = (GameObject)Instantiate(objectToSpawn[probabilityThrow()], transform.position, transform.rotation);					
+				newObject.transform.parent = transform;	
 				
 				startLeft = !startLeft;	
 				
@@ -357,6 +337,7 @@ public class GlobalGameObject : MonoBehaviour
 			}
 		}
 		
+		// Rain
 		if(currentEvent == GameEvent.RAIN)
 		{
 			//Spawn pair enemies
@@ -367,6 +348,18 @@ public class GlobalGameObject : MonoBehaviour
 			newObject.transform.parent = transform;
 		}
 		
+		// InLove
+		if(currentEvent == GameEvent.INLOVE)
+		{
+			//Spawn pair enemies
+			GameObject newObject = Instantiate(Resources.Load("Objects/Enemy/PersonInLove"), transform.position + new Vector3(800f, 0f, 0f), transform.rotation) as GameObject;					
+			newObject.transform.parent = transform;
+
+			newObject = Instantiate(Resources.Load("Objects/Enemy/PersonInLove"), transform.position - new Vector3(800f, 0f, 0f), transform.rotation) as GameObject;					
+			newObject.transform.parent = transform;
+		}
+		
+		// GameOver
 		if(currentEvent == GameEvent.GAMEOVER)
 		{
 			GameObject newObject = (GameObject)Instantiate(popup, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));
@@ -375,6 +368,7 @@ public class GlobalGameObject : MonoBehaviour
 			newObject.GetComponent<PopUp>().timeOnScreen = gameOverPopupTime;
 		}
 		
+		// CatchFive
 		if(currentEvent == GameEvent.CATCHFIVE)
 		{
 			numberOfCatchedBonusTrash = 0;
@@ -392,5 +386,53 @@ public class GlobalGameObject : MonoBehaviour
 				newObject.transform.parent = myCamera.transform;
 			}
 		}
+	}
+	
+	// probability Throw
+	private int probabilityThrow()
+	{
+		// probability of eatch enemy
+		
+		float probability = Random.value;
+		int objectToSpawnIndex = 0;
+		
+		// level 1
+		if(EditorApplication.currentScene == "Assets/Resources/Scenes/MainGame.unity")
+		{
+			if(probability < 0.20f) 
+				objectToSpawnIndex = 0; // 20%
+			
+			else if(probability < 0.40f)
+				objectToSpawnIndex = 1; // 20% 
+			
+			else if(probability < 0.70f)
+				objectToSpawnIndex = 2; // 30%
+			
+			else if(!sisterInPlay)
+			{
+				objectToSpawnIndex = 3; // 30%
+				sisterInPlay = true;
+			}
+		}
+		
+		// level 2
+		if(EditorApplication.currentScene == "Assets/Resources/Scenes/Level2.unity")
+		{
+			if(probability < 0.20f) 
+				objectToSpawnIndex = 0; // 20%
+			
+			else if(probability < 0.40f)
+				objectToSpawnIndex = 1; // 20% 
+			
+			else if(probability < 0.70f)
+				objectToSpawnIndex = 2; // 30%
+			
+			else if(!sisterInPlay)
+			{
+				objectToSpawnIndex = 3; // 30%
+				sisterInPlay = true;
+			}
+		}
+		return objectToSpawnIndex;
 	}
 }

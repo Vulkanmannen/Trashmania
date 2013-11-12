@@ -41,9 +41,6 @@ public class PairEnemy : Enemy
 		}
 		
 		dir.x *= (isLeft ? -1 : 1);
-		
-		// set to ignore
-		ignoreMe = true;
 	}
 	
 	// Animation
