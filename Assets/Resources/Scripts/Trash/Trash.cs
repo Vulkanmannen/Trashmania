@@ -56,7 +56,16 @@ public class Trash : MonoBehaviour
 		
 	}
 	
+	// fixedUpdate
 	void FixedUpdate()
+	{
+		myFixedUpdate();
+		
+		spin ();
+	}
+	
+	// fixed update
+	protected virtual void myFixedUpdate()
 	{
 		dir.x *= dirMod.x;
 		dir.y *= dirMod.y;
@@ -77,7 +86,6 @@ public class Trash : MonoBehaviour
 		
 		myXVelocity = rigidbody.velocity.x;
 		
-		spin ();
 	}
 	
 	// spin

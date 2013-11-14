@@ -3,6 +3,12 @@ using System.Collections;
 
 public class PersonInLove : Enemy 
 {
+	public bool waiting = false;
+	public bool thrownHart = false;
+	public bool heartCaught = false;
+	public bool heartDroped = false;
+	
+	public PersonInLove partner;
 	
 	// start
 	protected override void myStart()
@@ -39,8 +45,15 @@ public class PersonInLove : Enemy
 			return;
 		}
 		
+		// reach middle
+		if((isLeft && transform.position.x < 50 || !isLeft && transform.position.x > -50) && !waiting)
+		{
+			GetComponentInChildren<AnimationScript>().setAnimation(1 + typeOfEnemy[0] * 2, 20, true, 20);
+			waiting = true;	
+		}
+		
 		// move enemy
-		if(!throwing)
+		if(!waiting)
 		{
 			moveVec = nodes[0] - transform.position;		
 			moveVec.Normalize();
@@ -51,6 +64,38 @@ public class PersonInLove : Enemy
 	
 	protected override void throwFunc()
 	{
-		// dont
+		if(((isLeft && transform.position.x < 300f) || (!isLeft && transform.position.x > -300f)) && !thrownHart)
+		{
+			thrownHart = true;
+			
+			GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/Trash/BrokenHeart") as GameObject,transform.position - new Vector3(0f, 0f, 35), transform.rotation);
+			newObject.transform.parent = transform.parent;
+			newObject.GetComponent<BrokenHeart>().thrower = this; // fix
+		}
+	}
+	
+	// update
+	protected override void myUptade()
+	{
+		if(waiting)
+		{
+			if(heartDroped)
+			{
+				// set to noevent
+				if(currentEvent != GlobalGameObject.GameEvent.NOEVENT)
+					globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.NOEVENT);
+				
+				// play droped
+			}
+			
+			if(heartCaught && partner.heartCaught)
+			{
+				if(currentEvent != GlobalGameObject.GameEvent.NOEVENT)
+					globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.NOEVENT);
+				
+				// play caught
+			}
+			
+		}
 	}
 }

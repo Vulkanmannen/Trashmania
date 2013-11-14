@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 	enum AnimationMode {WALK, TOIDLE, IDLE, PICKUP, TURNING, WALKIDLE, TRUCK, TOTRUCK};
 	AnimationMode animationMode = AnimationMode.IDLE;
 	
-	public enum Mode {NORMAL, TRUCK};
+	public enum Mode {NORMAL, TRUCK, BOW};
 	public Mode mode = Mode.NORMAL;
 	
 	public enum AdditionalMode {NORMAL, SPEED};
@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
 	public int numberOfSpeedPowerups = 2;
 	
 	public GlobalGameObject globalGameObject;
+	public GlobalGameObject.GameEvent currentEvent;
 	
 	private Vector3 origin;
 	private RaycastHit raycastHit;
@@ -61,24 +62,6 @@ public class Player : MonoBehaviour
 		//-------------------------------------------MOVE-------------------------------------------------
 		float velocity = 0f;
 		
-		//if(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
-		//{
-		//	velocity = Input.acceleration.x;
-		//	
-		//	if(velocity < stillThreshold && velocity > -stillThreshold)
-		//		velocity = 0f;
-		//	
-		//	else if(velocity < slowThreshold && velocity > -slowThreshold)
-		//		velocity = (speed * slowSpeed) * (velocity > 0 ? 1 : -1) + velocity * slowAcc;
-		//	
-		//	else if(velocity > superThreshold || velocity < -superThreshold)
-		//		velocity = (speed * superSpeed) * (velocity > 0 ? 1 : -1) + velocity * superAcc;
-		//	
-		//	else 
-		//		velocity = speed * (velocity > 0 ? 1 : -1) + velocity * acc;
-		//	
-		//}
-		//else
 		{
 			if(Input.GetMouseButton(0))
 			{
@@ -93,13 +76,6 @@ public class Player : MonoBehaviour
 			else
 				velocity = 0;
 		}
-		
-		//maxSpeed = speed * superSpeed;
-		//
-		//if(velocity > maxSpeed)
-		//	velocity = maxSpeed;
-		//else if(velocity < -maxSpeed)
-		//	velocity = -maxSpeed;
 		
 		// set velocity 
 		if(	animationMode != AnimationMode.PICKUP 
@@ -116,16 +92,30 @@ public class Player : MonoBehaviour
 		//-------------------------------------------------------------------------------------------------
 		
 		//---------------------------------------------Modes-----------------------------------------------
-					
-			// set back mode after a time
-			if(modeTimer < Time.timeSinceLevelLoad && mode != Mode.NORMAL)
-				setToNormalMode();
+			
+		// set back mode after a time
+		if(modeTimer < Time.timeSinceLevelLoad && mode != Mode.NORMAL)
+			setToNormalMode();
 		
-			// set back additionalmode after a time
-			if(additionalModeTimer < Time.timeSinceLevelLoad && additionalMode != AdditionalMode.NORMAL)
-				setMode(AdditionalMode.NORMAL);
+		// set back additionalmode after a time
+		if(additionalModeTimer < Time.timeSinceLevelLoad && additionalMode != AdditionalMode.NORMAL)
+			setMode(AdditionalMode.NORMAL);
 		
+		//-------------------------------------------------------------------------------------------------
 		
+		//---------------------------------------------Events-----------------------------------------------
+	
+		currentEvent = globalGameObject.currentEvent;
+		
+		// to bowmode
+		if(currentEvent == GlobalGameObject.GameEvent.INLOVE)
+			mode = Mode.BOW;
+
+		// from bow to normal
+		if(mode == Mode.BOW && currentEvent != GlobalGameObject.GameEvent.INLOVE)
+			mode = Mode.NORMAL;
+	
+	
 		//-------------------------------------------------------------------------------------------------
 		
 		//---------------------------------------------Animation-------------------------------------------
@@ -246,6 +236,15 @@ public class Player : MonoBehaviour
 				GetComponentInChildren<AnimationScript>().backwards = false;
 
 		}
+		
+		//---------------------------------------------BOW-------------------------------------------------
+		//-------------------------------------------------------------------------------------------------
+		
+		if(mode == Mode.BOW)
+		{
+			
+
+		}
 	}
 	
 	
@@ -285,6 +284,7 @@ public class Player : MonoBehaviour
 					{
 						numberOfSpeedPowerups--;
 						setMode(AdditionalMode.SPEED);
+						globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.INLOVE);
 					}
 				}
 			}

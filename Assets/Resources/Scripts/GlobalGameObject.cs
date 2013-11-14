@@ -301,10 +301,12 @@ public class GlobalGameObject : MonoBehaviour
 		}
 	}
 	
+	// reset combo
 	public void resetCombo()
 	{
 		trashInARow = 0;
 		comboMultiplyer = 1;
+		howManyToGetCombo = 4;
 	}
 	
 	// start new event
@@ -352,11 +354,15 @@ public class GlobalGameObject : MonoBehaviour
 		if(currentEvent == GameEvent.INLOVE)
 		{
 			//Spawn pair enemies
-			GameObject newObject = Instantiate(Resources.Load("Objects/Enemy/PersonInLove"), transform.position + new Vector3(800f, 0f, 0f), transform.rotation) as GameObject;					
-			newObject.transform.parent = transform;
+			GameObject newObject1 = Instantiate(Resources.Load("Objects/Enemy/PersonInLove"), transform.position + new Vector3(800f, 0f, 0f), transform.rotation) as GameObject;					
+			newObject1.transform.parent = transform;
 
-			newObject = Instantiate(Resources.Load("Objects/Enemy/PersonInLove"), transform.position - new Vector3(800f, 0f, 0f), transform.rotation) as GameObject;					
-			newObject.transform.parent = transform;
+			GameObject newObject2 = Instantiate(Resources.Load("Objects/Enemy/PersonInLove"), transform.position - new Vector3(800f, 0f, 0f), transform.rotation) as GameObject;					
+			newObject2.transform.parent = transform;
+			
+			newObject1.GetComponent<PersonInLove>().partner = newObject2.GetComponent<PersonInLove>();
+			newObject2.GetComponent<PersonInLove>().partner = newObject1.GetComponent<PersonInLove>();
+			
 		}
 		
 		// GameOver
