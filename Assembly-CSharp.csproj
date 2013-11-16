@@ -64,6 +64,7 @@
      <Compile Include="Assets\Resources\Scripts\GuiButtonBalance.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu.cs" />
      <Compile Include="Assets\Resources\Scripts\MenuTree.cs" />
+     <Compile Include="Assets\Resources\Scripts\Particle.cs" />
      <Compile Include="Assets\Resources\Scripts\Player.cs" />
      <Compile Include="Assets\Resources\Scripts\PopUp.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\Battery.cs" />

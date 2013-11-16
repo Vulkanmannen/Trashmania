@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 	enum AnimationMode {WALK, TOIDLE, IDLE, PICKUP, TURNING, WALKIDLE, TRUCK, TOTRUCK};
 	AnimationMode animationMode = AnimationMode.IDLE;
 	
-	public enum Mode {NORMAL, TRUCK, BOW};
+	public enum Mode {NORMAL, TRUCK};
 	public Mode mode = Mode.NORMAL;
 	
 	public enum AdditionalMode {NORMAL, SPEED};
@@ -106,14 +106,6 @@ public class Player : MonoBehaviour
 		//---------------------------------------------Events-----------------------------------------------
 	
 		currentEvent = globalGameObject.currentEvent;
-		
-		// to bowmode
-		if(currentEvent == GlobalGameObject.GameEvent.INLOVE)
-			mode = Mode.BOW;
-
-		// from bow to normal
-		if(mode == Mode.BOW && currentEvent != GlobalGameObject.GameEvent.INLOVE)
-			mode = Mode.NORMAL;
 	
 	
 		//-------------------------------------------------------------------------------------------------
@@ -234,15 +226,6 @@ public class Player : MonoBehaviour
 				GetComponentInChildren<AnimationScript>().backwards = true;
 			else 
 				GetComponentInChildren<AnimationScript>().backwards = false;
-
-		}
-		
-		//---------------------------------------------BOW-------------------------------------------------
-		//-------------------------------------------------------------------------------------------------
-		
-		if(mode == Mode.BOW)
-		{
-			
 
 		}
 	}

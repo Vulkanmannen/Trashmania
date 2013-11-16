@@ -14,6 +14,12 @@ public class BigTrash : Trash
 	// collision
 	protected override void myCollision(Collision collision)
 	{
+		if(collision.collider.name != "wall")
+		{
+			dir = new Vector3(0,0,0);
+			bounce = true;
+		}
+		
 		if(collision.collider.name == "Ground" && !canBePickedUp)
 		{
 			canBePickedUp = true;	

@@ -5,10 +5,41 @@ public class BrokenHeart : Trash
 {
 	public PersonInLove thrower = null;
 	
+	public float turnSpeed = 2f;
+	
+	public float maxSpeedDown = -280;
+	public float maxSpeedUp = 100;
+	public float changeSpeed = 2;
+	public float fallSpeed = -280;
+	public float fallSideSpeed = 150;
+	
+	public float randomSideSpeed = 50;
+	public float randomFallSpeed = 50;
+	public float randomShangeSpeed = 2;
+	
+	// myStart	
+	protected override void start()
+	{	
+		changeSpeed += Random.Range(-randomShangeSpeed, randomShangeSpeed);
+		
+		fallSideSpeed += Random.Range(-randomSideSpeed, randomSideSpeed);
+		
+		maxSpeedDown += Random.Range(-randomFallSpeed, randomFallSpeed);
+		fallSpeed = maxSpeedDown;
+		
+		if(thrower != null)
+		{
+			if(thrower.isLeft)
+			{
+				fallSideSpeed *= -1;
+				fallSpeed = fallSpeed + 50;
+			}
+		}
+	}
 	// collision
 	protected override void myCollision(Collision collision)
 	{
-		if(collision.collider.name != "wall")
+		if(collision.collider.name != "wall" && !collision.collider.GetComponent<BrokenHeart>())
 		{
 			dir = new Vector3(0,0,0);
 			bounce = true;
@@ -34,19 +65,35 @@ public class BrokenHeart : Trash
 	// fixedUpdate
 	protected override void myFixedUpdate()
 	{
+		// set speed
+		if(!bounce)
+		{
+			fallSpeed += changeSpeed;
+			
+			if(fallSpeed >= maxSpeedUp || fallSpeed <= maxSpeedDown)
+			{
+				fallSpeed = maxSpeedDown;
+				fallSideSpeed *= -1;
+				rigidbody.velocity = new Vector3();
+			}
+		}
+		else
+			fallSpeed = maxSpeedDown;
 		
+		// set velocity
+		rigidbody.velocity = new Vector3((bounce ? rigidbody.velocity.x : fallSideSpeed), fallSpeed, 0f);
 	}
 	
 	// spin
 	protected override void spin()
 	{
-		//Debug.Log(transform.rotation.z);
-		if(transform.rotation.z > 0.8f || transform.rotation.z < -0.8f)
-		{
-			rotationDir *= -1;
-			Debug.Log(transform.rotation.z);
-		}
-		//transform.rotation = new Quaternion(0f, 0f, transform.rotation.z + 0.01f * rotationDir, 0f);
-		//rigidbody.AddTorque(new Vector3(0f, 0f, 100f*rotationDir));
+		float z = 30f;
+		Quaternion target = Quaternion.Euler(0, 0, z * rotationDir);
+		transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * turnSpeed);	
+		
+		if(fallSideSpeed < 0)
+			rotationDir = -1;
+		else
+			rotationDir = 1;
 	}
 }
