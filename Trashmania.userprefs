@@ -1,18 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Enemies\Enemy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Player.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Trash\BrokenHeart.cs" Line="36" Column="5" />
-      <File FileName="Assets\Resources\Scripts\Enemies\PersonInLove.cs" Line="34" Column="2" />
-      <File FileName="Assets\Resources\Scripts\Player.cs" Line="109" Column="2" />
+      <File FileName="Assets\Resources\Scripts\Enemies\PersonInLove.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Trash\BrokenHeart.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Player.cs" Line="161" Column="93" />
       <File FileName="Assets\Resources\Scripts\Trash\BigTrash.cs" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\Trash\Trash.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\TrashCanCollider.cs" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\Enemies\Enemy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\GlobalGameObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Enemies\Sister.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Enemies\PairEnemy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Particle.cs" Line="7" Column="2" />
+      <File FileName="Assets\Resources\Scripts\GlobalGameObject.cs" Line="3" Column="34" />
+      <File FileName="Assets\Resources\Scripts\Enemies\Hobo.cs" Line="6" Column="20" />
+      <File FileName="Assets\Resources\Scripts\Trash\GlasBottle.cs" Line="23" Column="153" />
+      <File FileName="Assets\Resources\Scripts\GlasOnGround.cs" Line="20" Column="4" />
+      <File FileName="Assets\Resources\Scripts\Buttons\Button.cs" Line="10" Column="54" />
+      <File FileName="Assets\Resources\Scripts\Menu.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\CameraMovement.cs" Line="18" Column="97" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

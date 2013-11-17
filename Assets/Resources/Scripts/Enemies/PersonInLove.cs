@@ -8,6 +8,7 @@ public class PersonInLove : Enemy
 	public bool heartCaught = false;
 	public bool heartDroped = false;
 	public bool runCaughtHarts = false;
+	public bool thrownPrize = false;
 	
 	public PersonInLove partner;
 	
@@ -65,7 +66,7 @@ public class PersonInLove : Enemy
 	
 	protected override void throwFunc()
 	{
-		if(((isLeft && transform.position.x < 300f) || (!isLeft && transform.position.x > -300f)) && !thrownHart)
+		if(((isLeft && transform.position.x < 350f) || (!isLeft && transform.position.x > -350f)) && !thrownHart)
 		{
 			thrownHart = true;
 			
@@ -96,9 +97,16 @@ public class PersonInLove : Enemy
 			{
 				runCaughtHarts = true;
 				
-				if(currentEvent != GlobalGameObject.GameEvent.NOEVENT)
+				if(currentEvent != GlobalGameObject.GameEvent.NOEVENT && !thrownPrize)
+				{
+					thrownPrize = true;
+					partner.thrownPrize = true;
+					
 					globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.NOEVENT);
-				
+					
+					GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/Trash/Heart") as GameObject,transform.position + new Vector3(50f * (isLeft ? -1 : 1), 0f, -35f), transform.rotation);
+					newObject.transform.parent = transform.parent;
+				}
 				// play caught
 				chaughtHearts();
 			}	
@@ -109,7 +117,9 @@ public class PersonInLove : Enemy
 		{
 			GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/Particle") as GameObject,transform.position, transform.rotation);
 			newObject.transform.parent = transform.parent;
+			
 			Destroy(this.gameObject);
+			
 		}
 	}
 	

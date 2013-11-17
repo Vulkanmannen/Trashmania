@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 
 public class GlobalGameObject : MonoBehaviour
 {
+	public int thisLevel = 1;
 	public GameObject[] objectToSpawn;
 	public float[] timer;
 	public float timerCount = 0;
@@ -190,22 +190,6 @@ public class GlobalGameObject : MonoBehaviour
 		GUI.Label(new Rect(10, 10, 30, 30), points.ToString(), style); 
 		
 		GUI.color = new Color(1, 1, 1, 1);
-
-		// arrow
-		Rect arroRect = new Rect(Screen.width / 12f, Screen.height - Screen.height / 9f, Screen.width - Screen.width / 6f, Screen.height / 9f);
-		GUI.color = new Color(1, 1, 1, 1);
-		
-
-		
-		if(Input.GetMouseButtonDown(0))
-		{
-			if(arroRect.Contains(Input.mousePosition))
-			{
-				GUI.color = new Color(1f, 1f, 1f, 0.3f);
-			}
-		}
-
-		GUI.DrawTexture(arroRect, Resources.Load("Textures/Interface/Arrow") as Texture);
 		
 		// combo multiplyer
 		GUI.color = new Color(1, 1, 1, 1);
@@ -403,39 +387,42 @@ public class GlobalGameObject : MonoBehaviour
 		int objectToSpawnIndex = 0;
 		
 		// level 1
-		if(EditorApplication.currentScene == "Assets/Resources/Scenes/MainGame.unity")
+		if(thisLevel == 1)
 		{
 			if(probability < 0.20f) 
-				objectToSpawnIndex = 0; // 20%
+				objectToSpawnIndex = 0; // 20% enemy
 			
 			else if(probability < 0.40f)
-				objectToSpawnIndex = 1; // 20% 
+				objectToSpawnIndex = 1; // 20% enemy 2
 			
 			else if(probability < 0.70f)
-				objectToSpawnIndex = 2; // 30%
+				objectToSpawnIndex = 2; // 30% old man
 			
 			else if(!sisterInPlay)
 			{
-				objectToSpawnIndex = 3; // 30%
+				objectToSpawnIndex = 3; // 30% sister
 				sisterInPlay = true;
 			}
 		}
 		
 		// level 2
-		if(EditorApplication.currentScene == "Assets/Resources/Scenes/Level2.unity")
+		if(thisLevel == 2)
 		{
-			if(probability < 0.20f) 
-				objectToSpawnIndex = 0; // 20%
+			if(probability < 0.15f) 
+				objectToSpawnIndex = 0; // 15% enemy
 			
-			else if(probability < 0.40f)
-				objectToSpawnIndex = 1; // 20% 
+			else if(probability < 0.30f)
+				objectToSpawnIndex = 1; // 15% enemy 2
+			
+			else if(probability < 0.50f)
+				objectToSpawnIndex = 2; // 20% old man
 			
 			else if(probability < 0.70f)
-				objectToSpawnIndex = 2; // 30%
+				objectToSpawnIndex = 3; // 20% hobo
 			
 			else if(!sisterInPlay)
 			{
-				objectToSpawnIndex = 3; // 30%
+				objectToSpawnIndex = 4; // 30% sister
 				sisterInPlay = true;
 			}
 		}

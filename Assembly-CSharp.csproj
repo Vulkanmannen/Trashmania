@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Resources\Scripts\AnimationScript.cs" />
+     <Compile Include="Assets\Resources\Scripts\ArrowPad.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\Button.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeMenuButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeToLevelIfAvailable.cs" />
@@ -55,11 +56,13 @@
      <Compile Include="Assets\Resources\Scripts\CoinPopup.cs" />
      <Compile Include="Assets\Resources\Scripts\DestroyedTrashPopup.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\Hobo.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\OldMan.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\PairEnemy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\PersonInLove.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Sister.cs" />
      <Compile Include="Assets\Resources\Scripts\EnemyPath.cs" />
+     <Compile Include="Assets\Resources\Scripts\GlasOnGround.cs" />
      <Compile Include="Assets\Resources\Scripts\GlobalGameObject.cs" />
      <Compile Include="Assets\Resources\Scripts\GuiButtonBalance.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu.cs" />
@@ -71,6 +74,7 @@
      <Compile Include="Assets\Resources\Scripts\Trash\BigTrash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\BonusTrashCatchFive.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\BrokenHeart.cs" />
+     <Compile Include="Assets\Resources\Scripts\Trash\GlasBottle.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\PowerUpTrash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\RainTrash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\Trash.cs" />

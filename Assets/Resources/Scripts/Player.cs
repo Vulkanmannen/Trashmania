@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 	enum AnimationMode {WALK, TOIDLE, IDLE, PICKUP, TURNING, WALKIDLE, TRUCK, TOTRUCK};
 	AnimationMode animationMode = AnimationMode.IDLE;
 	
-	public enum Mode {NORMAL, TRUCK};
+	public enum Mode {NORMAL, TRUCK, JUMP};
 	public Mode mode = Mode.NORMAL;
 	
 	public enum AdditionalMode {NORMAL, SPEED};
@@ -37,6 +37,9 @@ public class Player : MonoBehaviour
 	
 	public GlobalGameObject globalGameObject;
 	public GlobalGameObject.GameEvent currentEvent;
+	
+	public bool jumpPressed = false;
+	public float jumpSpeed = 250;
 	
 	private Vector3 origin;
 	private RaycastHit raycastHit;
@@ -58,30 +61,39 @@ public class Player : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () 
-	{
+	{	
 		//-------------------------------------------MOVE-------------------------------------------------
-		float velocity = 0f;
+		float velocity = 0f;	
 		
+		if(Input.GetMouseButton(0))
 		{
-			if(Input.GetMouseButton(0))
+			origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			
+			// move x
+			Vector3 fwd = Vector3.forward;
+			if(Physics.Raycast(origin, fwd, out raycastHit))
 			{
-				origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				
-				Vector3 fwd = Vector3.forward;
-				if(Physics.Raycast(origin, fwd, out raycastHit))
-				
-					if(raycastHit.point.y < -200f)
-						velocity = (raycastHit.point.x - transform.position.x) * speed * (additionalMode == AdditionalMode.SPEED ? speedMultiplier : 1);
+				if(raycastHit.transform.name == "ArrowPad")
+					velocity = (raycastHit.point.x - GameObject.FindWithTag("MainCamera").transform.position.x) * speed * (additionalMode == AdditionalMode.SPEED ? speedMultiplier : 1);
+		
+			
+				if(raycastHit.transform.name == "Player")
+					jumpPressed = true;
+				else
+					jumpPressed = false;
 			}
-			else
-				velocity = 0;
 		}
+		else if(jumpPressed && mode == Mode.NORMAL)
+		{
+			mode = Mode.JUMP;
+		}		
+		
 		
 		// set velocity 
 		if(	animationMode != AnimationMode.PICKUP 
 			&& animationMode != AnimationMode.TOIDLE
-			&&(!(transform.position.x > 570) || (velocity < 0))
-			&&(!(transform.position.x < -570) || (velocity > 0)))
+			&&(!(transform.position.x > 600) || (velocity < 0))
+			&&(!(transform.position.x < -600) || (velocity > 0)))
 			rigidbody.velocity = new Vector3(velocity, 0, 0);
 		else
 			rigidbody.velocity = new Vector3(0, 0, 0);
@@ -94,7 +106,7 @@ public class Player : MonoBehaviour
 		//---------------------------------------------Modes-----------------------------------------------
 			
 		// set back mode after a time
-		if(modeTimer < Time.timeSinceLevelLoad && mode != Mode.NORMAL)
+		if(modeTimer < Time.timeSinceLevelLoad && mode != Mode.NORMAL && mode != Mode.JUMP)
 			setToNormalMode();
 		
 		// set back additionalmode after a time
@@ -228,7 +240,34 @@ public class Player : MonoBehaviour
 				GetComponentInChildren<AnimationScript>().backwards = false;
 
 		}
+		//---------------------------------------------JUMP------------------------------------------------
+		//-------------------------------------------------------------------------------------------------
+		
+		if(mode == Mode.JUMP || transform.position.y > -540)
+		{
+			rigidbody.velocity += new Vector3(0f, jumpSpeed, 0f);
+			
+			if(jumpSpeed < 70)
+				jumpSpeed -= 5;
+			if(jumpSpeed < 0)
+				jumpSpeed -= 15;
+			else
+				jumpSpeed -= 25;
+			
+			if(jumpSpeed < 0)
+				jumpPressed = false;
+			
+			if(transform.position.y < -540 && !jumpPressed)
+			{
+				transform.position = new Vector3(transform.position.x, -540f, transform.position.z);
+				jumpSpeed = 650;
+				
+				if(mode == Mode.JUMP)
+					mode = Mode.NORMAL;
+			}
+		}		
 	}
+
 	
 	
 	//---------------------------------------------GUI-------------------------------------------------
@@ -362,5 +401,29 @@ public class Player : MonoBehaviour
 		// set animation
 		GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.TOTRUCK, 7, false, 20, false, 8);
 		animationMode = AnimationMode.TOTRUCK;
+	}
+	//---------------------------------------------Collision-----------------------------------------------
+	//-----------------------------------------------------------------------------------------------------
+	
+	void OnTriggerStay(Collider collider)
+	{
+		if(currentEvent != GlobalGameObject.GameEvent.GAMEOVER)
+		{
+			if(collider.name == "GlasBigHitbox")
+			{
+				float colliderXPos = collider.transform.parent.transform.position.x;
+			
+				if(transform.position.x > colliderXPos && !isLeft || transform.position.x < colliderXPos && isLeft)
+					globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.GAMEOVER);
+			}
+			
+			if(collider.name == "GlasSmalHitbox")
+			{
+				float colliderXPos = collider.transform.parent.transform.position.x;
+			
+				if(transform.position.x > colliderXPos && isLeft || transform.position.x < colliderXPos && !isLeft)
+					globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.GAMEOVER);
+			}
+		}
 	}
 }
