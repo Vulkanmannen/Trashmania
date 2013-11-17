@@ -56,7 +56,16 @@ public class Trash : MonoBehaviour
 		
 	}
 	
+	// fixedUpdate
 	void FixedUpdate()
+	{
+		myFixedUpdate();
+		
+		spin ();
+	}
+	
+	// fixed update
+	protected virtual void myFixedUpdate()
 	{
 		dir.x *= dirMod.x;
 		dir.y *= dirMod.y;
@@ -70,12 +79,13 @@ public class Trash : MonoBehaviour
 		// get current stage
 		currentState = globalGameObject.GetComponent<GlobalGameObject>().currentState;
 		
-		
-		rigidbody.velocity = new Vector3((bounce && !onGround ? rigidbody.velocity.x : 0f), -velocityY[currentState], 0f) + dir;
+		if(!canBePickedUp)
+			rigidbody.velocity = new Vector3((bounce && !onGround ? rigidbody.velocity.x : 0f), -velocityY[currentState], 0f) + dir;
+		else
+			rigidbody.velocity = new Vector3(0f, -0.5f, rigidbody.velocity.z); // wtf!!
 		
 		myXVelocity = rigidbody.velocity.x;
 		
-		spin ();
 	}
 	
 	// spin

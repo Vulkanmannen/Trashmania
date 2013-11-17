@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
 	public int numberOfSpeedPowerups = 2;
 	
 	public GlobalGameObject globalGameObject;
+	public GlobalGameObject.GameEvent currentEvent;
 	
 	private Vector3 origin;
 	private RaycastHit raycastHit;
@@ -61,24 +62,6 @@ public class Player : MonoBehaviour
 		//-------------------------------------------MOVE-------------------------------------------------
 		float velocity = 0f;
 		
-		//if(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
-		//{
-		//	velocity = Input.acceleration.x;
-		//	
-		//	if(velocity < stillThreshold && velocity > -stillThreshold)
-		//		velocity = 0f;
-		//	
-		//	else if(velocity < slowThreshold && velocity > -slowThreshold)
-		//		velocity = (speed * slowSpeed) * (velocity > 0 ? 1 : -1) + velocity * slowAcc;
-		//	
-		//	else if(velocity > superThreshold || velocity < -superThreshold)
-		//		velocity = (speed * superSpeed) * (velocity > 0 ? 1 : -1) + velocity * superAcc;
-		//	
-		//	else 
-		//		velocity = speed * (velocity > 0 ? 1 : -1) + velocity * acc;
-		//	
-		//}
-		//else
 		{
 			if(Input.GetMouseButton(0))
 			{
@@ -94,15 +77,11 @@ public class Player : MonoBehaviour
 				velocity = 0;
 		}
 		
-		//maxSpeed = speed * superSpeed;
-		//
-		//if(velocity > maxSpeed)
-		//	velocity = maxSpeed;
-		//else if(velocity < -maxSpeed)
-		//	velocity = -maxSpeed;
-		
 		// set velocity 
-		if(animationMode != AnimationMode.PICKUP && animationMode != AnimationMode.TOIDLE)
+		if(	animationMode != AnimationMode.PICKUP 
+			&& animationMode != AnimationMode.TOIDLE
+			&&(!(transform.position.x > 570) || (velocity < 0))
+			&&(!(transform.position.x < -570) || (velocity > 0)))
 			rigidbody.velocity = new Vector3(velocity, 0, 0);
 		else
 			rigidbody.velocity = new Vector3(0, 0, 0);
@@ -113,16 +92,22 @@ public class Player : MonoBehaviour
 		//-------------------------------------------------------------------------------------------------
 		
 		//---------------------------------------------Modes-----------------------------------------------
-					
-			// set back mode after a time
-			if(modeTimer < Time.timeSinceLevelLoad && mode != Mode.NORMAL)
-				setToNormalMode();
+			
+		// set back mode after a time
+		if(modeTimer < Time.timeSinceLevelLoad && mode != Mode.NORMAL)
+			setToNormalMode();
 		
-			// set back additionalmode after a time
-			if(additionalModeTimer < Time.timeSinceLevelLoad && additionalMode != AdditionalMode.NORMAL)
-				setMode(AdditionalMode.NORMAL);
+		// set back additionalmode after a time
+		if(additionalModeTimer < Time.timeSinceLevelLoad && additionalMode != AdditionalMode.NORMAL)
+			setMode(AdditionalMode.NORMAL);
 		
+		//-------------------------------------------------------------------------------------------------
 		
+		//---------------------------------------------Events-----------------------------------------------
+	
+		currentEvent = globalGameObject.currentEvent;
+	
+	
 		//-------------------------------------------------------------------------------------------------
 		
 		//---------------------------------------------Animation-------------------------------------------
@@ -282,6 +267,7 @@ public class Player : MonoBehaviour
 					{
 						numberOfSpeedPowerups--;
 						setMode(AdditionalMode.SPEED);
+						globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.INLOVE);
 					}
 				}
 			}

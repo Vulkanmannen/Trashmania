@@ -140,7 +140,7 @@ public class Enemy : MonoBehaviour
 		}
 		
 		// move enemy
-		if(!throwing)
+		if(!throwing && currentEvent != GlobalGameObject.GameEvent.INLOVE)
 		{
 			moveVec = nodes[0] - transform.position;		
 			moveVec.Normalize();

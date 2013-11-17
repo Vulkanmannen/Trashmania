@@ -37,7 +37,6 @@ public class TrashCanCollider : MonoBehaviour
 			
 			player.GetComponent<Player>().setAnimationToPickUp();
 			collider.gameObject.GetComponent<Trash>().destroy();
-
 		}
 	}
 	
