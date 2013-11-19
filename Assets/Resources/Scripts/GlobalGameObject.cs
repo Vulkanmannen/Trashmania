@@ -82,7 +82,7 @@ public class GlobalGameObject : MonoBehaviour
 			// create object
 			if(timerCount <= 0f && numberOfEnemies < maxEnemies[currentState])
 			{	
-				GameObject newObject = (GameObject)Instantiate(objectToSpawn[probabilityThrow()], transform.position, transform.rotation);					
+				GameObject newObject = (GameObject)Instantiate(objectToSpawn[probabilitySpawn()], transform.position, transform.rotation);					
 				newObject.transform.parent = transform;	
 				
 				startLeft = !startLeft;	
@@ -305,7 +305,7 @@ public class GlobalGameObject : MonoBehaviour
 		{
 			foreach(Transform t in GetComponentsInChildren<Transform>())
 			{
-				if(t.GetComponent<Trash>() && !t.GetComponent<Trash>().canBePickedUp)
+				if(t.GetComponent<Trash>() && (!t.GetComponent<Trash>().canBePickedUp || currentEvent != GameEvent.GAMEOVER))
 				{
 					t.GetComponent<Trash>().destroyAndPoff((t.GetComponent<Trash>().points * comboMultiplyer).ToString());
 					
@@ -378,8 +378,8 @@ public class GlobalGameObject : MonoBehaviour
 		}
 	}
 	
-	// probability Throw
-	private int probabilityThrow()
+	// probability spawn
+	private int probabilitySpawn()
 	{
 		// probability of eatch enemy
 		
