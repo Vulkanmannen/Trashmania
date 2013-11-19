@@ -20,6 +20,7 @@
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
 	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_GENERICS;ENABLE_SUBSTANCE;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_3_0;UNITY_4_3;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_1;UNITY_4_2;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -47,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Resources\Scripts\AnimationScript.cs" />
+     <Compile Include="Assets\Resources\Scripts\ArrowPad.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\Button.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeMenuButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeToLevelIfAvailable.cs" />
@@ -57,11 +59,13 @@
      <Compile Include="Assets\Resources\Scripts\CoinPopup.cs" />
      <Compile Include="Assets\Resources\Scripts\DestroyedTrashPopup.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\Hobo.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\OldMan.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\PairEnemy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\PersonInLove.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Sister.cs" />
      <Compile Include="Assets\Resources\Scripts\EnemyPath.cs" />
+     <Compile Include="Assets\Resources\Scripts\GlasOnGround.cs" />
      <Compile Include="Assets\Resources\Scripts\GlobalGameObject.cs" />
      <Compile Include="Assets\Resources\Scripts\GuiButtonBalance.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu.cs" />
@@ -73,6 +77,7 @@
      <Compile Include="Assets\Resources\Scripts\Trash\BigTrash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\BonusTrashCatchFive.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\BrokenHeart.cs" />
+     <Compile Include="Assets\Resources\Scripts\Trash\GlasBottle.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\PowerUpTrash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\RainTrash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\Trash.cs" />
