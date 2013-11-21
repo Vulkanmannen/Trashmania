@@ -5,7 +5,10 @@ public class ToStartMenuFromPause : Button
 {
 	public override void action()
 	{			
-		GameObject.FindWithTag("GlobalGameObject").GetComponent<GlobalGameObject>().pause = false;
+
+		GlobalGameObject globalGameObject = GameObject.FindWithTag("GlobalGameObject").GetComponent<GlobalGameObject>();
+		globalGameObject.pause = false;
+		globalGameObject.saveScore();
 		Time.timeScale = 1;
 		Application.LoadLevel((int)level);
 	}

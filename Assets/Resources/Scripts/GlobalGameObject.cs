@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class GlobalGameObject : MonoBehaviour
 {
 	public int thisLevel = 1;
+
 	public GameObject[] objectToSpawn;
 	public float[] timer;
 	public float timerCount = 0;
@@ -13,6 +14,7 @@ public class GlobalGameObject : MonoBehaviour
 	public int trashOnGround = 0;
 	
 	public int points = 0;
+	public int pointsToUnlockNextLevel = 100;
 	public Texture trashOnGroundTexture;
 	public int tooManyTrashOnGround = 2;
 	public int comboMultiplyer = 1;
@@ -56,6 +58,8 @@ public class GlobalGameObject : MonoBehaviour
 		myCamera = GameObject.FindWithTag("MainCamera");
 		
 		doubleBigTrashTimer = Time.timeSinceLevelLoad + 20f;
+
+		PlayerPrefs.SetInt("CurrentLevel", thisLevel);
 	}
 	
 	void Update ()
@@ -119,7 +123,7 @@ public class GlobalGameObject : MonoBehaviour
 			if(trashInARow > howManyToGetCombo - 1)
 			{
 				trashInARow = 0;
-				if(comboMultiplyer < 5)
+				if(comboMultiplyer < 6)
 				{
 					comboMultiplyer++;
 				
@@ -185,7 +189,7 @@ public class GlobalGameObject : MonoBehaviour
 		// points
 		GUIStyle style = new GUIStyle();
 		style.font = Resources.Load("Font/BADABB") as Font;
-		style.fontSize = 50;
+		style.fontSize = Screen.width / 5;
 		
 		GUI.Label(new Rect(10, 10, 30, 30), points.ToString(), style); 
 		
@@ -352,6 +356,8 @@ public class GlobalGameObject : MonoBehaviour
 		// GameOver
 		if(currentEvent == GameEvent.GAMEOVER)
 		{
+			saveScore();
+
 			GameObject newObject = (GameObject)Instantiate(popup, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));
 			newObject.transform.parent = myCamera.transform;
 			newObject.GetComponent<PopUp>().setTexture(gameOverTexture);
@@ -427,5 +433,28 @@ public class GlobalGameObject : MonoBehaviour
 			}
 		}
 		return objectToSpawnIndex;
+	}
+
+	public void saveScore()
+	{
+		// savePoints
+		int myPoints = points;
+		for(int i = 0; i < 10; ++i)
+		{
+			string highScore = "AllTimeHighScore" + i.ToString();
+			if(myPoints > PlayerPrefs.GetInt(highScore))
+			{
+				int tempPoints = myPoints;
+				myPoints = PlayerPrefs.GetInt(highScore);
+				PlayerPrefs.SetInt(highScore, tempPoints);
+			}
+		}
+
+		// unlock next level
+		if(points >= pointsToUnlockNextLevel)
+		{
+			string nextLevel = "LevelUnlocked" + (thisLevel + 1).ToString();
+			PlayerPrefs.SetInt(nextLevel, 1);
+		}
 	}
 }

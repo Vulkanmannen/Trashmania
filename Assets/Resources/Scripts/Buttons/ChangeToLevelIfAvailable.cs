@@ -3,10 +3,10 @@ using System.Collections;
 
 public class ChangeToLevelIfAvailable : Button
 {
-	public bool unlocked = true;
+	public string unlockedLevel = "LevelUnlocked1";
 	public override void action()
 	{
-		if(unlocked)
+		if(PlayerPrefs.GetInt(unlockedLevel) == 1)
 		{
 			Application.LoadLevel((int)level);
 		}
