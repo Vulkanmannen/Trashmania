@@ -7,7 +7,8 @@ public class TrashCanCollider : MonoBehaviour
 	public GameObject globalGameObject;
 	public Vector3 offset = new Vector3(0f, 100f, 0f);
 	public bool isLeft;
-	
+	public GlobalGameObject.GameEvent currentEvent = GlobalGameObject.GameEvent.NOEVENT;
+
 	private float offsetX;
 	
 	void Start ()
@@ -23,11 +24,13 @@ public class TrashCanCollider : MonoBehaviour
 		offset = new Vector3(offsetX * (isLeft ? -1 : 1), offset.y, offset.z);
 		
 		transform.position = player.transform.position + offset;
+
+		currentEvent = globalGameObject.GetComponent<GlobalGameObject>().currentEvent;
 	}
 	
 	void OnTriggerEnter(Collider collider)
 	{
-		if(collider.GetComponent<Trash>())
+		if(collider.GetComponent<Trash>() && currentEvent != GlobalGameObject.GameEvent.GAMEOVER)
 		{	
 			// increase points
 			globalGameObject.GetComponent<GlobalGameObject>().points += collider.GetComponent<Trash>().pointsFromGround;

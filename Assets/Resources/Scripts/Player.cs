@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
 	public enum Mode {NORMAL, TRUCK, JUMP};
 	public Mode mode = Mode.NORMAL;
 	
-	public enum AdditionalMode {NORMAL, SPEED};
+	public enum AdditionalMode {NORMAL, SPEED, ICECREAM};
 	public AdditionalMode additionalMode = AdditionalMode.NORMAL;
 	
 	public int numberOfTruckPowerups = 3;
@@ -50,7 +50,10 @@ public class Player : MonoBehaviour
 	private float turningTimer = 0;
 	private float modeTimer =  0;	
 	private float additionalModeTimer =  0;
-	
+	private float fadeToBlue = 0;
+
+	private float[] fingerPosY = {0f, 0f, 0f};
+	private float[] fingerPosX = {0f, 0f, 0f};
 	
 	void Start ()
 	{
@@ -64,8 +67,9 @@ public class Player : MonoBehaviour
 	{	
 		//-------------------------------------------MOVE-------------------------------------------------
 		float velocity = 0f;	
-		
-		if(Input.GetMouseButton(0))
+
+		// sideways
+		if(Input.GetMouseButton(0) && mode != Mode.JUMP)
 		{
 			origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			
@@ -75,32 +79,66 @@ public class Player : MonoBehaviour
 			{
 				if(raycastHit.transform.name == "ArrowPad")
 					velocity = (raycastHit.point.x - GameObject.FindWithTag("MainCamera").transform.position.x) * speed * (additionalMode == AdditionalMode.SPEED ? speedMultiplier : 1);
-		
-			
-				if(raycastHit.transform.name == "Player")
-					jumpPressed = true;
-				else
-					jumpPressed = false;
 			}
 		}
-		else if(jumpPressed && mode == Mode.NORMAL)
+
+		// jump
+		if(Input.GetMouseButton(0))
 		{
-			mode = Mode.JUMP;
-		}		
-		
-		
-		// set velocity 
+			origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			
+			// move x
+			Vector3 fwd = Vector3.forward;
+			if(Physics.Raycast(origin, fwd, out raycastHit))
+			{
+				//Debug.Log (raycastHit.point.y);
+				if(	fingerPosY[0] == 0 
+				    || (fingerPosY[0] != 0 && raycastHit.point.y - fingerPosY[0] < 10f) 
+				  	|| (fingerPosY[0] != 0 && fingerPosY[1] != 0 && raycastHit.point.y - fingerPosY[1] < 10f)
+				  	|| (fingerPosY[0] != 0 && fingerPosY[1] != 0 &&  fingerPosY[2] != 0 && raycastHit.point.y - fingerPosY[2] < 10f))
+				{
+					fingerPosY[0] = raycastHit.point.y;
+					fingerPosY[1] = 0;
+					fingerPosY[2] = 0;
+					fingerPosX[0] = raycastHit.point.x;
+				}
+				else if(fingerPosY[1] == 0)
+					fingerPosY[1] = raycastHit.point.y;
+				else if(fingerPosY[2] == 0)
+				{
+					fingerPosY[2] = raycastHit.point.y;
+					fingerPosX[2] = raycastHit.point.x;
+				}
+				else
+					jumpPressed = true;
+
+			}
+			if(jumpPressed && mode == Mode.NORMAL && animationMode != AnimationMode.TOTRUCK)
+			{
+				mode = Mode.JUMP;
+				velocity = (fingerPosX[2] - fingerPosX[0]) * speed * (additionalMode == AdditionalMode.SPEED ? speedMultiplier : 1);
+			}
+		}
+		else
+		{
+			fingerPosY[0] = 0;
+			fingerPosY[1] = 0;
+			fingerPosY[2] = 0;
+		}
+
+
+			// set velocity 
 		if(	animationMode != AnimationMode.PICKUP 
 			&& animationMode != AnimationMode.TOIDLE
 			&&(!(transform.position.x > 600) || (velocity < 0))
 			&&(!(transform.position.x < -600) || (velocity > 0)))
 			rigidbody.velocity = new Vector3(velocity, 0, 0);
-		else
+		else if(mode != Mode.JUMP)
 			rigidbody.velocity = new Vector3(0, 0, 0);
 		
 		if(points < 0)
 			points = 0;
-				
+
 		//-------------------------------------------------------------------------------------------------
 		
 		//---------------------------------------------Modes-----------------------------------------------
@@ -266,6 +304,31 @@ public class Player : MonoBehaviour
 					mode = Mode.NORMAL;
 			}
 		}		
+		if(additionalMode == AdditionalMode.ICECREAM)
+		{
+			if(Input.GetMouseButton(0))
+			{
+				origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				
+				// destroy trash
+				Vector3 fwd = Vector3.forward;
+				if(Physics.Raycast(origin, fwd, out raycastHit))
+				{
+					if(raycastHit.transform.GetComponent<Trash>())
+					{
+						Trash trash = raycastHit.transform.GetComponent<Trash>();
+						int p = trash.points * globalGameObject.comboMultiplyer;
+						globalGameObject.points += p;
+						trash.destroyAndPoff(p.ToString());
+
+						if(trash.GetComponent<TrashStartEvent>())
+						{
+							GameObject.FindWithTag("Sister").GetComponent<Sister>().setSadFaceAnimation();
+						}
+					}
+				}
+			}
+		}
 	}
 
 	
@@ -311,6 +374,23 @@ public class Player : MonoBehaviour
 				}
 			}
 		}
+		if(additionalMode == AdditionalMode.ICECREAM)
+		{
+			GUI.color = new Color(1f, 1f, 1f, fadeToBlue);
+			GUI.DrawTexture(new Rect(0f, 0f, 720f, 1280f), Resources.Load("Textures/Blue") as Texture);
+			GUI.color = new Color(1f, 1f, 1f, 1f);	
+			
+			if(fadeToBlue < 0.15f)
+				fadeToBlue += 0.02f;
+		}
+		else if(fadeToBlue > 0f)
+		{
+			GUI.color = new Color(1f, 1f, 1f, fadeToBlue);
+			GUI.DrawTexture(new Rect(0f, 0f, 720f, 1280f), Resources.Load("Textures/Blue") as Texture);
+			GUI.color = new Color(1f, 1f, 1f, 1f);	
+
+			fadeToBlue -= 0.02f;
+		}
 	}
 	
 	public void setAnimationToPickUp()
@@ -350,7 +430,9 @@ public class Player : MonoBehaviour
 		
 		// set timer
 		additionalModeTimer = timeInMode + Time.timeSinceLevelLoad;	
-		
+
+
+		// ----------to and from speed------------------
 		if(additionalMode == AdditionalMode.NORMAL && oldMode == AdditionalMode.SPEED)
 		{
 			foreach(Transform t in GetComponentsInChildren<Transform>())
@@ -366,6 +448,18 @@ public class Player : MonoBehaviour
 		{
 			GameObject speedEffect = (GameObject)Instantiate(Resources.Load("Objects/SpeedEffect"), transform.position + new Vector3(0f, 60f, 20f), transform.rotation);
 			speedEffect.transform.parent = transform;
+		}
+
+		// ------------------------ to and from ice cream --------
+		if(additionalMode == AdditionalMode.ICECREAM)
+		{
+			Time.timeScale = 0.5f;
+			fadeToBlue = 0f;
+		}
+
+		if(additionalMode == AdditionalMode.NORMAL && oldMode == AdditionalMode.ICECREAM)
+		{
+			Time.timeScale = 1f;
 		}
 	}
 	
