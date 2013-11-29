@@ -80,6 +80,7 @@
      <Compile Include="Assets\Resources\Scripts\Trash\BonusTrashCatchFive.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\BrokenHeart.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\GlasBottle.cs" />
+     <Compile Include="Assets\Resources\Scripts\Trash\Heart.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\PowerUpTrash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\RainTrash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\Trash.cs" />

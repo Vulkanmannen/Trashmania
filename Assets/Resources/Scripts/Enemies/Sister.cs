@@ -92,7 +92,8 @@ public class Sister : Enemy
 		{
 			GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.JUMP, 15, false, 20);
 			animationMode = AnimationMode.JUMP;
-			GetComponent<Animation>().Play("SisterJumpAnimation");
+			if(thisLevel == 2)
+				GetComponent<Animation>().Play("SisterJumpAnimation");
 		}
 		// set to waitidle
 		else if(animationMode == AnimationMode.THROW && GetComponentInChildren<AnimationScript>().endOfAnimation && !thrownObjects)
@@ -107,7 +108,8 @@ public class Sister : Enemy
 		{
 			GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.WALK, 15, true, 20);
 			animationMode = AnimationMode.WALK;
-			GetComponent<Animation>().Play("SisterLeapAnimation");
+			if(thisLevel == 2)
+				GetComponent<Animation>().Play("SisterLeapAnimation");
 		}
 	}
 	
@@ -210,8 +212,7 @@ public class Sister : Enemy
 			
 			else
 				objectToThrowIndex = 2; // 25 %
-		}
-		
+		}		
 		
 		return objectToThrowIndex;
 	}

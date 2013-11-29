@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BonusTrashCatchFive : Trash
+public class Heart : Trash 
 {
-	public int orderOfObjects = 0;
-	
+
 	// collision
 	protected override void myCollision(Collision collision)
 	{
@@ -14,16 +13,17 @@ public class BonusTrashCatchFive : Trash
 			bounce = true;
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
-		{
+		{	
 			int totalPoints = points;
 			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
-			globalGameObject.GetComponent<GlobalGameObject>().numberOfCatchedBonusTrash++;
 			destroyAndPoff(totalPoints.ToString());
 		}
 		if(collision.collider.name == "Ground")
 		{
-			globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.NOEVENT);
-			destroyAndPoff("");
+			globalGameObject.GetComponent<GlobalGameObject>().points -= lostPoints;
+			globalGameObject.GetComponent<GlobalGameObject>().resetCombo();
+			string textToShow = "-" + lostPoints.ToString();
+			destroyAndPoff(textToShow);
 		}
 	}
 }

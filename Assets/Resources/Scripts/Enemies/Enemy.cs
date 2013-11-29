@@ -39,6 +39,7 @@ public class Enemy : MonoBehaviour
 	public float xDif;
 	public bool canThrow;
 	public bool firstTrash = true;
+	public int thisLevel = 1;
 	
 	protected float timer = 0f;
 	protected bool throwing = false;
@@ -49,6 +50,7 @@ public class Enemy : MonoBehaviour
 	
 	void Start()
 	{	
+
 		// get path
 		GameObject enemyPath = GameObject.FindWithTag("EnemyPath");
 		nodes = new List<Vector3>(enemyPath.GetComponent<EnemyPath>().nodes);
@@ -58,9 +60,12 @@ public class Enemy : MonoBehaviour
 		
 		// set sprite offset
 		GetComponentInChildren<AnimationScript>().transform.position = transform.position + spriteOffset;
-		
+
+		// set level
+		thisLevel = globalGameObject.GetComponent<GlobalGameObject>().thisLevel;
+
 		// set type
-		typeOfEnemyIndex = Random.Range(0, (typeOfEnemy.Length - 1));
+		typeOfEnemyIndex = Random.Range(0, (typeOfEnemy.Length));
 		GetComponentInChildren<AnimationScript>().row = typeOfEnemy[typeOfEnemyIndex] * 2;
 		
 		// specific
@@ -252,30 +257,30 @@ public class Enemy : MonoBehaviour
 		int objectToThrowIndex = 0;
 		
 		// no battery
-		if(!globalGameObject.GetComponent<GlobalGameObject>().canThrowBattery)
+		if(thisLevel == 1)
 		{
 			if(probability < 0.90f) 
-				objectToThrowIndex = 0; // 90%
+				objectToThrowIndex = 0; // 90% normal
 			
 			else if(probability < 0.95f)
-				objectToThrowIndex = 1; // 5% 
+				objectToThrowIndex = 1; // 5% speed
 			
 			else
-				objectToThrowIndex = 2; // 5%
+				objectToThrowIndex = 3; // 5% ice cream
 		}
-		else
+		else if(thisLevel == 2)
 		{
 			if(probability < 0.75f) 
-				objectToThrowIndex = 0; // 75%
+				objectToThrowIndex = 0; // 75% normal
 			
 			else if(probability < 0.80f)
-				objectToThrowIndex = 1; // 5% 
+				objectToThrowIndex = 1; // 5% speed
 			
 			else if(probability < 0.85f)
-				objectToThrowIndex = 2; // 5%
+				objectToThrowIndex = 2; // 5% truck
 			
 			else 
-				objectToThrowIndex = 3; // 15%
+				objectToThrowIndex = 4; // 15% battery
 		}
 		
 		return objectToThrowIndex;

@@ -14,6 +14,8 @@ public class GlobalGameObject : MonoBehaviour
 	public int trashOnGround = 0;
 	
 	public int points = 0;
+	public float lowerTimeTime = 1f;
+	public float lowerTimeTimer = 1f;
 	public int pointsToUnlockNextLevel = 100;
 	public Texture trashOnGroundTexture;
 	public int tooManyTrashOnGround = 2;
@@ -24,8 +26,11 @@ public class GlobalGameObject : MonoBehaviour
 	public int howManyToGetCombo = 4;
 	public int increaseHowManyToGetComboMultiply = 2;
 	public int maxHowManyToGetCombo = 16;
-	public bool sisterInPlay = false;
-	
+	public bool setSisterInPlay = false;
+	public bool sisterInPlay = true;
+	public float sisterInPlayTimer = 0f;
+	public float timeToSister = 20f;
+
 	public int[] timeToChangeState;
 	public int currentState = 0;
 	public bool startLeft = true;
@@ -41,7 +46,14 @@ public class GlobalGameObject : MonoBehaviour
 	public float doubleBigTrashTimer = 0f;
 	public bool canThrowBattery = false;
 	public string gameOverTexture = "gameOverBigTrash";
-	
+
+	private bool leftSide = false;
+	private bool rightSide = false;
+	private bool sideEffectFadeOut = false;
+	private float sideEffectAlpha = 0f;
+
+	private float bonusEffectAlpha = 0f;
+
 	private int numberOfEnemies = 0;
 	
 	private float gameOverPopupTime = 3f;
@@ -64,6 +76,17 @@ public class GlobalGameObject : MonoBehaviour
 	
 	void Update ()
 	{
+		// time left
+		lowerTimeTimer -= Time.deltaTime;
+		if(lowerTimeTimer < 0)
+		{
+			points--;
+			lowerTimeTimer = lowerTimeTime;
+		}
+
+		if(points == 0)
+			startEvent(GameEvent.GAMEOVER);
+
 		//Generate enemies if not in game over
 		if(currentEvent != GameEvent.GAMEOVER && currentEvent != GameEvent.INLOVE)
 		{
@@ -82,7 +105,17 @@ public class GlobalGameObject : MonoBehaviour
 					if(!enemy.GetComponent<Enemy>().ignoreMe)
 						numberOfEnemies++;
 			}
-			
+
+			// sister timer
+			if(!sisterInPlay)
+				sisterInPlayTimer -= Time.deltaTime;
+
+			if(sisterInPlayTimer < 0f)
+			{
+				setSisterInPlay = true;
+				sisterInPlayTimer = timeToSister;
+			}
+
 			// create object
 			if(timerCount <= 0f && numberOfEnemies < maxEnemies[currentState])
 			{	
@@ -223,8 +256,85 @@ public class GlobalGameObject : MonoBehaviour
 				}
 			}
 		}
+
+		// side glow 
+		bool leftSideFunc = false;
+		bool rightSideFunc = false;
+		trashOutsideOfScreen(ref leftSideFunc, ref rightSideFunc);
+
+		if(sideEffectAlpha < 0.5 && (leftSideFunc || rightSideFunc))
+			sideEffectFadeOut = false;
+		else if(sideEffectAlpha > 0.8  || (!leftSideFunc && !rightSideFunc))
+			sideEffectFadeOut = true;
+
+		if(sideEffectFadeOut && sideEffectAlpha > 0f)
+			sideEffectAlpha -= 0.008f;
+		else if(!sideEffectFadeOut)
+			sideEffectAlpha += 0.008f;
+
+		if(sideEffectAlpha <= 0f)
+		{
+			leftSide = false;
+			rightSide = false;
+		}
+
+		if(leftSideFunc)
+			leftSide = true;
+		if(rightSideFunc)
+			rightSide = true;
+
+		if(leftSide)
+		{
+			GUI.color = new Color(1f, 1f, 1f, sideEffectAlpha);
+			Rect sideGlowRect = new Rect(0f, 0f, Screen.width / 10f, Screen.height);
+			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/Interface/Pause") as Texture);
+		}
+		if(rightSide)
+		{
+			GUI.color = new Color(1f, 1f, 1f, sideEffectAlpha);
+			Rect sideGlowRect = new Rect(Screen.width - Screen.width / 10f, 0f, Screen.width / 10f, Screen.height);
+			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/Interface/Pause") as Texture);
+		}
+
+		//if(!leftSide && !rightSide)
+		//	sideEffectAlpha = 0f;
+
+		// bonus glow
+
+		if(currentEvent != GameEvent.NOEVENT && currentEvent != GameEvent.GAMEOVER)
+		{
+			if(bonusEffectAlpha < 0.7f)
+				bonusEffectAlpha += 0.01f;
+		}
+		else
+		{
+			if(bonusEffectAlpha > 0f)
+				bonusEffectAlpha -= 0.01f;
+		}
+
+		if(bonusEffectAlpha > 0f)
+		{
+			GUI.color = new Color(1f, 1f, 1f, bonusEffectAlpha);
+			Rect sideGlowRect = new Rect(0f, 0f, Screen.width, Screen.height);
+			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/Interface/Pause") as Texture);
+		}
+
 	}
-	
+
+	void trashOutsideOfScreen(ref bool leftSideFunc, ref bool rightSideFunc)
+	{
+		foreach(Transform t in GetComponentsInChildren<Transform>())
+		{
+			if(t.GetComponent<Trash>())
+			{
+				float cameraPos = myCamera.transform.position.x;
+				if(t.position.x < cameraPos - 360) 
+					leftSideFunc = true;
+				if(t.position.x > cameraPos + 360)
+					rightSideFunc = true;
+			}
+		}
+	}
 	public void unpause()
 	{
 		if(pause)
@@ -391,44 +501,24 @@ public class GlobalGameObject : MonoBehaviour
 		
 		float probability = Random.value;
 		int objectToSpawnIndex = 0;
-		
-		// level 1
-		if(thisLevel == 1)
+
+		// level 1 och 2
+		if(thisLevel == 1 || thisLevel == 2)
 		{
-			if(probability < 0.20f) 
-				objectToSpawnIndex = 0; // 20% enemy
-			
-			else if(probability < 0.40f)
-				objectToSpawnIndex = 1; // 20% enemy 2
+			if(probability < 0.40f) 
+				objectToSpawnIndex = 0; // 40% enemy
 			
 			else if(probability < 0.70f)
-				objectToSpawnIndex = 2; // 30% old man
+				objectToSpawnIndex = 1; // 30% old man
 			
-			else if(!sisterInPlay)
+			else 
+				objectToSpawnIndex = 2; // 30% hobo
+			
+			// if its time to spawn sister
+			if(setSisterInPlay)
 			{
-				objectToSpawnIndex = 3; // 30% sister
-				sisterInPlay = true;
-			}
-		}
-		
-		// level 2
-		if(thisLevel == 2)
-		{
-			if(probability < 0.15f) 
-				objectToSpawnIndex = 0; // 15% enemy
-			
-			else if(probability < 0.30f)
-				objectToSpawnIndex = 1; // 15% enemy 2
-			
-			else if(probability < 0.50f)
-				objectToSpawnIndex = 2; // 20% old man
-			
-			else if(probability < 0.70f)
-				objectToSpawnIndex = 3; // 20% hobo
-			
-			else if(!sisterInPlay)
-			{
-				objectToSpawnIndex = 4; // 30% sister
+				objectToSpawnIndex = 3; 
+				setSisterInPlay = false;
 				sisterInPlay = true;
 			}
 		}

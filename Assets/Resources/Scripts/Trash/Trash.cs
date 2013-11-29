@@ -148,7 +148,7 @@ public class Trash : MonoBehaviour
 	// this is run when a trash is destroyed, it creates a poff/popup
 	public void createPoffWhenDestroyed(string textToShow = "")
 	{
-		if(textToShow == "0")
+		if(textToShow == "0" || textToShow == "-0")
 			textToShow = "";
 		
 		GameObject newObject = (GameObject)Instantiate(poffWhenDestroyd[0], transform.position, Quaternion.Euler(new Vector3(90, 180, 0)));
