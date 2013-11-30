@@ -32,7 +32,24 @@ public class Sister : Enemy
 		// set to ignore
 		ignoreMe = true;
 	}
-	
+
+	// fadeOut
+	protected override void fadeOut()
+	{
+		if(currentEvent != GlobalGameObject.GameEvent.NOEVENT && currentEvent != GlobalGameObject.GameEvent.GAMEOVER && currentEvent != GlobalGameObject.GameEvent.CATCHFIVE)
+		{
+			if(alpha > 0f)
+				alpha -= 0.02f;
+		}
+		else
+		{
+			if(alpha < 1f)
+				alpha += 0.02f;
+		}
+		
+		GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, alpha));
+	}
+
 	//--------------------------------------------------------------------------
 	//-----------------------------Move-----------------------------------------	
 	protected override void move()
@@ -63,7 +80,7 @@ public class Sister : Enemy
 		}
 		
 		// move enemy
-		if(animationMode == AnimationMode.WALK && currentEvent != GlobalGameObject.GameEvent.INLOVE)
+		if(animationMode == AnimationMode.WALK && (currentEvent == GlobalGameObject.GameEvent.NOEVENT || currentEvent == GlobalGameObject.GameEvent.GAMEOVER || currentEvent == GlobalGameObject.GameEvent.CATCHFIVE))
 		{
 			moveVec = nodes[nextNode] - transform.position;		
 			moveVec.Normalize();

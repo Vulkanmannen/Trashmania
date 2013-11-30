@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
 	protected float timer = 0f;
 	protected bool throwing = false;
 	protected int typeOfEnemyIndex = 0;
+	protected float alpha = 1f;
 	
 	//private bool timeToThrow = false;
 	
@@ -117,7 +118,9 @@ public class Enemy : MonoBehaviour
 		
 		// throw
 		throwFunc();
-		
+
+		// fade out
+		fadeOut();
 		
 		// myUpdate
 		myUptade();
@@ -127,6 +130,22 @@ public class Enemy : MonoBehaviour
 	protected virtual void myUptade()
 	{
 		
+	}
+
+	protected virtual void fadeOut()
+	{
+		if(currentEvent != GlobalGameObject.GameEvent.NOEVENT && currentEvent != GlobalGameObject.GameEvent.GAMEOVER)
+		{
+			if(alpha > 0f)
+				alpha -= 0.02f;
+		}
+		else
+		{
+			if(alpha < 1f)
+				alpha += 0.02f;
+		}
+
+		GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, alpha));
 	}
 	
 	//--------------------------------------------------------------------------
@@ -145,7 +164,7 @@ public class Enemy : MonoBehaviour
 		}
 		
 		// move enemy
-		if(!throwing && currentEvent != GlobalGameObject.GameEvent.INLOVE)
+		if(!throwing && (currentEvent == GlobalGameObject.GameEvent.NOEVENT || currentEvent == GlobalGameObject.GameEvent.GAMEOVER))
 		{
 			moveVec = nodes[0] - transform.position;		
 			moveVec.Normalize();

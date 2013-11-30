@@ -369,7 +369,7 @@ public class Player : MonoBehaviour
 					{
 						numberOfSpeedPowerups--;
 						setMode(AdditionalMode.SPEED);
-						globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.INLOVE);
+						globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.RAIN);
 					}
 				}
 			}

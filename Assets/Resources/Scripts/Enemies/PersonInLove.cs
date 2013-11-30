@@ -32,7 +32,23 @@ public class PersonInLove : Enemy
 		
 		dir.x *= (isLeft ? -1 : 1);
 	}
-	
+
+	// fade out
+	protected override void fadeOut()
+	{
+		if(currentEvent != GlobalGameObject.GameEvent.NOEVENT && currentEvent != GlobalGameObject.GameEvent.GAMEOVER && currentEvent != GlobalGameObject.GameEvent.INLOVE)
+		{
+			if(alpha > 0f)
+				alpha -= 0.02f;
+		}
+		else
+		{
+			if(alpha < 1f)
+				alpha += 0.02f;
+		}
+		
+		GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, alpha));
+	}
 	// move
 	protected override void move()
 	{

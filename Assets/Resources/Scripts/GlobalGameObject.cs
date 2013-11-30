@@ -195,7 +195,7 @@ public class GlobalGameObject : MonoBehaviour
 		//--------------------------------------Rain------------------------------------------------------------
 		if(currentEvent == GameEvent.RAIN)
 		{			
-			if(!GetComponentInChildren<Trash>() && GetComponentInChildren<PairEnemy>().doneThrowing)
+			if(!GetComponentInChildren<Trash>() && GetComponentInChildren<CorporateGuy>().doneThrowing)
 				startEvent(GameEvent.NOEVENT);
 		}
 		
@@ -287,17 +287,14 @@ public class GlobalGameObject : MonoBehaviour
 		{
 			GUI.color = new Color(1f, 1f, 1f, sideEffectAlpha);
 			Rect sideGlowRect = new Rect(0f, 0f, Screen.width / 10f, Screen.height);
-			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/Interface/Pause") as Texture);
+			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/glow_side_01") as Texture);
 		}
 		if(rightSide)
 		{
 			GUI.color = new Color(1f, 1f, 1f, sideEffectAlpha);
 			Rect sideGlowRect = new Rect(Screen.width - Screen.width / 10f, 0f, Screen.width / 10f, Screen.height);
-			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/Interface/Pause") as Texture);
+			GUI.DrawTextureWithTexCoords(sideGlowRect, Resources.Load("Textures/glow_side_01") as Texture, new Rect(0f, 0f, -1f, 1f));
 		}
-
-		//if(!leftSide && !rightSide)
-		//	sideEffectAlpha = 0f;
 
 		// bonus glow
 
@@ -441,10 +438,10 @@ public class GlobalGameObject : MonoBehaviour
 		if(currentEvent == GameEvent.RAIN)
 		{
 			//Spawn pair enemies
-			GameObject newObject = Instantiate(Resources.Load("Objects/Enemy/PairEnemy"), transform.position + new Vector3(800f, 0f, 0f), transform.rotation) as GameObject;					
+			GameObject newObject = Instantiate(Resources.Load("Objects/Enemy/CorporateGuy"), transform.position + new Vector3(800f, 0f, 0f), transform.rotation) as GameObject;					
 			newObject.transform.parent = transform;
 
-			newObject = Instantiate(Resources.Load("Objects/Enemy/PairEnemy"), transform.position - new Vector3(800f, 0f, 0f), transform.rotation) as GameObject;					
+			newObject = Instantiate(Resources.Load("Objects/Enemy/CorporateGuy"), transform.position - new Vector3(800f, 0f, 0f), transform.rotation) as GameObject;					
 			newObject.transform.parent = transform;
 		}
 		
