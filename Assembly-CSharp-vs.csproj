@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Resources\Scripts\AnimationScript.cs" />
-     <Compile Include="Assets\Resources\Scripts\ArrowPad.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\Button.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeMenuButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeToLevelIfAvailable.cs" />
@@ -55,27 +54,31 @@
      <Compile Include="Assets\Resources\Scripts\Buttons\QuitButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ToStartMenuFromPause.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\UnpauseButton.cs" />
-     <Compile Include="Assets\Resources\Scripts\CameraMovement.cs" />
-     <Compile Include="Assets\Resources\Scripts\CoinPopup.cs" />
-     <Compile Include="Assets\Resources\Scripts\DestroyedTrashPopup.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\CoinPopup.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\DestroyedTrashPopup.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\Glow.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\Particle.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\PopUp.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\CorporateGuy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Hobo.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\OldMan.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\PersonInLove.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Sister.cs" />
-     <Compile Include="Assets\Resources\Scripts\EnemyPath.cs" />
+     <Compile Include="Assets\Resources\Scripts\Game\ArrowGradient.cs" />
+     <Compile Include="Assets\Resources\Scripts\Game\ArrowPad.cs" />
+     <Compile Include="Assets\Resources\Scripts\Game\CameraMovement.cs" />
+     <Compile Include="Assets\Resources\Scripts\Game\EnemyPath.cs" />
+     <Compile Include="Assets\Resources\Scripts\Game\GlobalGameObject.cs" />
+     <Compile Include="Assets\Resources\Scripts\Game\SaveVariables.cs" />
+     <Compile Include="Assets\Resources\Scripts\Game\ScoreIndicator.cs" />
      <Compile Include="Assets\Resources\Scripts\GlasOnGround.cs" />
-     <Compile Include="Assets\Resources\Scripts\GlobalGameObject.cs" />
-     <Compile Include="Assets\Resources\Scripts\Glow.cs" />
      <Compile Include="Assets\Resources\Scripts\GuiButtonBalance.cs" />
      <Compile Include="Assets\Resources\Scripts\HighScore.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu.cs" />
      <Compile Include="Assets\Resources\Scripts\MenuTree.cs" />
-     <Compile Include="Assets\Resources\Scripts\Particle.cs" />
-     <Compile Include="Assets\Resources\Scripts\Player.cs" />
-     <Compile Include="Assets\Resources\Scripts\PopUp.cs" />
-     <Compile Include="Assets\Resources\Scripts\SaveVariables.cs" />
+     <Compile Include="Assets\Resources\Scripts\Player\Player.cs" />
+     <Compile Include="Assets\Resources\Scripts\Player\TrashCanCollider.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\Battery.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\BigTrash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\BonusTrashCatchFive.cs" />
@@ -86,7 +89,6 @@
      <Compile Include="Assets\Resources\Scripts\Trash\RainTrash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\Trash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\TrashStartEvent.cs" />
-     <Compile Include="Assets\Resources\Scripts\TrashCanCollider.cs" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Nature\TreeCreator\TreeCreatorLeavesFast.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\TerrainShaders\Details\WavingGrass.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\skybox cubed.shader" />

@@ -14,8 +14,6 @@ public class CorporateGuy : Enemy
 	
 	protected override void myStart()
 	{
-		Debug.Log("Corporate");
-
 		if(transform.position.x > 700)
 			isLeft = true;
 		

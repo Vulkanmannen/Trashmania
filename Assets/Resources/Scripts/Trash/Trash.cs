@@ -114,6 +114,7 @@ public class Trash : MonoBehaviour
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
 			globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;	
+			globalGameObject.GetComponent<GlobalGameObject>().numberOfCaughtTrash++;
 			int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
 			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
 			destroyAndPoff(totalPoints.ToString());
