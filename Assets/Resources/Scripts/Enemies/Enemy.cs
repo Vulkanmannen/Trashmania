@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour
 	
 	protected float timer = 0f;
 	protected bool throwing = false;
-	protected int typeOfEnemyIndex = 0;
+	public int typeOfEnemyIndex = 0;
 	protected float alpha = 1f;
 	
 	//private bool timeToThrow = false;

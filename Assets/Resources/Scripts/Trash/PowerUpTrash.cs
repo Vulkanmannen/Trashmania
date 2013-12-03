@@ -5,7 +5,7 @@ public class PowerUpTrash : Trash
 {
 	public bool isAdditional = false;
 	public Player.Mode mode = Player.Mode.NORMAL;
-	public Player.AdditionalMode additionalMode = Player.AdditionalMode.NORMAL;
+	public Player.Mode additionalMode = Player.Mode.NORMAL;
 	public float timeInPowerUp = 12;
 	
 	// start
@@ -28,7 +28,7 @@ public class PowerUpTrash : Trash
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
 			if(isAdditional)
-				GameObject.FindWithTag("myPlayer").GetComponent<Player>().setMode(additionalMode, timeInPowerUp);
+				GameObject.FindWithTag("myPlayer").GetComponent<Player>().setAdditionalMode(additionalMode, timeInPowerUp);
 			else
 				GameObject.FindWithTag("myPlayer").GetComponent<Player>().setMode(mode, timeInPowerUp);
 			

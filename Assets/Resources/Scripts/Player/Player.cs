@@ -4,37 +4,19 @@ using System.Collections;
 public class Player : MonoBehaviour 
 {
 	public float speed = 1f;
-	public float speedMultiplier = 1.5f;
-	//public float slowAcc = 30f;
-	//public float acc = 500f;
-	
+	public float speedMultiplier = 1.5f;	
 	public float startMoving = 1;
-	//public float superAcc = 500f;
-
-	//public float slowSpeed = 0.33f;
-
-	//public float stillThreshold = 0.03f;
-	//public float slowThreshold = 0.11f;
-	//public float superThreshold = 0.3f;
-	
-	//public float maxSpeed = 300f;
-	
 	public float points;
-	
-	//public float superSpeed = 3.2f;
 	
 	enum AnimationMode {WALK, TOIDLE, IDLE, PICKUP, TURNING, WALKIDLE, TRUCK, TOTRUCK};
 	AnimationMode animationMode = AnimationMode.IDLE;
 	
-	public enum Mode {NORMAL, TRUCK};
+	public enum Mode {NORMAL, TRUCK, SPEED, ICECREAM};
 	public Mode mode = Mode.NORMAL;
-	
-	public enum AdditionalMode {NORMAL, SPEED, ICECREAM};
-	public AdditionalMode additionalMode = AdditionalMode.NORMAL;
-	
-	public int numberOfTruckPowerups = 3;
-	public int numberOfSpeedPowerups = 2;
-	
+	public Mode additionalMode = Mode.NORMAL;
+
+	public Mode[] powerUp;
+
 	public GlobalGameObject globalGameObject;
 	public GlobalGameObject.GameEvent currentEvent;
 	
@@ -81,7 +63,7 @@ public class Player : MonoBehaviour
 			if(Physics.Raycast(origin, fwd, out raycastHit))
 			{
 				if(raycastHit.transform.name == "ArrowPad")
-					velocity = (raycastHit.point.x - GameObject.FindWithTag("MainCamera").transform.position.x) * speed * (additionalMode == AdditionalMode.SPEED ? speedMultiplier : 1);
+					velocity = (raycastHit.point.x - GameObject.FindWithTag("MainCamera").transform.position.x) * speed * (additionalMode == Mode.SPEED ? speedMultiplier : 1);
 			}
 		}
 
@@ -154,8 +136,8 @@ public class Player : MonoBehaviour
 			setToNormalMode();
 		
 		// set back additionalmode after a time
-		if(additionalModeTimer < Time.timeSinceLevelLoad && additionalMode != AdditionalMode.NORMAL)
-			setMode(AdditionalMode.NORMAL);
+		if(additionalModeTimer < Time.timeSinceLevelLoad && additionalMode != Mode.NORMAL)
+			setAdditionalMode(Mode.NORMAL);
 		
 		//-------------------------------------------------------------------------------------------------
 		
@@ -310,7 +292,7 @@ public class Player : MonoBehaviour
 		//			mode = Mode.NORMAL;
 		//	}
 		//}		
-		if(additionalMode == AdditionalMode.ICECREAM)
+		if(additionalMode == Mode.ICECREAM)
 		{
 			if(Input.GetMouseButton(0))
 			{
@@ -343,44 +325,34 @@ public class Player : MonoBehaviour
 	//-------------------------------------------------------------------------------------------------
 	void OnGUI()
 	{
-		if(globalGameObject.currentEvent != GlobalGameObject.GameEvent.GAMEOVER)
+		if(globalGameObject.currentEvent == GlobalGameObject.GameEvent.NOEVENT)
 		{
-			if(numberOfTruckPowerups > 0 && mode != Mode.TRUCK)
+			for(int i = 0; i < powerUp.Length; ++i)
 			{
-				Rect rect = new Rect(Screen.width - Screen.width / 6f, Screen.height / 2f, Screen.width / 6f, Screen.width / 6f);
-				GUI.DrawTextureWithTexCoords(rect, Resources.Load("Textures/Interface/Icons/Iconsspritesheet") as Texture, new Rect(0.25f, -0.25f, 0.25f, 0.25f), true);
-				
-				Event e = Event.current;
-				
-				if(e.type == EventType.MouseUp)
+				Rect rectButton = new Rect(Screen.width - Screen.width / 4.8f, Screen.height / 2f - (Screen.width / 4.5f + 10) * i, Screen.width / 4.5f, Screen.width / 4.5f);
+				Rect rect = new Rect(Screen.width - Screen.width / 6f, Screen.height / 2f - (Screen.width / 6f + 10) * i, Screen.width / 6f, Screen.width / 6f);
+
+				GUI.DrawTexture(rectButton, Resources.Load("Textures/Interface/sprite_button_powerup") as Texture);
+
+
+				if(powerUp[i] != Mode.NORMAL)
 				{
-					if(rect.Contains(e.mousePosition))
-					{
-						numberOfTruckPowerups--;	
-						setMode(Mode.TRUCK);
-					}
-				}
-			}
-			
-			if(numberOfSpeedPowerups > 0 && additionalMode != AdditionalMode.SPEED)
-			{
-				Rect rect = new Rect(Screen.width - Screen.width / 6f, Screen.height / 2f - Screen.width / 6f - 4f, Screen.width / 6f, Screen.width / 6f);
-				GUI.DrawTextureWithTexCoords(rect, Resources.Load("Textures/Interface/Icons/Iconsspritesheet") as Texture, new Rect(0f, -0.25f, 0.25f, 0.25f), true);
+					GUI.DrawTextureWithTexCoords(rect, Resources.Load("Textures/spritesheet_items_01") as Texture, new Rect(0.125f * powerUp, -0.750f, 0.125f, 0.125f), true);
+
+
+					Event e = Event.current;
 				
-				Event e = Event.current;
-				
-				if(e.type == EventType.MouseUp)
-				{
-					if(rect.Contains(e.mousePosition))
+					if(e.type == EventType.MouseUp)
 					{
-						numberOfSpeedPowerups--;
-						setMode(AdditionalMode.SPEED);
-						globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.RAIN);
+						if(rectButton.Contains(e.mousePosition))
+						{
+							setMode(powerUp[i]);
+						}
 					}
 				}
 			}
 		}
-		if(additionalMode == AdditionalMode.ICECREAM)
+		if(additionalMode == Mode.ICECREAM)
 		{
 			GUI.color = new Color(1f, 1f, 1f, fadeToBlue);
 			GUI.DrawTexture(new Rect(0f, 0f, 720f, 1280f), Resources.Load("Textures/Blue") as Texture);
@@ -428,9 +400,9 @@ public class Player : MonoBehaviour
 	}
 	
 	// set additionalMode
-	public void setMode(AdditionalMode newAdditionalMode, float timeInMode = 12)
+	public void setAdditionalMode(Mode newAdditionalMode, float timeInMode = 12)
 	{
-		AdditionalMode oldMode = additionalMode;
+		Mode oldMode = additionalMode;
 		
 		additionalMode = newAdditionalMode;
 		
@@ -439,7 +411,7 @@ public class Player : MonoBehaviour
 
 
 		// ----------to and from speed------------------
-		if(additionalMode == AdditionalMode.NORMAL && oldMode == AdditionalMode.SPEED)
+		if(additionalMode == Mode.NORMAL && oldMode == Mode.SPEED)
 		{
 			foreach(Transform t in GetComponentsInChildren<Transform>())
 			{
@@ -450,20 +422,20 @@ public class Player : MonoBehaviour
 			}
 		}
 		
-		if(additionalMode == AdditionalMode.SPEED)
+		if(additionalMode == Mode.SPEED)
 		{
 			GameObject speedEffect = (GameObject)Instantiate(Resources.Load("Objects/SpeedEffect"), transform.position + new Vector3(0f, 60f, 20f), transform.rotation);
 			speedEffect.transform.parent = transform;
 		}
 
 		// ------------------------ to and from ice cream --------
-		if(additionalMode == AdditionalMode.ICECREAM)
+		if(additionalMode == Mode.ICECREAM)
 		{
 			Time.timeScale = 0.5f;
 			fadeToBlue = 0f;
 		}
 
-		if(additionalMode == AdditionalMode.NORMAL && oldMode == AdditionalMode.ICECREAM)
+		if(additionalMode == Mode.NORMAL && oldMode == Mode.ICECREAM)
 		{
 			Time.timeScale = 1f;
 		}
