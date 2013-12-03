@@ -30,7 +30,7 @@ public class TrashCanCollider : MonoBehaviour
 	
 	void OnTriggerEnter(Collider collider)
 	{
-		if(collider.GetComponent<Trash>() && currentEvent != GlobalGameObject.GameEvent.GAMEOVER)
+		if(collider.GetComponent<Trash>() && currentEvent != GlobalGameObject.GameEvent.GAMEOVER && collider.name == "BigTrash")
 		{	
 			// increase points
 			globalGameObject.GetComponent<GlobalGameObject>().points += collider.GetComponent<Trash>().pointsFromGround;

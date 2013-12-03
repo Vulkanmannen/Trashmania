@@ -330,14 +330,14 @@ public class Player : MonoBehaviour
 			for(int i = 0; i < powerUp.Length; ++i)
 			{
 				Rect rectButton = new Rect(Screen.width - Screen.width / 4.8f, Screen.height / 2f - (Screen.width / 4.5f + 10) * i, Screen.width / 4.5f, Screen.width / 4.5f);
-				Rect rect = new Rect(Screen.width - Screen.width / 6f, Screen.height / 2f - (Screen.width / 6f + 10) * i, Screen.width / 6f, Screen.width / 6f);
+				Rect rect = new Rect(Screen.width - Screen.width / 4.8f, Screen.height / 2f - (Screen.width / 4.5f + 10) * i, Screen.width / 4.5f, Screen.width / 4.5f);
 
 				GUI.DrawTexture(rectButton, Resources.Load("Textures/Interface/sprite_button_powerup") as Texture);
 
 
 				if(powerUp[i] != Mode.NORMAL)
 				{
-					GUI.DrawTextureWithTexCoords(rect, Resources.Load("Textures/spritesheet_items_01") as Texture, new Rect(0.125f * powerUp, -0.750f, 0.125f, 0.125f), true);
+					GUI.DrawTextureWithTexCoords(rect, Resources.Load("Textures/Interface/spritesheet_powerups_01") as Texture, new Rect(0.125f * ((float)powerUp[i] - 1f), -1f, 0.125f, 1f), true);
 
 
 					Event e = Event.current;
@@ -346,12 +346,20 @@ public class Player : MonoBehaviour
 					{
 						if(rectButton.Contains(e.mousePosition))
 						{
-							setMode(powerUp[i]);
+							if(powerUp[i] == Mode.TRUCK)
+								setMode(powerUp[i]);
+							else if(powerUp[i] == Mode.ICECREAM)
+								setAdditionalMode(powerUp[i], 2f);
+							else
+								setAdditionalMode(powerUp[i]);
+
+							powerUp[i] = Mode.NORMAL;
 						}
 					}
 				}
 			}
 		}
+
 		if(additionalMode == Mode.ICECREAM)
 		{
 			GUI.color = new Color(1f, 1f, 1f, fadeToBlue);
@@ -435,7 +443,7 @@ public class Player : MonoBehaviour
 			fadeToBlue = 0f;
 		}
 
-		if(additionalMode == Mode.NORMAL && oldMode == Mode.ICECREAM)
+		if(oldMode == Mode.ICECREAM)
 		{
 			Time.timeScale = 1f;
 		}
@@ -497,5 +505,21 @@ public class Player : MonoBehaviour
 					collider.transform.parent.GetComponent<GlasOnGround>().stepOnGlas();
 			}
 		}
+	}
+
+	public void addPowerUp(Player.Mode newPowerUp)
+	{
+		bool added = false;
+		for(int i = 0; i < powerUp.Length; ++i)
+		{
+			if(powerUp[i] == Mode.NORMAL)
+			{
+				added = true;
+				powerUp[i] = newPowerUp;
+			}
+		}
+
+		if(!added)
+			powerUp[0] = newPowerUp;
 	}
 }
