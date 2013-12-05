@@ -15,6 +15,7 @@ public class GlasBottle : Trash
 		{
 			globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;
 			globalGameObject.GetComponent<GlobalGameObject>().numberOfCaughtTrash++;
+			globalGameObject.GetComponent<GlobalGameObject>().numberOfGlasTrash++;
 			int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
 			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
 			destroyAndPoff(totalPoints.ToString());

@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 	public float points;
 	
 	enum AnimationMode {WALK, TOIDLE, IDLE, PICKUP, TURNING, WALKIDLE, TRUCK, TOTRUCK};
-	AnimationMode animationMode = AnimationMode.IDLE;
+	AnimationMode animationMode = AnimationMode.WALKIDLE;
 	
 	public enum Mode {NORMAL, TRUCK, SPEED, ICECREAM};
 	public Mode mode = Mode.NORMAL;
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 	
 	private Vector3 origin;
 	private RaycastHit raycastHit;
-	private float idleTimer = 0;
+	//private float idleTimer = 0;
 	
 	public bool isLeft = false;
 	public bool wasLeft = false;
@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
 	private float additionalModeTimer =  0;
 	private float fadeToBlue = 0;
 	private ArrowGradient power;
+	private bool bulgeing = false;
 
 	//private float[] fingerPosY = {0f, 0f, 0f};
 	//private float[] fingerPosX = {0f, 0f, 0f};
@@ -45,6 +46,9 @@ public class Player : MonoBehaviour
 		globalGameObject = GameObject.FindWithTag("GlobalGameObject").GetComponent<GlobalGameObject>();
 
 		power = GameObject.FindWithTag("Power").GetComponent<ArrowGradient>();
+
+		// trash bulge
+		GetComponentInChildren<AnimationScriptCan>().setAnimation(1, 1, false, 0);
 	}
 	
 	// Update is called once per frame
@@ -162,7 +166,7 @@ public class Player : MonoBehaviour
 				turningTimer = Time.timeSinceLevelLoad + 1f;
 			
 			// can't turn if not idle or walk
-			if((animationMode == AnimationMode.WALK && turningTimer <= Time.timeSinceLevelLoad) || animationMode == AnimationMode.IDLE)
+			if((animationMode == AnimationMode.WALK && turningTimer <= Time.timeSinceLevelLoad))// || animationMode == AnimationMode.IDLE)
 			{
 				if(velocity < 0)
 					isLeft = true;
@@ -181,14 +185,15 @@ public class Player : MonoBehaviour
 					
 			// set is left in animation
 			GetComponentInChildren<AnimationScript>().isLeft = isLeft;
+			GetComponentInChildren<AnimationScriptCan>().isLeft = isLeft;
 			
 			// set fps in animation
 			if(animationMode == AnimationMode.WALK)
 				GetComponentInChildren<AnimationScript>().fps = (int)Mathf.Min(Mathf.Abs(velocity)/8f, 50f);
 			
 			// restart idleTimer. Will go into IDLE after 2 seconds of standing still
-			if(velocity > 0.01f || velocity < -0.01f)
-				idleTimer = Time.timeSinceLevelLoad + 2f;
+			//if(velocity > 0.01f || velocity < -0.01f)
+			//	idleTimer = Time.timeSinceLevelLoad + 2f;
 			
 			// set animationMode
 			
@@ -204,11 +209,11 @@ public class Player : MonoBehaviour
 				animationMode = AnimationMode.TURNING;
 			}
 			// set IDLE
-			else if(animationMode == AnimationMode.TOIDLE && endOfAnimation)
-			{
-				GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.IDLE, 16, true);
-				animationMode = AnimationMode.IDLE;
-			}
+			//else if(animationMode == AnimationMode.TOIDLE && endOfAnimation)
+			//{
+			//	GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.IDLE, 16, true);
+			//	animationMode = AnimationMode.IDLE;
+			//}
 			// set WALKIDLE
 			else if(velocity < 0.01f && velocity > -0.01f
 				&& animationMode == AnimationMode.WALK)
@@ -216,26 +221,34 @@ public class Player : MonoBehaviour
 					GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.WALKIDLE, 12, true);
 					animationMode = AnimationMode.WALKIDLE;
 			}
-			// set TOIDLE
-			else if(animationMode == AnimationMode.WALKIDLE
-				&& idleTimer <= Time.timeSinceLevelLoad)
-			{	
-					GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.TOIDLE, 13, false);
-					animationMode = AnimationMode.TOIDLE;
-			}
+			//// set TOIDLE
+			//else if(animationMode == AnimationMode.WALKIDLE
+			//	&& idleTimer <= Time.timeSinceLevelLoad)
+			//{	
+			//		GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.TOIDLE, 13, false);
+			//		animationMode = AnimationMode.TOIDLE;
+			//}
 			// set WALK
 			else if(animationMode != AnimationMode.WALK 
 				&& (animationMode != AnimationMode.PICKUP || endOfAnimation) 
 				&& (animationMode != AnimationMode.TURNING || endOfAnimation) 
 				&& (animationMode != AnimationMode.TOTRUCK || endOfAnimation) 
 				&& animationMode != AnimationMode.TOIDLE 
-				&& (animationMode != AnimationMode.IDLE || (velocity > startMoving || velocity < -startMoving))
+				//&& (animationMode != AnimationMode.IDLE || (velocity > startMoving || velocity < -startMoving))
 				&& (animationMode != AnimationMode.WALKIDLE || (velocity > startMoving || velocity < -startMoving)))
 			{
 				GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.WALK, 12, true);
 				animationMode = AnimationMode.WALK;
 				transform.localScale = new Vector3(15, 18, 20);
 			}	
+
+			// ---------------------------------trash can--------------------------------------------
+			if(bulgeing && GetComponentInChildren<AnimationScriptCan>().endOfAnimation)
+			{
+				bulgeing = false;
+				GetComponentInChildren<AnimationScriptCan>().setAnimation(1, 1, false, 0);
+			}
+
 				
 			// set wasLeft
 			wasLeft = isLeft;
@@ -325,7 +338,7 @@ public class Player : MonoBehaviour
 	//-------------------------------------------------------------------------------------------------
 	void OnGUI()
 	{
-		if(globalGameObject.currentEvent == GlobalGameObject.GameEvent.NOEVENT)
+		if(globalGameObject.currentEvent != GlobalGameObject.GameEvent.GAMEOVER)
 		{
 			for(int i = 0; i < powerUp.Length; ++i)
 			{
@@ -521,5 +534,11 @@ public class Player : MonoBehaviour
 
 		if(!added)
 			powerUp[0] = newPowerUp;
+	}
+
+	public void bulgeCan()
+	{
+		GetComponentInChildren<AnimationScriptCan>().setAnimation(0, 5, false, 15, false, 5);
+		bulgeing = true;
 	}
 }

@@ -115,6 +115,7 @@ public class Trash : MonoBehaviour
 		{
 			globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;	
 			globalGameObject.GetComponent<GlobalGameObject>().numberOfCaughtTrash++;
+			globalGameObject.GetComponent<GlobalGameObject>().numberOfNormalTrash++;
 			int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
 			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
 			destroyAndPoff(totalPoints.ToString());

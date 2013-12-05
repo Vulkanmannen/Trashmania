@@ -16,6 +16,10 @@ public class GlobalGameObject : MonoBehaviour
 	public int points = 0;
 	public int numberOfCaughtTrash = 0;
 	public int numberOfTrashToWin = 100;
+
+	public int numberOfNormalTrash = 0;
+	public int numberOfGlasTrash = 0;
+
 	public float lowerTimeTime = 1f;
 	public float lowerTimeTimer = 1f;
 	public int pointsToUnlockNextLevel = 100;
@@ -58,8 +62,8 @@ public class GlobalGameObject : MonoBehaviour
 
 	private int numberOfEnemies = 0;
 	
-	private float gameOverPopupTime = 3f;
-	private bool gameOverPopupTimeRunOut = false;
+	//private float gameOverPopupTime = 3f;
+	//private bool gameOverPopupTimeRunOut = false;
 	
 	public GameObject myCamera;
 	
@@ -203,17 +207,17 @@ public class GlobalGameObject : MonoBehaviour
 		
 		//--------------------------------------Event-----------------------------------------------------------
 		//--------------------------------------Game over-------------------------------------------------------
-		if(currentEvent == GameEvent.GAMEOVER)
-		{
-			gameOverPopupTime -= Time.deltaTime;
-			
-			//Borgmästaren kommer in
-			if(gameOverPopupTime < 0f && !gameOverPopupTimeRunOut)
-			{
-				GameObject.FindWithTag("GameOverMenu").animation.Play("PauseMenuInAnimation");
-				gameOverPopupTimeRunOut = true;
-			}
-		}
+		//if(currentEvent == GameEvent.GAMEOVER)
+		//{
+		//	gameOverPopupTime -= Time.deltaTime;
+		//	
+		//	//Borgmästaren kommer in
+		//	if(gameOverPopupTime < 0f && !gameOverPopupTimeRunOut)
+		//	{
+		//
+		//		gameOverPopupTimeRunOut = true;
+		//	}
+		//}
 	}
 	
 	//|||||---------------------------------------------------------------------------------------------|||||
@@ -467,10 +471,11 @@ public class GlobalGameObject : MonoBehaviour
 		{
 			saveScore();
 
-			GameObject newObject = (GameObject)Instantiate(popup, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));
-			newObject.transform.parent = myCamera.transform;
-			newObject.GetComponent<PopUp>().setTexture(gameOverTexture);
-			newObject.GetComponent<PopUp>().timeOnScreen = gameOverPopupTime;
+			GameObject.FindWithTag("GameOverMenu").animation.Play("PauseMenuInAnimation");
+			//GameObject newObject = (GameObject)Instantiate(popup, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));
+			//newObject.transform.parent = myCamera.transform;
+			//newObject.GetComponent<PopUp>().setTexture(gameOverTexture);
+			//newObject.GetComponent<PopUp>().timeOnScreen = gameOverPopupTime;
 		}
 		
 		// CatchFive

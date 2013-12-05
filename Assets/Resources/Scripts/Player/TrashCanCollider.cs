@@ -47,8 +47,7 @@ public class TrashCanCollider : MonoBehaviour
 	{
 		if(collision.collider.GetComponent<Trash>())
 		{
-			// if cambonatiable
-			//if(collision.collider.name == "Trash")
+			player.GetComponent<Player>().bulgeCan();
 		}
 	}
 }

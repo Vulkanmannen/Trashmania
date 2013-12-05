@@ -34,10 +34,10 @@ public class PowerUpTrash : Trash
 
 			rigidbody.velocity = dir.normalized * 500f;
 
-			if(dir.magnitude < 140)
+			if(dir.magnitude < 100)
 			{
-				destroyAndPoff("");
 				GameObject.FindWithTag("myPlayer").GetComponent<Player>().addPowerUp(mode);
+				Destroy(gameObject);
 			}
 		}
 	}
@@ -54,6 +54,7 @@ public class PowerUpTrash : Trash
 		{
 			pickedUp = true;
 			GetComponent<BoxCollider>().isTrigger = true;
+			createPoffWhenDestroyed();
 		}
 		if(collision.collider.name == "Ground")
 		{

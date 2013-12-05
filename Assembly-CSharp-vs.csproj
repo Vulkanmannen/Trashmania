@@ -47,9 +47,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Resources\Scripts\AnimationScript.cs" />
+     <Compile Include="Assets\Resources\Scripts\AnimationScriptCan.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\Button.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeMenuButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeToLevelIfAvailable.cs" />
+     <Compile Include="Assets\Resources\Scripts\Buttons\FromGameToShop.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\LoadCurrentLevel.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\QuitButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ToStartMenuFromPause.cs" />
@@ -75,8 +77,9 @@
      <Compile Include="Assets\Resources\Scripts\GlasOnGround.cs" />
      <Compile Include="Assets\Resources\Scripts\GuiButtonBalance.cs" />
      <Compile Include="Assets\Resources\Scripts\HighScore.cs" />
-     <Compile Include="Assets\Resources\Scripts\Menu.cs" />
-     <Compile Include="Assets\Resources\Scripts\MenuTree.cs" />
+     <Compile Include="Assets\Resources\Scripts\Menu\Menu.cs" />
+     <Compile Include="Assets\Resources\Scripts\Menu\MenuTree.cs" />
+     <Compile Include="Assets\Resources\Scripts\Menu\ShowResult.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\TrashCanCollider.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\Battery.cs" />
