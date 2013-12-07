@@ -52,13 +52,18 @@ public class PowerUpTrash : Trash
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
-			pickedUp = true;
-			GetComponent<BoxCollider>().isTrigger = true;
-			createPoffWhenDestroyed();
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
 			destroyAndPoff("");
 		}
+	}
+
+	public override void hitTrashCollider()
+	{
+		pickedUp = true;
+		GetComponent<BoxCollider>().isTrigger = true;
+		createPoffWhenDestroyed();
 	}
 }

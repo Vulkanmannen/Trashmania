@@ -8,7 +8,9 @@ public class Sister : Enemy
 	public Vector3[] objectStartPos = new Vector3[5]; 
 	
 	public GameObject bonusObjectToThrow;
-	
+
+	public int turnNode = 3; 
+
 	private int nextNode = 0;
 	private bool thrownPowerup = false;
 	private bool thrownObjects = false;
@@ -61,7 +63,7 @@ public class Sister : Enemy
 		if((transform.position.x >= nodes[nextNode].x && !isLeft) || (transform.position.x <= nodes[nextNode].x && isLeft))
 		{
 			// walk between node 3 and 4
-			if(thrownPowerup || nextNode < 3)
+			if(thrownPowerup || nextNode < turnNode)
 				nextNode++;
 			else
 			{

@@ -51,10 +51,9 @@
      <Compile Include="Assets\Resources\Scripts\Buttons\Button.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeMenuButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeToLevelIfAvailable.cs" />
-     <Compile Include="Assets\Resources\Scripts\Buttons\FromGameToShop.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\LoadCurrentLevel.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\QuitButton.cs" />
-     <Compile Include="Assets\Resources\Scripts\Buttons\ToStartMenuFromPause.cs" />
+     <Compile Include="Assets\Resources\Scripts\Buttons\ToStartMenuFromGame.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\UnpauseButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\CoinPopup.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\DestroyedTrashPopup.cs" />

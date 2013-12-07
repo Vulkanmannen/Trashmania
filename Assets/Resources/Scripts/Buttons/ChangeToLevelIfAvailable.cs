@@ -8,6 +8,7 @@ public class ChangeToLevelIfAvailable : Button
 	{
 		if(PlayerPrefs.GetInt(unlockedLevel) == 1)
 		{
+			PlayerPrefs.SetString("CurrentMenu", "Map");
 			Application.LoadLevel((int)level);
 		}
 	}

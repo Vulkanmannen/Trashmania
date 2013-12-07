@@ -317,15 +317,7 @@ public class Player : MonoBehaviour
 				{
 					if(raycastHit.transform.GetComponent<Trash>())
 					{
-						Trash trash = raycastHit.transform.GetComponent<Trash>();
-						int p = trash.points * globalGameObject.comboMultiplyer;
-						globalGameObject.points += p;
-						trash.destroyAndPoff(p.ToString());
-
-						if(trash.GetComponent<TrashStartEvent>())
-						{
-							GameObject.FindWithTag("Sister").GetComponent<Sister>().setSadFaceAnimation();
-						}
+						raycastHit.transform.GetComponent<Trash>().hitTrashCollider();
 					}
 				}
 			}

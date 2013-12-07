@@ -14,9 +14,7 @@ public class Heart : Trash
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{	
-			int totalPoints = points;
-			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
-			destroyAndPoff(totalPoints.ToString());
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
@@ -25,5 +23,11 @@ public class Heart : Trash
 			string textToShow = "-" + lostPoints.ToString();
 			destroyAndPoff(textToShow);
 		}
+	}
+	public override void hitTrashCollider()
+	{
+		int totalPoints = points;
+		globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
+		destroyAndPoff(totalPoints.ToString());
 	}
 }

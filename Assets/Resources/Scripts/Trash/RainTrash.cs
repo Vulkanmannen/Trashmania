@@ -13,14 +13,17 @@ public class RainTrash : Trash
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
-			int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
-			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
-			destroyAndPoff(totalPoints.ToString());
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
 			destroyAndPoff("");
 		}
 	}
-
+	public override void hitTrashCollider()
+	{
+		int totalPoints = points;
+		globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
+		destroyAndPoff(totalPoints.ToString());
+	}
 }

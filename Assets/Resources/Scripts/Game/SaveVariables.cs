@@ -23,6 +23,9 @@ public class SaveVariables : MonoBehaviour
 			}
 		
 			PlayerPrefs.SetInt("CurrentLevel", 1);
+		
+			//  current menu in startMenu
+			PlayerPrefs.SetString("CurrentMenu", "StartMenu");
 		}
 		//PlayerPrefs.DeleteAll();
 	}

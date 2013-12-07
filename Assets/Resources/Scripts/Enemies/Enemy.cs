@@ -75,7 +75,7 @@ public class Enemy : MonoBehaviour
 	
 	protected virtual void myStart()
 	{
-		if(globalGameObject.GetComponent<GlobalGameObject>().startLeft)
+		if(globalGameObject.GetComponent<GlobalGameObject>().startLeft || (isLeft && startNode != 0))
 		{
 			nodes.Reverse();
 			isLeft = true;
@@ -274,17 +274,18 @@ public class Enemy : MonoBehaviour
 		
 		float probability = Random.value;
 		int objectToThrowIndex = 0;
-		
+		bool powerUpOnScreen = globalGameObject.GetComponent<GlobalGameObject>().powerUpOnScreen;
+
 		// no battery
 		if(thisLevel == 1)
 		{
 			if(probability < 0.90f) 
 				objectToThrowIndex = 0; // 90% normal
 			
-			else if(probability < 0.95f)
+			else if(probability < 0.95f && !powerUpOnScreen)
 				objectToThrowIndex = 1; // 5% speed
 			
-			else
+			else if(!powerUpOnScreen)
 				objectToThrowIndex = 3; // 5% ice cream
 		}
 		else if(thisLevel == 2)
@@ -292,14 +293,15 @@ public class Enemy : MonoBehaviour
 			if(probability < 0.75f) 
 				objectToThrowIndex = 0; // 75% normal
 			
-			else if(probability < 0.80f)
+			else if(probability < 0.90f)
+				objectToThrowIndex = 4; // 15% battery
+
+			else if(probability < 0.95f && !powerUpOnScreen)
 				objectToThrowIndex = 1; // 5% speed
 			
-			else if(probability < 0.85f)
+			else if(!powerUpOnScreen)
 				objectToThrowIndex = 2; // 5% truck
-			
-			else 
-				objectToThrowIndex = 4; // 15% battery
+
 		}
 		
 		return objectToThrowIndex;

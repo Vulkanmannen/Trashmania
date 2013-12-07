@@ -33,4 +33,9 @@ public class Battery : Trash
 			destroyAndPoff("");
 		}
 	}
+	// change Behavior when taped on
+	public override void hitTrashCollider()
+	{
+		destroyAndPoff("");
+	}
 }

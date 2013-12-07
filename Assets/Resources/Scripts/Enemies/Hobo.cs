@@ -7,5 +7,4 @@ public class Hobo : Enemy
 	{
 		return 0;
 	}
-
 }

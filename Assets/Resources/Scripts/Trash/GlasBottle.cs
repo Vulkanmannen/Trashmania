@@ -13,20 +13,24 @@ public class GlasBottle : Trash
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
-			globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;
-			globalGameObject.GetComponent<GlobalGameObject>().numberOfCaughtTrash++;
-			globalGameObject.GetComponent<GlobalGameObject>().numberOfGlasTrash++;
-			int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
-			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
-			destroyAndPoff(totalPoints.ToString());
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
 			GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/GlasOnGround") as GameObject, transform.position, Quaternion.Euler(0f, 0f, 0f));
 			newObject.transform.parent = transform.parent.transform;
-			
+			globalGameObject.GetComponent<GlobalGameObject>().resetCombo();
+
 			destroyAndPoff("");
 		}
 	}
-
+	public override void hitTrashCollider()
+	{
+		globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;
+		globalGameObject.GetComponent<GlobalGameObject>().numberOfCaughtTrash++;
+		globalGameObject.GetComponent<GlobalGameObject>().numberOfGlasTrash++;
+		int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
+		globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
+		destroyAndPoff(totalPoints.ToString());
+	}
 }

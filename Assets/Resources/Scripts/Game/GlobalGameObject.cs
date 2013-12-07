@@ -25,13 +25,13 @@ public class GlobalGameObject : MonoBehaviour
 	public int pointsToUnlockNextLevel = 100;
 	public Texture trashOnGroundTexture;
 	public int tooManyTrashOnGround = 2;
-	public int comboMultiplyer = 1;
+	public int comboMultiplyer = 0;
 	public int trashInARow = 0;
 	public int[] maxEnemies;
 	public GameObject popup;
-	public int howManyToGetCombo = 4;
-	public int increaseHowManyToGetComboMultiply = 2;
-	public int maxHowManyToGetCombo = 16;
+	public int howManyToGetCombo = 8;
+	public int increaseHowManyToGetComboMultiply = 3;
+	public int maxHowManyToGetCombo = 64;
 	public bool setSisterInPlay = false;
 	public bool sisterInPlay = true;
 	public float sisterInPlayTimer = 0f;
@@ -52,6 +52,7 @@ public class GlobalGameObject : MonoBehaviour
 	public float doubleBigTrashTimer = 0f;
 	public bool canThrowBattery = false;
 	public string gameOverTexture = "gameOverBigTrash";
+	public bool powerUpOnScreen = false;
 
 	private bool leftSide = false;
 	private bool rightSide = false;
@@ -168,12 +169,12 @@ public class GlobalGameObject : MonoBehaviour
 				
 					howManyToGetCombo *= increaseHowManyToGetComboMultiply;
 				
-					if(howManyToGetCombo > maxHowManyToGetCombo)
-						howManyToGetCombo = maxHowManyToGetCombo;
+					//if(howManyToGetCombo > maxHowManyToGetCombo)
+					//	howManyToGetCombo = maxHowManyToGetCombo;
 				}
 				
 				GameObject newObject = (GameObject)Instantiate(popup, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));	
-				newObject.GetComponent<PopUp>().setTexture(popupComboTextures[comboMultiplyer - 2]);
+				newObject.GetComponent<PopUp>().setTexture(popupComboTextures[comboMultiplyer - 1]);
 				newObject.transform.parent = myCamera.transform;
 			}
 			
@@ -326,6 +327,9 @@ public class GlobalGameObject : MonoBehaviour
 
 	void trashOutsideOfScreen(ref bool leftSideFunc, ref bool rightSideFunc)
 	{
+		// power up on screen
+		powerUpOnScreen = false;
+
 		foreach(Transform t in GetComponentsInChildren<Transform>())
 		{
 			if(t.GetComponent<Trash>())
@@ -335,6 +339,10 @@ public class GlobalGameObject : MonoBehaviour
 					leftSideFunc = true;
 				if(t.position.x > cameraPos + 360)
 					rightSideFunc = true;
+
+				// power up on screen
+				if(t.GetComponent<PowerUpTrash>())
+					powerUpOnScreen = true;
 			}
 		}
 	}
@@ -406,8 +414,8 @@ public class GlobalGameObject : MonoBehaviour
 	public void resetCombo()
 	{
 		trashInARow = 0;
-		comboMultiplyer = 1;
-		howManyToGetCombo = 4;
+		comboMultiplyer = 0;
+		howManyToGetCombo = 8;
 	}
 	
 	// start new event

@@ -16,7 +16,8 @@ public class Trash : MonoBehaviour
 	
 	public GameObject globalGameObject;
 	public bool ignoreMe = false;
-	
+	public bool isPowerUp = false;
+
 	protected Vector3 dirMod = new Vector3(0.99f, 0.97f, 0f);
 	public bool onGround = false;
 	protected bool toBeDestroyed = false;
@@ -113,12 +114,7 @@ public class Trash : MonoBehaviour
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
-			globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;	
-			globalGameObject.GetComponent<GlobalGameObject>().numberOfCaughtTrash++;
-			globalGameObject.GetComponent<GlobalGameObject>().numberOfNormalTrash++;
-			int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
-			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
-			destroyAndPoff(totalPoints.ToString());
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
@@ -127,6 +123,16 @@ public class Trash : MonoBehaviour
 			string textToShow = "-" + lostPoints.ToString();
 			destroyAndPoff(textToShow);
 		}
+	}
+
+	public virtual void hitTrashCollider()
+	{
+		globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;	
+		globalGameObject.GetComponent<GlobalGameObject>().numberOfCaughtTrash++;
+		globalGameObject.GetComponent<GlobalGameObject>().numberOfNormalTrash++;
+		int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
+		globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
+		destroyAndPoff(totalPoints.ToString());
 	}
 	
 	// this is run when a trash is picked up, it waits and destroy the trash
