@@ -58,8 +58,8 @@
      <Compile Include="Assets\Resources\Scripts\Effects\CoinPopup.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\DestroyedTrashPopup.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\Glow.cs" />
-     <Compile Include="Assets\Resources\Scripts\Effects\Particle.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\PopUp.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\myParticle.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\CorporateGuy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Hobo.cs" />

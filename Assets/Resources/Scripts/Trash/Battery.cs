@@ -30,7 +30,7 @@ public class Battery : Trash
 		
 		if(collision.collider.name == "Ground")
 		{
-			destroyAndPoff("");
+			destroyAndPoff("", 1);
 		}
 	}
 	// change Behavior when taped on

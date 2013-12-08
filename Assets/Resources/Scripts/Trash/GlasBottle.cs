@@ -21,7 +21,7 @@ public class GlasBottle : Trash
 			newObject.transform.parent = transform.parent.transform;
 			globalGameObject.GetComponent<GlobalGameObject>().resetCombo();
 
-			destroyAndPoff("");
+			destroyAndPoff("", 1);
 		}
 	}
 	public override void hitTrashCollider()

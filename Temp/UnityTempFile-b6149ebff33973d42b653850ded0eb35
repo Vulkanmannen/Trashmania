@@ -40,10 +40,9 @@ Assets/Resources/Scripts/AnimationScriptCan.cs
 Assets/Resources/Scripts/Buttons/Button.cs
 Assets/Resources/Scripts/Buttons/ChangeMenuButton.cs
 Assets/Resources/Scripts/Buttons/ChangeToLevelIfAvailable.cs
-Assets/Resources/Scripts/Buttons/FromGameToShop.cs
 Assets/Resources/Scripts/Buttons/LoadCurrentLevel.cs
 Assets/Resources/Scripts/Buttons/QuitButton.cs
-Assets/Resources/Scripts/Buttons/ToStartMenuFromPause.cs
+Assets/Resources/Scripts/Buttons/ToStartMenuFromGame.cs
 Assets/Resources/Scripts/Buttons/UnpauseButton.cs
 Assets/Resources/Scripts/Effects/CoinPopup.cs
 Assets/Resources/Scripts/Effects/DestroyedTrashPopup.cs
@@ -61,6 +60,7 @@ Assets/Resources/Scripts/Game/ArrowPad.cs
 Assets/Resources/Scripts/Game/CameraMovement.cs
 Assets/Resources/Scripts/Game/EnemyPath.cs
 Assets/Resources/Scripts/Game/GlobalGameObject.cs
+Assets/Resources/Scripts/Game/GlobalTrashSpawner.cs
 Assets/Resources/Scripts/Game/SaveVariables.cs
 Assets/Resources/Scripts/Game/ScoreIndicator.cs
 Assets/Resources/Scripts/GlasOnGround.cs

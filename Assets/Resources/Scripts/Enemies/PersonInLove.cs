@@ -137,7 +137,7 @@ public class PersonInLove : Enemy
 		// cloud of hearts
 		if(runCaughtHarts && GetComponentInChildren<AnimationScript>().endOfAnimation)
 		{
-			GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/Particle") as GameObject,transform.position, transform.rotation);
+			GameObject newObject = (GameObject)Instantiate(Resources.Load("Particles/particle_heartexplosion") as GameObject,transform.position, transform.rotation);
 			newObject.transform.parent = transform.parent;
 			
 			Destroy(this.gameObject);

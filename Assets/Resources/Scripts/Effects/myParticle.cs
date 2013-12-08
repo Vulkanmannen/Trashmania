@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Particle : MonoBehaviour {
+public class myParticle : MonoBehaviour {
 	
-	float timeOnScreen = 4;
+	public float timeOnScreen = 4;
 	
 	void Update ()
 	{

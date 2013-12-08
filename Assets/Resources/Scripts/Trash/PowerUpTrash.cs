@@ -18,6 +18,10 @@ public class PowerUpTrash : Trash
 
 		// set camera
 		myCamera = GameObject.FindWithTag("MainCamera").GetComponent<CameraMovement>();
+
+		Vector3 pos = transform.localPosition;
+		pos.z = -90;
+		transform.localPosition = pos;
 	}
 
 	// fixed update
@@ -56,7 +60,7 @@ public class PowerUpTrash : Trash
 		}
 		if(collision.collider.name == "Ground")
 		{
-			destroyAndPoff("");
+			destroyAndPoff("", 1);
 		}
 	}
 

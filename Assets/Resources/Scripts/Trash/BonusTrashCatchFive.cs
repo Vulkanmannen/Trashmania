@@ -20,7 +20,7 @@ public class BonusTrashCatchFive : Trash
 		if(collision.collider.name == "Ground")
 		{
 			globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.NOEVENT);
-			destroyAndPoff("");
+			destroyAndPoff("",1);
 		}
 	}
 	public override void hitTrashCollider()

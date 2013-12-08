@@ -54,7 +54,7 @@ public class BrokenHeart : Trash
 			if(thrower != null)
 				thrower.heartDroped = true;
 			
-			destroyAndPoff("");
+			destroyAndPoff("",1);
 		}
 	}
 

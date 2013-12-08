@@ -21,7 +21,7 @@ public class Heart : Trash
 			globalGameObject.GetComponent<GlobalGameObject>().points -= lostPoints;
 			globalGameObject.GetComponent<GlobalGameObject>().resetCombo();
 			string textToShow = "-" + lostPoints.ToString();
-			destroyAndPoff(textToShow);
+			destroyAndPoff(textToShow, 1);
 		}
 	}
 	public override void hitTrashCollider()
