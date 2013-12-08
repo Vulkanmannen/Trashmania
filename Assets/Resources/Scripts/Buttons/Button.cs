@@ -7,8 +7,8 @@ public class Button : MonoBehaviour {
 	public Texture texture;	
 	public Texture textureDown;	
 	
-	public enum Level {STARTMENU, MAINGAME, LEVEL2, SHOP};
-	public Level level = Level.MAINGAME;
+	public enum Level {STARTMENU, LEVEL1, LEVEL2, SHOP};
+	public Level level = Level.LEVEL1;
 	
 	private bool canBePressed = false;
 	

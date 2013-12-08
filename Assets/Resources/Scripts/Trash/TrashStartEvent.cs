@@ -20,13 +20,18 @@ public class TrashStartEvent : Trash
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{	
-			GameObject.FindWithTag("Sister").GetComponent<Sister>().setHappyFaceAnimation();
-			globalGameObject.GetComponent<GlobalGameObject>().startEvent(startEvent);
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
 			GameObject.FindWithTag("Sister").GetComponent<Sister>().setSadFaceAnimation();
 			destroyAndPoff("");
 		}
+	}
+
+	public override void hitTrashCollider()
+	{
+		GameObject.FindWithTag("Sister").GetComponent<Sister>().setHappyFaceAnimation();
+		globalGameObject.GetComponent<GlobalGameObject>().startEvent(startEvent);
 	}
 }

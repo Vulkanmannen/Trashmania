@@ -23,13 +23,19 @@ public class Battery : Trash
 		
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
-			globalGameObject.GetComponent<GlobalGameObject>().gameOverTexture = "gameOverBattery";
-			globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.GAMEOVER);
+			globalGameObject.GetComponent<GlobalGameObject>().points -= lostPoints;
+			string textToShow = "-" + lostPoints.ToString();
+			destroyAndPoff(textToShow);
 		}
 		
 		if(collision.collider.name == "Ground")
 		{
 			destroyAndPoff("");
 		}
+	}
+	// change Behavior when taped on
+	public override void hitTrashCollider()
+	{
+		destroyAndPoff("");
 	}
 }

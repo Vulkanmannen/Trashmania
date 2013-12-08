@@ -15,15 +15,19 @@ public class BonusTrashCatchFive : Trash
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
-			int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
-			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
-			globalGameObject.GetComponent<GlobalGameObject>().numberOfCatchedBonusTrash++;
-			destroyAndPoff(totalPoints.ToString());
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
 			globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.NOEVENT);
 			destroyAndPoff("");
 		}
+	}
+	public override void hitTrashCollider()
+	{
+		int totalPoints = points;
+		globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
+		globalGameObject.GetComponent<GlobalGameObject>().numberOfCatchedBonusTrash++;
+		destroyAndPoff(totalPoints.ToString());
 	}
 }

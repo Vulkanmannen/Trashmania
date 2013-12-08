@@ -3,11 +3,11 @@ using System.Collections;
 
 public class PowerUpTrash : Trash
 {
-	public bool isAdditional = false;
 	public Player.Mode mode = Player.Mode.NORMAL;
-	public Player.AdditionalMode additionalMode = Player.AdditionalMode.NORMAL;
 	public float timeInPowerUp = 12;
-	
+	private bool pickedUp = false;
+	private CameraMovement myCamera;
+
 	// start
 	protected override void start()
 	{
@@ -15,6 +15,31 @@ public class PowerUpTrash : Trash
 		
 		// set ignore
 		ignoreMe = true;
+
+		// set camera
+		myCamera = GameObject.FindWithTag("MainCamera").GetComponent<CameraMovement>();
+	}
+
+	// fixed update
+	protected override void myFixedUpdate()
+	{
+		if(!pickedUp)
+			base.myFixedUpdate();
+		else
+		{
+			Vector3 head = myCamera.transform.position + new Vector3(280f, -80f, 0f);
+			head.z = -50f;
+
+			Vector3 dir = head - transform.position;
+
+			rigidbody.velocity = dir.normalized * 500f;
+
+			if(dir.magnitude < 100)
+			{
+				GameObject.FindWithTag("myPlayer").GetComponent<Player>().addPowerUp(mode);
+				Destroy(gameObject);
+			}
+		}
 	}
 	
 	// collision
@@ -27,16 +52,18 @@ public class PowerUpTrash : Trash
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
-			if(isAdditional)
-				GameObject.FindWithTag("myPlayer").GetComponent<Player>().setMode(additionalMode, timeInPowerUp);
-			else
-				GameObject.FindWithTag("myPlayer").GetComponent<Player>().setMode(mode, timeInPowerUp);
-			
-			destroyAndPoff("");
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
 			destroyAndPoff("");
 		}
+	}
+
+	public override void hitTrashCollider()
+	{
+		pickedUp = true;
+		GetComponent<BoxCollider>().isTrigger = true;
+		createPoffWhenDestroyed();
 	}
 }

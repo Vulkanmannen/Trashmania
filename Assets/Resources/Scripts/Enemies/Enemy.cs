@@ -39,16 +39,19 @@ public class Enemy : MonoBehaviour
 	public float xDif;
 	public bool canThrow;
 	public bool firstTrash = true;
+	public int thisLevel = 1;
 	
 	protected float timer = 0f;
 	protected bool throwing = false;
-	protected int typeOfEnemyIndex = 0;
+	public int typeOfEnemyIndex = 0;
+	protected float alpha = 1f;
 	
 	//private bool timeToThrow = false;
 	
 	
 	void Start()
 	{	
+
 		// get path
 		GameObject enemyPath = GameObject.FindWithTag("EnemyPath");
 		nodes = new List<Vector3>(enemyPath.GetComponent<EnemyPath>().nodes);
@@ -58,9 +61,12 @@ public class Enemy : MonoBehaviour
 		
 		// set sprite offset
 		GetComponentInChildren<AnimationScript>().transform.position = transform.position + spriteOffset;
-		
+
+		// set level
+		thisLevel = globalGameObject.GetComponent<GlobalGameObject>().thisLevel;
+
 		// set type
-		typeOfEnemyIndex = Random.Range(0, (typeOfEnemy.Length - 1));
+		typeOfEnemyIndex = Random.Range(0, (typeOfEnemy.Length));
 		GetComponentInChildren<AnimationScript>().row = typeOfEnemy[typeOfEnemyIndex] * 2;
 		
 		// specific
@@ -69,7 +75,7 @@ public class Enemy : MonoBehaviour
 	
 	protected virtual void myStart()
 	{
-		if(globalGameObject.GetComponent<GlobalGameObject>().startLeft)
+		if(globalGameObject.GetComponent<GlobalGameObject>().startLeft || (isLeft && startNode != 0))
 		{
 			nodes.Reverse();
 			isLeft = true;
@@ -112,7 +118,9 @@ public class Enemy : MonoBehaviour
 		
 		// throw
 		throwFunc();
-		
+
+		// fade out
+		fadeOut();
 		
 		// myUpdate
 		myUptade();
@@ -122,6 +130,22 @@ public class Enemy : MonoBehaviour
 	protected virtual void myUptade()
 	{
 		
+	}
+
+	protected virtual void fadeOut()
+	{
+		if(currentEvent != GlobalGameObject.GameEvent.NOEVENT && currentEvent != GlobalGameObject.GameEvent.GAMEOVER)
+		{
+			if(alpha > 0f)
+				alpha -= 0.02f;
+		}
+		else
+		{
+			if(alpha < 1f)
+				alpha += 0.02f;
+		}
+
+		GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, alpha));
 	}
 	
 	//--------------------------------------------------------------------------
@@ -140,7 +164,7 @@ public class Enemy : MonoBehaviour
 		}
 		
 		// move enemy
-		if(!throwing && currentEvent != GlobalGameObject.GameEvent.INLOVE)
+		if(!throwing && (currentEvent == GlobalGameObject.GameEvent.NOEVENT || currentEvent == GlobalGameObject.GameEvent.GAMEOVER))
 		{
 			moveVec = nodes[0] - transform.position;		
 			moveVec.Normalize();
@@ -250,32 +274,34 @@ public class Enemy : MonoBehaviour
 		
 		float probability = Random.value;
 		int objectToThrowIndex = 0;
-		
+		bool powerUpOnScreen = globalGameObject.GetComponent<GlobalGameObject>().powerUpOnScreen;
+
 		// no battery
-		if(!globalGameObject.GetComponent<GlobalGameObject>().canThrowBattery)
+		if(thisLevel == 1)
 		{
 			if(probability < 0.90f) 
-				objectToThrowIndex = 0; // 90%
+				objectToThrowIndex = 0; // 90% normal
 			
-			else if(probability < 0.95f)
-				objectToThrowIndex = 1; // 5% 
+			else if(probability < 0.95f && !powerUpOnScreen)
+				objectToThrowIndex = 1; // 5% speed
 			
-			else
-				objectToThrowIndex = 2; // 5%
+			else if(!powerUpOnScreen)
+				objectToThrowIndex = 3; // 5% ice cream
 		}
-		else
+		else if(thisLevel == 2)
 		{
 			if(probability < 0.75f) 
-				objectToThrowIndex = 0; // 75%
+				objectToThrowIndex = 0; // 75% normal
 			
-			else if(probability < 0.80f)
-				objectToThrowIndex = 1; // 5% 
+			else if(probability < 0.90f)
+				objectToThrowIndex = 4; // 15% battery
+
+			else if(probability < 0.95f && !powerUpOnScreen)
+				objectToThrowIndex = 1; // 5% speed
 			
-			else if(probability < 0.85f)
-				objectToThrowIndex = 2; // 5%
-			
-			else 
-				objectToThrowIndex = 3; // 15%
+			else if(!powerUpOnScreen)
+				objectToThrowIndex = 2; // 5% truck
+
 		}
 		
 		return objectToThrowIndex;

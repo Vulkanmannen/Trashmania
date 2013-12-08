@@ -53,20 +53,20 @@ public class OldMan : Enemy
 					
 					timer = Time.timeSinceLevelLoad + minTime[currentState] + Random.Range(0f, randomTimeDif[currentState]);
 					
-					if(globalGameObject.GetComponent<GlobalGameObject>().timeForDoubleBigTrash)
-					{
-						globalGameObject.GetComponent<GlobalGameObject>().timeForDoubleBigTrash = false;
-						//throw two big ones
-						GameObject newObject0 = (GameObject)Instantiate(objectToSpawn[0], transform.position + new Vector3((trashStartOffset.x + 60) * (isLeft ? -1 : 1), trashStartOffset.y, -50f), transform.rotation);
-						GameObject newObject1 = (GameObject)Instantiate(objectToSpawn[0], transform.position + new Vector3((trashStartOffset.x - 60) * (isLeft ? -1 : 1), trashStartOffset.y, -50f), transform.rotation);
-						
-						newObject0.transform.parent = transform.parent.transform;
-						newObject1.transform.parent = transform.parent.transform;
-						
-						newObject0.GetComponent<Trash>().dir = new Vector3(100f * (isLeft ? -1 : 1), dir.y, dir.z);
-						newObject1.GetComponent<Trash>().dir = new Vector3(-100f * (isLeft ? -1 : 1), dir.y, dir.z);
-					}
-					else
+					//if(globalGameObject.GetComponent<GlobalGameObject>().timeForDoubleBigTrash)
+					//{
+					//	globalGameObject.GetComponent<GlobalGameObject>().timeForDoubleBigTrash = false;
+					//	//throw two big ones
+					//	GameObject newObject0 = (GameObject)Instantiate(objectToSpawn[0], transform.position + new Vector3((trashStartOffset.x + 60) * (isLeft ? -1 : 1), trashStartOffset.y, -50f), transform.rotation);
+					//	GameObject newObject1 = (GameObject)Instantiate(objectToSpawn[0], transform.position + new Vector3((trashStartOffset.x - 60) * (isLeft ? -1 : 1), trashStartOffset.y, -50f), transform.rotation);
+					//	
+					//	newObject0.transform.parent = transform.parent.transform;
+					//	newObject1.transform.parent = transform.parent.transform;
+					//	
+					//	newObject0.GetComponent<Trash>().dir = new Vector3(100f * (isLeft ? -1 : 1), dir.y, dir.z);
+					//	newObject1.GetComponent<Trash>().dir = new Vector3(-100f * (isLeft ? -1 : 1), dir.y, dir.z);
+					//}
+					//else
 					{
 						GameObject newObject = (GameObject)Instantiate(objectToSpawn[probabilityThrow()], transform.position, transform.rotation);
 						
@@ -91,19 +91,19 @@ public class OldMan : Enemy
 		}
 	}
 	
-	protected override int probabilityThrow()
-	{
-		// probability of eatch trash
-		
-		float probability = Random.value;
-		int objectToThrowIndex = 0;
-		
-		if(probability < probabilityOfBigTrash[currentState]) 
-			objectToThrowIndex = 0; // 40% 50% 60% 70% 80% 100%
-
-		else
-			objectToThrowIndex = 1; //
-		
-		return objectToThrowIndex;
-	}
+	//protected override int probabilityThrow()
+	//{
+	//	// probability of eatch trash
+	//	
+	//	float probability = Random.value;
+	//	int objectToThrowIndex = 0;
+	//	
+	//	if(probability < probabilityOfBigTrash[currentState]) 
+	//		objectToThrowIndex = 0; // 40% 50% 60% 70% 80% 100%
+	//
+	//	else
+	//		objectToThrowIndex = 1; //
+	//	
+	//	return objectToThrowIndex;
+	//}
 }

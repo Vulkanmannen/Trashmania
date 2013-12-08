@@ -16,7 +16,8 @@ public class Trash : MonoBehaviour
 	
 	public GameObject globalGameObject;
 	public bool ignoreMe = false;
-	
+	public bool isPowerUp = false;
+
 	protected Vector3 dirMod = new Vector3(0.99f, 0.97f, 0f);
 	public bool onGround = false;
 	protected bool toBeDestroyed = false;
@@ -113,10 +114,7 @@ public class Trash : MonoBehaviour
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
-			globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;	
-			int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
-			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
-			destroyAndPoff(totalPoints.ToString());
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
@@ -125,6 +123,16 @@ public class Trash : MonoBehaviour
 			string textToShow = "-" + lostPoints.ToString();
 			destroyAndPoff(textToShow);
 		}
+	}
+
+	public virtual void hitTrashCollider()
+	{
+		globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;	
+		globalGameObject.GetComponent<GlobalGameObject>().numberOfCaughtTrash++;
+		globalGameObject.GetComponent<GlobalGameObject>().numberOfNormalTrash++;
+		int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
+		globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
+		destroyAndPoff(totalPoints.ToString());
 	}
 	
 	// this is run when a trash is picked up, it waits and destroy the trash
@@ -148,7 +156,7 @@ public class Trash : MonoBehaviour
 	// this is run when a trash is destroyed, it creates a poff/popup
 	public void createPoffWhenDestroyed(string textToShow = "")
 	{
-		if(textToShow == "0")
+		if(textToShow == "0" || textToShow == "-0")
 			textToShow = "";
 		
 		GameObject newObject = (GameObject)Instantiate(poffWhenDestroyd[0], transform.position, Quaternion.Euler(new Vector3(90, 180, 0)));

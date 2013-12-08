@@ -21,7 +21,13 @@ public class PersonInLove : Enemy
 			isLeft = true;
 			nodes.Reverse();
 			// set kind of animation
+			typeOfEnemyIndex = 1;
 		}
+		else
+			typeOfEnemyIndex = 0;
+
+		// set animation
+		GetComponentInChildren<AnimationScript>().row = typeOfEnemy[typeOfEnemyIndex] * 3;
 
 		// set isLeft in animation
 		GetComponentInChildren<AnimationScript>().isLeft = isLeft;
@@ -32,7 +38,23 @@ public class PersonInLove : Enemy
 		
 		dir.x *= (isLeft ? -1 : 1);
 	}
-	
+
+	// fade out
+	protected override void fadeOut()
+	{
+		if(currentEvent != GlobalGameObject.GameEvent.NOEVENT && currentEvent != GlobalGameObject.GameEvent.GAMEOVER && currentEvent != GlobalGameObject.GameEvent.INLOVE)
+		{
+			if(alpha > 0f)
+				alpha -= 0.02f;
+		}
+		else
+		{
+			if(alpha < 1f)
+				alpha += 0.02f;
+		}
+		
+		GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, alpha));
+	}
 	// move
 	protected override void move()
 	{
@@ -50,7 +72,7 @@ public class PersonInLove : Enemy
 		// reach middle
 		if((isLeft && transform.position.x < 50 || !isLeft && transform.position.x > -50) && !waiting && !heartDroped)
 		{
-			GetComponentInChildren<AnimationScript>().setAnimation(1 + typeOfEnemy[0] * 2, 20, true, 20);
+			GetComponentInChildren<AnimationScript>().setAnimation(1 + typeOfEnemy[typeOfEnemyIndex] * 3, 15, true, 20);
 			waiting = true;	
 		}
 		
@@ -128,14 +150,14 @@ public class PersonInLove : Enemy
 	{
 		heartDroped = true;
 		
-		GetComponentInChildren<AnimationScript>().setAnimation(typeOfEnemy[0] * 2, 20, true, 20);
+		GetComponentInChildren<AnimationScript>().setAnimation(typeOfEnemy[typeOfEnemyIndex] * 3, 15, true, 20);
 		waiting = false;	
 	}
 	
 	// chaught both hearts
 	private void chaughtHearts()
 	{
-		GetComponentInChildren<AnimationScript>().setAnimation(2 + typeOfEnemy[0] * 2, 20, false, 20);
-		partner.GetComponentInChildren<AnimationScript>().setAnimation(2 + typeOfEnemy[0] * 2, 20, false, 20);
+		GetComponentInChildren<AnimationScript>().setAnimation(2 + typeOfEnemy[typeOfEnemyIndex] * 3, 15, false, 20);
+		partner.GetComponentInChildren<AnimationScript>().setAnimation(2 + typeOfEnemy[1 - typeOfEnemyIndex] * 3, 15, false, 20);
 	}
 }

@@ -1,16 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\HighScore.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Enemies\Enemy.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\SaveVariables.cs" Line="21" Column="41" />
-      <File FileName="Assets\Resources\Scripts\Buttons\LoadCurrentLevel.cs" Line="8" Column="59" />
-      <File FileName="Assets\Resources\Scripts\Buttons\ChangeToLevelIfAvailable.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Trash\BigTrash.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\GlobalGameObject.cs" Line="126" Column="27" />
-      <File FileName="Assets\Resources\Scripts\Trash\Trash.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Buttons\Button.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\HighScore.cs" Line="30" Column="85" />
+      <File FileName="Assets\Resources\Scripts\Player\Player.cs" Line="320" Column="68" />
+      <File FileName="Assets\Resources\Scripts\Game\GlobalGameObject.cs" Line="344" Column="38" />
+      <File FileName="Assets\Resources\Scripts\Enemies\Hobo.cs" Line="11" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Enemies\Enemy.cs" Line="299" Column="51" />
+      <File FileName="Assets\Resources\Scripts\Trash\Trash.cs" Line="19" Column="32" />
+      <File FileName="Assets\Resources\Scripts\Trash\GlasBottle.cs" Line="23" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
