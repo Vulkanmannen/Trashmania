@@ -9,6 +9,10 @@ public class TrashStartEvent : Trash
 	{
 		// set ignore
 		ignoreMe = true;
+
+		Vector3 pos = transform.localPosition;
+		pos.z = -90;
+		transform.localPosition = pos;
 	}	
 	// collision
 	protected override void myCollision(Collision collision)
@@ -25,7 +29,7 @@ public class TrashStartEvent : Trash
 		if(collision.collider.name == "Ground")
 		{
 			GameObject.FindWithTag("Sister").GetComponent<Sister>().setSadFaceAnimation();
-			destroyAndPoff("");
+			destroyAndPoff("", 1);
 		}
 	}
 

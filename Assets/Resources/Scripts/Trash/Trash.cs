@@ -121,7 +121,7 @@ public class Trash : MonoBehaviour
 			globalGameObject.GetComponent<GlobalGameObject>().points -= lostPoints;
 			globalGameObject.GetComponent<GlobalGameObject>().resetCombo();
 			string textToShow = "-" + lostPoints.ToString();
-			destroyAndPoff(textToShow);
+			destroyAndPoff(textToShow, 1);
 		}
 	}
 
@@ -143,23 +143,23 @@ public class Trash : MonoBehaviour
 	}
 	
 	// destroy the trash and create puff
-	public void destroyAndPoff(string textToShow)
+	public void destroyAndPoff(string textToShow, int particleIndex = 0)
 	{
 		if(!destroyed)
 		{
-			createPoffWhenDestroyed(textToShow);
+			createPoffWhenDestroyed(textToShow, particleIndex);
 			Destroy(this.gameObject);
 			destroyed = true;
 		}
 	}
 	
 	// this is run when a trash is destroyed, it creates a poff/popup
-	public void createPoffWhenDestroyed(string textToShow = "")
+	public void createPoffWhenDestroyed(string textToShow = "", int particleIndex = 0)
 	{
 		if(textToShow == "0" || textToShow == "-0")
 			textToShow = "";
 		
-		GameObject newObject = (GameObject)Instantiate(poffWhenDestroyd[0], transform.position, Quaternion.Euler(new Vector3(90, 180, 0)));
+		GameObject newObject = (GameObject)Instantiate(poffWhenDestroyd[particleIndex], transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
 		newObject.GetComponent<DestroyedTrashPopup>().setText(textToShow);
 		newObject.GetComponent<DestroyedTrashPopup>().timeOnScreen = 0.6f;
 		newObject.transform.parent = transform.parent.transform;

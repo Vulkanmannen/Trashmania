@@ -17,7 +17,7 @@ public class RainTrash : Trash
 		}
 		if(collision.collider.name == "Ground")
 		{
-			destroyAndPoff("");
+			destroyAndPoff("", 1);
 		}
 	}
 	public override void hitTrashCollider()

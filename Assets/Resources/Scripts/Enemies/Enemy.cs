@@ -8,8 +8,9 @@ public class Enemy : MonoBehaviour
 	public float[] minTime = {2.5f, 2f, 1f, 0.5f, 0.5f, 0.5f};
 	public float[] randomTimeDif = {0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.3f};
 	public float[] distanceToClosestTrashY = {100f, 100f, 100f, 100f, 100f, 100f}; 
-	public float[] minDistanceToClosestTrashX = {0f, 0f, 70f, 120f, 200f, 230f}; 
-	public float[] maxDistanceToClosestTrashX = {200f, 200f, 220f, 220f, 240f, 290f}; 
+	public float[] distanceToClosestTrashYOkToThrow = {300f, 300f, 300f, 300f, 300f, 300f}; 
+	public float[] minDistanceToClosestTrashX = {150f, 150f, 150f, 150f, 150f, 150f}; 
+	public float[] maxDistanceToClosestTrashX = {180f, 180f, 180f, 180f, 180f, 180f}; 
 	public int []pasThisLineToStartThrow = {250, 300, 350, 350, 400, 400};
 	public GameObject[] objectToSpawn;
 	
@@ -41,7 +42,7 @@ public class Enemy : MonoBehaviour
 	public bool firstTrash = true;
 	public int thisLevel = 1;
 	
-	protected float timer = 0f;
+	public float timer = 0f;
 	protected bool throwing = false;
 	public int typeOfEnemyIndex = 0;
 	protected float alpha = 1f;
@@ -203,30 +204,33 @@ public class Enemy : MonoBehaviour
 			{
 				if(trash.GetComponent<Trash>() && !trash.GetComponent<Trash>().ignoreMe)
 				{
-					if(yDif > transform.position.y - trash.transform.position.y || firstTrash)
+					if(yDif > transform.position.y + trashStartOffset.y - trash.transform.position.y || firstTrash)
 					{
 						firstTrash = false;
-						yDif = transform.position.y - trash.transform.position.y;
-						xDif = transform.position.x - trash.transform.position.x;
+						yDif = transform.position.y + trashStartOffset.y - trash.transform.position.y;
+						xDif = transform.position.x + (trashStartOffset.x  * (isLeft ? -1 : 1)) - trash.transform.position.x;
 					}
 				}
 			}
 			
-			if(!firstTrash && 
+			if(	!firstTrash && 
 				(	
-					Mathf.Abs(xDif) < minDistanceToClosestTrashX[currentState]  
-				|| 	Mathf.Abs(xDif) > maxDistanceToClosestTrashX[currentState]
-				|| 	yDif < distanceToClosestTrashY[currentState] + Mathf.Abs(trashStartOffset.y))
-				)
+					Mathf.Abs(xDif) < minDistanceToClosestTrashX[currentState] ||
+			 		Mathf.Abs(xDif) > maxDistanceToClosestTrashX[currentState] ||
+			 		yDif < distanceToClosestTrashY[currentState] + Mathf.Abs(trashStartOffset.y)
+			 	)
+			   && yDif < distanceToClosestTrashYOkToThrow[currentState] + Mathf.Abs(trashStartOffset.y)
+			  ) 
+
+
 			{
 				canThrow = false;
 			}
 			
-			
 			// Throwing
 			if(timer <= Time.timeSinceLevelLoad && canThrow)
 			{
-				if(transform.position.x > -pasThisLineToStartThrow[currentState] && transform.position.x < pasThisLineToStartThrow[currentState])
+				if(transform.position.x + trashStartOffset.x * (isLeft ? -1 : 1) > -pasThisLineToStartThrow[currentState] && transform.position.x + trashStartOffset.x * (isLeft ? -1 : 1) < pasThisLineToStartThrow[currentState])
 				{
 					// set trowing, set animation
 					throwing = true;
@@ -234,7 +238,6 @@ public class Enemy : MonoBehaviour
 					GetComponentInChildren<AnimationScript>().setAnimation(1 + (typeOfEnemy[typeOfEnemyIndex] * 2), throwFrames, false, throwFramerate);
 					
 					timer = Time.timeSinceLevelLoad + minTime[currentState] + Random.Range(0f, randomTimeDif[currentState]);
-					
 											
 					GameObject newObject = (GameObject)Instantiate(objectToSpawn[probabilityThrow()], 
 															transform.position, transform.rotation);
@@ -242,28 +245,20 @@ public class Enemy : MonoBehaviour
 					newObject.transform.position = new Vector3(transform.position.x + trashStartOffset.x * (isLeft ? -1 : 1), transform.position.y + trashStartOffset.y, 0f);
 					newObject.transform.parent = transform.parent.transform;
 					
-					float randomDir = Random.Range(-600f, 601f);
-					if(randomDir <= 0)
-						randomDir = -1;
-					else
-						randomDir = 1;
-					
-					Vector3 tempDir = dir;									
-					tempDir.x += Random.Range(0f, randomDirDif.x);
-					tempDir.x *= randomDir;
-					tempDir.y += Random.Range(0f, randomDirDif.y);
-															
-					newObject.GetComponent<Trash>().dir = tempDir;
-				
-					//timeToThrow = false;
+					//float randomDir = Random.Range(-600f, 601f);
+					//if(randomDir <= 0)
+					//	randomDir = -1;
+					//else
+					//	randomDir = 1;
+					//
+					//Vector3 tempDir = dir;									
+					//tempDir.x += Random.Range(0f, randomDirDif.x);
+					//tempDir.x *= randomDir;
+					//tempDir.y += Random.Range(0f, randomDirDif.y);
+					//										
+					//newObject.GetComponent<Trash>().dir = tempDir;
 				}
 			}
-			// delay trash from appearing
-			//if(timeToThrow && GetComponentInChildren<AnimationScript>().index == GetComponentInChildren<AnimationScript>().numberOfFrames - frameToThrow)
-			//{
-			//
-			//	
-			//}
 		}
 		
 	}

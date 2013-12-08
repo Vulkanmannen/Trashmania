@@ -5,21 +5,25 @@ public class ShowResult : MonoBehaviour
 {
 	GlobalGameObject globalGameObject;
 
+	private bool scoreIsSet = false;
+
 	void Start()
 	{
 		globalGameObject = GameObject.FindWithTag("GlobalGameObject").GetComponent<GlobalGameObject>();
+	}
 
-		foreach(Transform t in GetComponentsInChildren<Transform>())
+	void Update()
+	{
+		if(globalGameObject.currentEvent == GlobalGameObject.GameEvent.GAMEOVER && !scoreIsSet)
 		{
-			if(t.name == "NumberOfGlasTrash")
+			scoreIsSet = true;
+			foreach(Transform t in GetComponentsInChildren<Transform>())
 			{
-				string text = "Trash" + globalGameObject.numberOfNormalTrash.ToString();
-				t.GetComponent<TextMesh>().text = text;
-			}
-			else if(t.name == "NumberOfNormalTrash")
-			{
-				string text = "Glas" + globalGameObject.numberOfGlasTrash.ToString();
-				t.GetComponent<TextMesh>().text = text;
+				if(t.name == "NumberOfCaughtTrash")
+				{
+					string text = "Trash" + globalGameObject.numberOfCaughtTrash.ToString();
+					t.GetComponent<TextMesh>().text = text;
+				}
 			}
 		}
 	}

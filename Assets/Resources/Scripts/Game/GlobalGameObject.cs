@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class GlobalGameObject : MonoBehaviour
 {
+	public bool stop = false;
+
 	public int thisLevel = 1;
 
 	public GameObject[] objectToSpawn;
@@ -91,7 +93,7 @@ public class GlobalGameObject : MonoBehaviour
 			lowerTimeTimer = lowerTimeTime;
 		}
 
-		if(points == 0 && currentEvent == GameEvent.NOEVENT)
+		if(points <= 0 && currentEvent == GameEvent.NOEVENT)
 			startEvent(GameEvent.GAMEOVER);
 
 		//Generate enemies if not in game over
@@ -219,6 +221,13 @@ public class GlobalGameObject : MonoBehaviour
 		//		gameOverPopupTimeRunOut = true;
 		//	}
 		//}
+
+		foreach(Enemy t in GetComponentsInChildren<Enemy>())
+		{
+			// stop 
+			if(stop)
+				t.speed[currentState] = 0f;
+		}
 	}
 	
 	//|||||---------------------------------------------------------------------------------------------|||||

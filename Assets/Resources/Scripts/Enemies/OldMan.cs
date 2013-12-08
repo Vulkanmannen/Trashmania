@@ -24,17 +24,17 @@ public class OldMan : Enemy
 					if(yDif > transform.position.y - trash.transform.position.y || firstTrash)
 					{
 						firstTrash = false;
-						yDif = transform.position.y - trash.transform.position.y;
-						xDif = transform.position.x - trash.transform.position.x;
+						yDif = transform.position.y + trashStartOffset.y - trash.transform.position.y;
+						xDif = transform.position.x + (trashStartOffset.x  * (isLeft ? -1 : 1)) - trash.transform.position.x;
 					}
 				}
 			}
-			
+			 
 			if(!firstTrash && 
 				(	
-					Mathf.Abs(xDif) < minDistanceToClosestTrashX[currentState]  
-				|| 	Mathf.Abs(xDif) > maxDistanceToClosestTrashX[currentState]
-				|| 	yDif < distanceToClosestTrashY[currentState] + Mathf.Abs(trashStartOffset.y))
+					//Mathf.Abs(xDif) < minDistanceToClosestTrashX[currentState] || 	
+					//Mathf.Abs(xDif) > maxDistanceToClosestTrashX[currentState] || 	
+			 		yDif < distanceToClosestTrashY[currentState] + Mathf.Abs(trashStartOffset.y))
 				)
 			{
 				canThrow = false;
@@ -73,18 +73,18 @@ public class OldMan : Enemy
 						newObject.transform.position = new Vector3(transform.position.x + trashStartOffset.x * (isLeft ? -1 : 1), transform.position.y + trashStartOffset.y, 0f);
 						newObject.transform.parent = transform.parent.transform;
 						
-						float randomDir = Random.Range(-600f, 601f);
-						if(randomDir <= 0)
-							randomDir = -1;
-						else
-							randomDir = 1;
-						
-						Vector3 tempDir = dir;									
-						tempDir.x += Random.Range(0f, randomDirDif.x);
-						tempDir.x *= randomDir;
-						tempDir.y += Random.Range(0f, randomDirDif.y);
-																
-						newObject.GetComponent<Trash>().dir = tempDir;
+						//float randomDir = Random.Range(-600f, 601f);
+						//if(randomDir <= 0)
+						//	randomDir = -1;
+						//else
+						//	randomDir = 1;
+						//
+						//Vector3 tempDir = dir;									
+						//tempDir.x += Random.Range(0f, randomDirDif.x);
+						//tempDir.x *= randomDir;
+						//tempDir.y += Random.Range(0f, randomDirDif.y);
+						//										
+						//newObject.GetComponent<Trash>().dir = tempDir;
 					}
 				}
 			}
