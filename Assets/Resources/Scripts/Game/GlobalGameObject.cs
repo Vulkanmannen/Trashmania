@@ -341,17 +341,18 @@ public class GlobalGameObject : MonoBehaviour
 
 		foreach(Transform t in GetComponentsInChildren<Transform>())
 		{
-			if(t.GetComponent<Trash>())
+			if(t.GetComponent<Trash>() && !t.GetComponent<Trash>().ignoreMe && !t.GetComponent<Trash>().dangerous)
 			{
 				float cameraPos = myCamera.transform.position.x;
 				if(t.position.x < cameraPos - 360) 
 					leftSideFunc = true;
 				if(t.position.x > cameraPos + 360)
 					rightSideFunc = true;
-
-				// power up on screen
-				if(t.GetComponent<PowerUpTrash>())
-					powerUpOnScreen = true;
+			}
+			// power up on screen
+			else if(t.GetComponent<PowerUpTrash>())
+			{
+				powerUpOnScreen = true;
 			}
 		}
 	}

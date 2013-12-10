@@ -7,9 +7,6 @@ public class Battery : Trash
 	protected override void start()
 	{
 		base.start();
-		
-		// set ignore
-		ignoreMe = true;
 	}
 	
 	// collision

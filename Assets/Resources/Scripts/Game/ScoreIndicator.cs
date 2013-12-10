@@ -49,6 +49,6 @@ public class ScoreIndicator : MonoBehaviour
 
 		GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/PopUp") as GameObject, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));
 		newObject.transform.parent = myCamera.transform;
-		newObject.GetComponent<PopUp>().setTexture("Bonustext");
+		newObject.GetComponent<PopUp>().setTexture("sprite_button_powerup");
 	}
 }

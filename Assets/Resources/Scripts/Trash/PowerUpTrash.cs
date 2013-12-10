@@ -28,7 +28,13 @@ public class PowerUpTrash : Trash
 	protected override void myFixedUpdate()
 	{
 		if(!pickedUp)
-			base.myFixedUpdate();
+		{
+			currentState = globalGameObject.GetComponent<GlobalGameObject>().currentState;
+
+			rigidbody.velocity = new Vector3((bounce ? rigidbody.velocity.x : 0f), -alternativeSpeed, 0f) + dir;
+			
+			myXVelocity = rigidbody.velocity.x;
+		}
 		else
 		{
 			Vector3 head = myCamera.transform.position + new Vector3(280f, -80f, 0f);

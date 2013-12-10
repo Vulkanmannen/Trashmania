@@ -9,14 +9,17 @@ public class Trash : MonoBehaviour
 	public Vector3 dir;
 	public int hitGround = 0;
 	public bool canBePickedUp = false;
-	public float[] velocityY = {150f, 160f, 170f, 180f, 200f, 220f};
+	public float[,] velocityY = new float[,] {{200f, 220f, 240f, 260f, 300f, 400f}, {260f, 300f, 330f, 360f, 400f, 450f}};
+	public float alternativeSpeed = 200;
 	public int currentState = 0;
 	public int kindsOfSprites = 4;
 	public GameObject[] poffWhenDestroyd;
 	
 	public GameObject globalGameObject;
 	public bool ignoreMe = false;
+	public bool dangerous = false;
 	public bool isPowerUp = false;
+	public int thisLevel;
 
 	protected Vector3 dirMod = new Vector3(0.99f, 0.97f, 0f);
 	public bool onGround = false;
@@ -34,6 +37,8 @@ public class Trash : MonoBehaviour
 		
 		rotationDir = (Random.Range(-100, 101) > 0 ? 1 : -1);
 		
+		thisLevel = globalGameObject.GetComponent<GlobalGameObject>().thisLevel;
+		
 		start();
 	}
 	
@@ -45,9 +50,11 @@ public class Trash : MonoBehaviour
 
 	void Update ()
 	{
+		thisLevel = globalGameObject.GetComponent<GlobalGameObject>().thisLevel;
+
 		if(transform.position.y < -700 || transform.position.x > 700 || transform.position.x < -700)
 			Destroy(this);
-		
+
 		myUpdate();
 	}
 	
@@ -79,9 +86,9 @@ public class Trash : MonoBehaviour
 		
 		// get current stage
 		currentState = globalGameObject.GetComponent<GlobalGameObject>().currentState;
-		
+
 		if(!canBePickedUp)
-			rigidbody.velocity = new Vector3((bounce && !onGround ? rigidbody.velocity.x : 0f), -velocityY[currentState], 0f) + dir;
+			rigidbody.velocity = new Vector3((bounce && !onGround ? rigidbody.velocity.x : 0f), -velocityY[thisLevel - 1, currentState], 0f) + dir;
 		else
 			rigidbody.velocity = new Vector3(0f, -0.5f, rigidbody.velocity.z); // wtf!!
 		
