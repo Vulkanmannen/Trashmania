@@ -17,7 +17,7 @@ public class Trash : MonoBehaviour
 	
 	public GameObject globalGameObject;
 	public bool ignoreMe = false;
-	public bool dangerous = false;
+	public bool dontWarnAboutMe = false;
 	public bool isPowerUp = false;
 	public int thisLevel;
 

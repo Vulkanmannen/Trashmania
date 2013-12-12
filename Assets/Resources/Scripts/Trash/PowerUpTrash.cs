@@ -12,16 +12,9 @@ public class PowerUpTrash : Trash
 	protected override void start()
 	{
 		base.start();
-		
-		// set ignore
-		ignoreMe = true;
 
 		// set camera
 		myCamera = GameObject.FindWithTag("MainCamera").GetComponent<CameraMovement>();
-
-		Vector3 pos = transform.localPosition;
-		pos.z = -90;
-		transform.localPosition = pos;
 	}
 
 	// fixed update
@@ -31,7 +24,7 @@ public class PowerUpTrash : Trash
 		{
 			currentState = globalGameObject.GetComponent<GlobalGameObject>().currentState;
 
-			rigidbody.velocity = new Vector3((bounce ? rigidbody.velocity.x : 0f), -alternativeSpeed, 0f) + dir;
+			rigidbody.velocity = new Vector3((bounce ? rigidbody.velocity.x : 0f), +-velocityY[thisLevel - 1, currentState], 0f) + dir;
 			
 			myXVelocity = rigidbody.velocity.x;
 		}

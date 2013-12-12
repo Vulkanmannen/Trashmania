@@ -341,7 +341,7 @@ public class GlobalGameObject : MonoBehaviour
 
 		foreach(Transform t in GetComponentsInChildren<Transform>())
 		{
-			if(t.GetComponent<Trash>() && !t.GetComponent<Trash>().ignoreMe && !t.GetComponent<Trash>().dangerous)
+			if(t.GetComponent<Trash>() && !t.GetComponent<Trash>().ignoreMe && !t.GetComponent<Trash>().dontWarnAboutMe)
 			{
 				float cameraPos = myCamera.transform.position.x;
 				if(t.position.x < cameraPos - 360) 

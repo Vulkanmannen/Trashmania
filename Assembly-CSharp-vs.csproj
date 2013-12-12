@@ -176,6 +176,7 @@
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Particle Alpha Blend.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Normal-Bumped.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResources\Internal-GUITextureClip.shader" />
+     <None Include="Assets\Resources\Font\font.txt" />
      <None Include="Assets\Resources\Shaders\DefaultResources\Internal-Flare.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Nature\TreeCreator\TreeCreatorBarkRendertex.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\AlphaTest-Bumped.shader" />
@@ -183,6 +184,7 @@
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Normal-Diffuse.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Lightmap-Diffuse.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Normal-DiffuseFast.shader" />
+     <None Include="Assets\Resources\Font\ReadMe.txt" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Particle VertexLit Blended.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Reflect-Glossy.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Unlit\Unlit-AlphaTest.shader" />
