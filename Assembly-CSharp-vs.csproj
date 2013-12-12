@@ -103,6 +103,7 @@
      <None Include="Assets\Resources\Font\font info.txt" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Illumin-Glossy.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Illumin-Parallax.shader" />
+     <None Include="Assets\Resources\Font\texturedfont.shader" />
      <None Include="Assets\Resources\Shaders\CGIncludes\Lighting.cginc" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Illumin-ParallaxSpec.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Particle AddMultiply.shader" />
