@@ -71,8 +71,8 @@ public class GlobalGameObject : MonoBehaviour
 	public GameObject myCamera;
 	
 	// textures
-	public string[] popupComboTextures = {	"Combotaunt01", "Combotaunt02", "Combotaunt03", "Combotaunt04", "Combotaunt05",
-											"Combotext01", "Combotext02", "Combotext03", "Combotext04", "Combotext05"	};
+	public string[] popupComboTextures = {	"sprite_combotext_2x", "sprite_combotext_3x", "sprite_combotext_4x", "sprite_combotext_5x", "sprite_combotext_6x",
+											"sprite_combo_2x", "sprite_combo_3x", "sprite_combo_4x", "sprite_combo_5x", "sprite_combo_6x"};
 	
 	void Start()
 	{
@@ -175,7 +175,7 @@ public class GlobalGameObject : MonoBehaviour
 					//	howManyToGetCombo = maxHowManyToGetCombo;
 				}
 				
-				GameObject newObject = (GameObject)Instantiate(popup, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));	
+				GameObject newObject = (GameObject)Instantiate(popup, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));			
 				newObject.GetComponent<PopUp>().setTexture(popupComboTextures[comboMultiplyer - 1]);
 				newObject.transform.parent = myCamera.transform;
 			}
@@ -527,19 +527,17 @@ public class GlobalGameObject : MonoBehaviour
 		// level 1 och 2
 		if(thisLevel == 1 || thisLevel == 2)
 		{
-			if(probability < 0.40f) 
-				objectToSpawnIndex = 0; // 40% enemy
-			
-			else if(probability < 0.70f)
-				objectToSpawnIndex = 1; // 30% old man
+			if(probability < 0.60f) 
+				objectToSpawnIndex = 0; // 60% enemy
 			
 			else 
-				objectToSpawnIndex = 2; // 30% hobo
+				objectToSpawnIndex = 1; // 40% old man
+
 			
 			// if its time to spawn sister
 			if(setSisterInPlay)
 			{
-				objectToSpawnIndex = 3; 
+				objectToSpawnIndex = 2; 
 				setSisterInPlay = false;
 				sisterInPlay = true;
 			}
