@@ -166,7 +166,7 @@ public class Trash : MonoBehaviour
 		if(textToShow == "0" || textToShow == "-0")
 			textToShow = "";
 		
-		GameObject newObject = (GameObject)Instantiate(poffWhenDestroyd[particleIndex], transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
+		GameObject newObject = (GameObject)Instantiate(poffWhenDestroyd[particleIndex], transform.position - new Vector3(0f, 0f, 100f), Quaternion.Euler(new Vector3(0, 0, 0)));
 		newObject.GetComponent<DestroyedTrashPopup>().setText(textToShow);
 		newObject.GetComponent<DestroyedTrashPopup>().timeOnScreen = 0.6f;
 		newObject.transform.parent = transform.parent.transform;

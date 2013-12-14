@@ -69,11 +69,7 @@ public class GlobalGameObject : MonoBehaviour
 	//private bool gameOverPopupTimeRunOut = false;
 	
 	public GameObject myCamera;
-	
-	// textures
-	public string[] popupComboTextures = {	"sprite_combotext_2x", "sprite_combotext_3x", "sprite_combotext_4x", "sprite_combotext_5x", "sprite_combotext_6x",
-											"sprite_combo_2x", "sprite_combo_3x", "sprite_combo_4x", "sprite_combo_5x", "sprite_combo_6x"};
-	
+
 	void Start()
 	{
 		myCamera = GameObject.FindWithTag("MainCamera");
@@ -175,8 +171,8 @@ public class GlobalGameObject : MonoBehaviour
 					//	howManyToGetCombo = maxHowManyToGetCombo;
 				}
 				
-				GameObject newObject = (GameObject)Instantiate(popup, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));			
-				newObject.GetComponent<PopUp>().setTexture(popupComboTextures[comboMultiplyer - 1]);
+				GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/ComboPopup") as GameObject, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));			
+				newObject.GetComponent<ComboPopup>().setTexture(comboMultiplyer - 1);
 				newObject.transform.parent = myCamera.transform;
 			}
 			
@@ -242,20 +238,21 @@ public class GlobalGameObject : MonoBehaviour
 		
 		GUI.Label(new Rect(10, 10, 30, 30), points.ToString(), style); 
 		
-		GUI.color = new Color(1, 1, 1, 1);
-		
 		// combo multiplyer
-		GUI.color = new Color(1, 1, 1, 1);
-		if(comboMultiplyer > 1)
-			GUI.DrawTexture(new Rect(0f, Screen.height - Screen.width / 2.5f, Screen.width / 5f, Screen.width / 5f), Resources.Load("Textures/Interface/" + popupComboTextures[5 + comboMultiplyer - 2]) as Texture);
-		
+		//GUI.color = new Color(1, 1, 1, 1);
+		//if(comboMultiplyer > 0)
+		//{
+		//	GUI.DrawTexture(new Rect(0f, Screen.height - Screen.width / 2.5f, Screen.width / 5f, Screen.width / 5f), Resources.Load("Textures/Interface/" + popupComboTextures[5 + comboMultiplyer - 1]) as Texture);
+		//}
 		//-------------------------------------Pause------------------------------------------------------------
 		//------------------------------------------------------------------------------------------------------
 		
 		GUI.color = new Color(1f, 1f, 1f, 0.7f);
 		Rect rect = new Rect(Screen.width - Screen.width / 7f, 0f, Screen.width / 7f, Screen.width / 7f);
-		GUI.DrawTexture(rect, Resources.Load("Textures/Interface/Pause") as Texture);
-		
+		if(!pause)
+			GUI.DrawTexture(rect, Resources.Load("Textures/Interface/sprite_button_pause") as Texture);
+		else
+			GUI.DrawTexture(rect, Resources.Load("Textures/Interface/sprite_button_play") as Texture);
 		Event e = Event.current;
 		
 		if(e.type == EventType.MouseUp)
@@ -329,7 +326,7 @@ public class GlobalGameObject : MonoBehaviour
 		{
 			GUI.color = new Color(1f, 1f, 1f, bonusEffectAlpha);
 			Rect sideGlowRect = new Rect(0f, 0f, Screen.width, Screen.height);
-			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/Interface/Pause") as Texture);
+			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/Interface/sprite_button_pause") as Texture);
 		}
 
 	}
@@ -454,7 +451,7 @@ public class GlobalGameObject : MonoBehaviour
 			{
 				GameObject newObject = (GameObject)Instantiate(popup, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));
 				newObject.transform.parent = myCamera.transform;
-				newObject.GetComponent<PopUp>().setTexture("Bonustext");
+				newObject.GetComponent<PopUp>().setTexture("sprite_bonustext");
 			}
 		}
 		

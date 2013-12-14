@@ -56,8 +56,10 @@
      <Compile Include="Assets\Resources\Scripts\Buttons\ToStartMenuFromGame.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\UnpauseButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\CoinPopup.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\ComboPopup.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\DestroyedTrashPopup.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\Glow.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\MultiplyerPopUp.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\PopUp.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\myParticle.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\CorporateGuy.cs" />

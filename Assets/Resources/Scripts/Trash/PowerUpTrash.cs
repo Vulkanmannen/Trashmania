@@ -7,6 +7,7 @@ public class PowerUpTrash : Trash
 	public float timeInPowerUp = 12;
 	private bool pickedUp = false;
 	private CameraMovement myCamera;
+	private float alpha = 0f;
 
 	// start
 	protected override void start()
@@ -30,6 +31,10 @@ public class PowerUpTrash : Trash
 		}
 		else
 		{
+			//GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, alpha));
+			//if(alpha < 0.3)
+			//	alpha += 0.01f;
+
 			Vector3 head = myCamera.transform.position + new Vector3(280f, -80f, 0f);
 			head.z = -50f;
 
@@ -37,12 +42,20 @@ public class PowerUpTrash : Trash
 
 			rigidbody.velocity = dir.normalized * 500f;
 
-			if(dir.magnitude < 100)
+			if(dir.magnitude < 60)
 			{
 				GameObject.FindWithTag("myPlayer").GetComponent<Player>().addPowerUp(mode);
 				Destroy(gameObject);
 			}
 		}
+	}
+
+	// spin
+	protected override void spin()
+	{
+		if(!pickedUp)
+			if(rigidbody.angularVelocity.z < 1f && rigidbody.angularVelocity.z > -1f)
+				rigidbody.AddTorque(new Vector3(0f, 0f, 500f*rotationDir));
 	}
 	
 	// collision
@@ -66,7 +79,11 @@ public class PowerUpTrash : Trash
 	public override void hitTrashCollider()
 	{
 		pickedUp = true;
+		GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, 0.6f));
 		GetComponent<BoxCollider>().isTrigger = true;
 		createPoffWhenDestroyed();
+
+		Destroy(transform.Find("particle_poweruptrail").gameObject);
+		Destroy(transform.Find("Glow").gameObject);
 	}
 }
