@@ -1,15 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Trash\Trash.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Trash\BonusTrashCatchFive.cs" Line="34" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Trash\BrokenHeart.cs" Line="105" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Trash\Heart.cs" Line="34" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Trash\PowerUpTrash.cs" Line="63" Column="24" />
-      <File FileName="Assets\Resources\Scripts\Trash\RainTrash.cs" Line="30" Column="4" />
+      <File FileName="Assets\Resources\Scripts\Trash\BonusTrashCatchFive.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Trash\BrokenHeart.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Trash\Heart.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Trash\PowerUpTrash.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Trash\RainTrash.cs" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\Trash\Trash.cs" Line="165" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Trash\TrashStartEvent.cs" Line="32" Column="24" />
-      <File FileName="Assets\Resources\Scripts\Trash\Battery.cs" Line="33" Column="24" />
+      <File FileName="Assets\Resources\Scripts\Trash\TrashStartEvent.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Trash\Battery.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
