@@ -4,7 +4,7 @@ using System.Collections;
 public class ComboPopup : MonoBehaviour 
 {
 	// textures
-	public string[] popupComboTextures = {"sprite_combotext_2x", "sprite_combotext_3x", "sprite_combotext_4x", "sprite_combotext_5x", "sprite_combotext_6x"};
+	public string[] popupComboTextures = {"sprite_combotext_1x", "sprite_combotext_2x", "sprite_combotext_3x", "sprite_combotext_4x", "sprite_combotext_5x", "sprite_combotext_6x"};
 
 	public float timeOnScreen = 2;
 	public int textureIndex = 0;
@@ -15,7 +15,7 @@ public class ComboPopup : MonoBehaviour
 	void Start () 
 	{
 		myCamera = GameObject.FindWithTag("MainCamera");
-
+	
 		timeOnScreen = timeOnScreen + Time.timeSinceLevelLoad;
 		
 		myStart();
@@ -31,7 +31,7 @@ public class ComboPopup : MonoBehaviour
 	{
 		myUpdate();
 	}
-
+	
 	// myUpdate
 	private void myUpdate()
 	{
@@ -48,7 +48,7 @@ public class ComboPopup : MonoBehaviour
 			newObject.transform.parent = myCamera.transform;
 		}
 	}
-
+	
 	public void setTexture(int index)
 	{
 		string texture = popupComboTextures[index];

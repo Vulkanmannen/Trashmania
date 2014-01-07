@@ -5,13 +5,13 @@ using System.Collections.Generic;
 public class Enemy : MonoBehaviour
 {
 	public float[] speed = {1.3f, 1.3f, 1.3f, 1.3f, 1.3f, 1.3f};
-	public float[] minTime = {2.5f, 2f, 1f, 0.5f, 0.5f, 0.5f};
-	public float[] randomTimeDif = {0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.3f};
-	public float[] distanceToClosestTrashY = {100f, 100f, 100f, 100f, 100f, 100f}; 
-	public float[] distanceToClosestTrashYOkToThrow = {300f, 300f, 300f, 300f, 300f, 300f}; 
+	public float[] minTime = {4f, 4f, 4f, 4f, 4f, 4f};
+	public float[] randomTimeDif = {0f, 0f, 0f, 0f, 0f, 0f};
+	public float[,] distanceToClosestTrashY = new float[,]{{150f, 140f, 130f, 120f, 110f, 100f}, {100f, 100f, 100f, 100f, 100f, 100f}}; 
+	public float[] distanceToClosestTrashYOkToThrow = {1000f, 1000f, 700f, 600f, 500f, 400f}; 
 	public float[] minDistanceToClosestTrashX = {150f, 150f, 150f, 150f, 150f, 150f}; 
-	public float[] maxDistanceToClosestTrashX = {180f, 180f, 180f, 180f, 180f, 180f}; 
-	public int []pasThisLineToStartThrow = {250, 300, 350, 350, 400, 400};
+	public float[] maxDistanceToClosestTrashX = {250f, 250f, 250f, 250f, 250f, 250f}; 
+	public int []pasThisLineToStartThrow = {250, 350, 450, 500, 500, 550};
 	public GameObject[] objectToSpawn;
 	
 	public Vector3 dir = new Vector3(30f, 180f, 0f);
@@ -217,12 +217,10 @@ public class Enemy : MonoBehaviour
 				(	
 					Mathf.Abs(xDif) < minDistanceToClosestTrashX[currentState] ||
 			 		Mathf.Abs(xDif) > maxDistanceToClosestTrashX[currentState] ||
-			 		yDif < distanceToClosestTrashY[currentState] + Mathf.Abs(trashStartOffset.y)
+			 		yDif < distanceToClosestTrashY[thisLevel - 1, currentState] + Mathf.Abs(trashStartOffset.y)
 			 	)
-			   && yDif < distanceToClosestTrashYOkToThrow[currentState] + Mathf.Abs(trashStartOffset.y)
+			   	&& yDif < distanceToClosestTrashYOkToThrow[currentState] + Mathf.Abs(trashStartOffset.y)
 			  ) 
-
-
 			{
 				canThrow = false;
 			}
@@ -260,7 +258,6 @@ public class Enemy : MonoBehaviour
 				}
 			}
 		}
-		
 	}
 	
 	protected virtual int probabilityThrow()
@@ -271,17 +268,14 @@ public class Enemy : MonoBehaviour
 		int objectToThrowIndex = 0;
 		bool powerUpOnScreen = globalGameObject.GetComponent<GlobalGameObject>().powerUpOnScreen;
 
-		// no battery
 		if(thisLevel == 1)
 		{
-			if(probability < 0.90f) 
-				objectToThrowIndex = 0; // 90% normal
-			
-			else if(probability < 0.95f && !powerUpOnScreen)
-				objectToThrowIndex = 1; // 5% speed
+			if(probability < 0.95f) 
+				objectToThrowIndex = 0; // 95% normal
 			
 			else if(!powerUpOnScreen)
-				objectToThrowIndex = 3; // 5% ice cream
+				objectToThrowIndex = 1; // 5% speed
+
 		}
 		else if(thisLevel == 2)
 		{
@@ -289,7 +283,7 @@ public class Enemy : MonoBehaviour
 				objectToThrowIndex = 0; // 75% normal
 			
 			else if(probability < 0.90f)
-				objectToThrowIndex = 4; // 15% battery
+				objectToThrowIndex = 3; // 15% battery
 
 			else if(probability < 0.95f && !powerUpOnScreen)
 				objectToThrowIndex = 1; // 5% speed

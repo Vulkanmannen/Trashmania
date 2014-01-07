@@ -59,12 +59,15 @@
      <Compile Include="Assets\Resources\Scripts\Effects\ComboPopup.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\DestroyedTrashPopup.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\Glow.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\HeartParticle.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\MultiplyerFont.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\MultiplyerPopUp.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\PopUp.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\myParticle.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\CorporateGuy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Hobo.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\IceCreamGirl.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\OldMan.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\PersonInLove.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Sister.cs" />
@@ -103,9 +106,11 @@
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Particle Premultiply Blend.shader" />
      <None Include="Assets\Resources\Shaders\CGIncludes\Tessellation.cginc" />
      <None Include="Assets\Resources\Font\font info.txt" />
+     <None Include="Assets\Resources\Font\Textured Text Shader.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Illumin-Glossy.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Illumin-Parallax.shader" />
      <None Include="Assets\Resources\Shaders\CGIncludes\Lighting.cginc" />
+     <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Unlit\Unlit-Alpha 2.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Illumin-ParallaxSpec.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Particle AddMultiply.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResources\Camera-DepthNormalTexture.shader" />

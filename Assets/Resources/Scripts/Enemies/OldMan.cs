@@ -34,7 +34,7 @@ public class OldMan : Enemy
 				(	
 					//Mathf.Abs(xDif) < minDistanceToClosestTrashX[currentState] || 	
 					//Mathf.Abs(xDif) > maxDistanceToClosestTrashX[currentState] || 	
-			 		yDif < distanceToClosestTrashY[currentState] + Mathf.Abs(trashStartOffset.y))
+			 		yDif < distanceToClosestTrashY[thisLevel - 1, currentState] + Mathf.Abs(trashStartOffset.y))
 				)
 			{
 				canThrow = false;

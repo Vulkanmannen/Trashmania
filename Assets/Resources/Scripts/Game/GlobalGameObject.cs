@@ -17,7 +17,7 @@ public class GlobalGameObject : MonoBehaviour
 	
 	public int points = 0;
 	public int numberOfCaughtTrash = 0;
-	public int numberOfTrashToWin = 100;
+	public int numberOfTrashToWin = 100; 
 
 	public int numberOfNormalTrash = 0;
 	public int numberOfGlasTrash = 0;
@@ -59,7 +59,8 @@ public class GlobalGameObject : MonoBehaviour
 	private bool leftSide = false;
 	private bool rightSide = false;
 	private bool sideEffectFadeOut = false;
-	private float sideEffectAlpha = 0f;
+	private float sideEffectLeftAlpha = 0f;
+	private float sideEffectRightAlpha = 0f;
 
 	private float bonusEffectAlpha = 0f;
 
@@ -233,11 +234,13 @@ public class GlobalGameObject : MonoBehaviour
 	{	
 		// points
 		GUIStyle style = new GUIStyle();
-		style.font = Resources.Load("Font/BADABB") as Font;
+		style.font = Resources.Load("Font/KBPlanetEarth") as Font;
 		style.fontSize = Screen.width / 5;
-		
-		GUI.Label(new Rect(10, 10, 30, 30), points.ToString(), style); 
-		
+		style.normal.textColor = Color.white;
+
+		GUI.Label(new Rect(Screen.width / 6 + 10, 10, 30, 30), points.ToString(), style); 
+		GUI.DrawTexture(new Rect(10, 10, Screen.width / 6, Screen.width / 6 ), Resources.Load("Textures/Interface/sprite_clock") as Texture);
+
 		// combo multiplyer
 		//GUI.color = new Color(1, 1, 1, 1);
 		//if(comboMultiplyer > 0)
@@ -275,20 +278,98 @@ public class GlobalGameObject : MonoBehaviour
 		bool rightSideFunc = false;
 		trashOutsideOfScreen(ref leftSideFunc, ref rightSideFunc);
 
-		if(sideEffectAlpha < 0.5 && (leftSideFunc || rightSideFunc) && currentEvent == GameEvent.NOEVENT)
-			sideEffectFadeOut = false;
-		else if(sideEffectAlpha > 0.8  || (!leftSideFunc && !rightSideFunc) || currentEvent != GameEvent.NOEVENT)
-			sideEffectFadeOut = true;
+		if(leftSideFunc && rightSideFunc)
+		{
+			if(sideEffectLeftAlpha < sideEffectRightAlpha)
+				sideEffectLeftAlpha = sideEffectRightAlpha;
+			else
+				sideEffectRightAlpha = sideEffectLeftAlpha;
 
-		if(sideEffectFadeOut && sideEffectAlpha > 0f)
-			sideEffectAlpha -= 0.008f;
-		else if(!sideEffectFadeOut)
-			sideEffectAlpha += 0.008f;
+			// set fade out
+			if(sideEffectLeftAlpha < 0.5 && currentEvent == GameEvent.NOEVENT)
+				sideEffectFadeOut = false;
+			else if(sideEffectLeftAlpha > 0.8 || currentEvent != GameEvent.NOEVENT)
+				sideEffectFadeOut = true;
 
-		if(sideEffectAlpha <= 0f)
+			// lower or increas alpha
+			if(sideEffectFadeOut && sideEffectLeftAlpha > 0f)
+			{
+				sideEffectLeftAlpha -= 0.008f;
+				sideEffectRightAlpha -= 0.008f;
+			}
+			else if(!sideEffectFadeOut)
+			{
+				if(sideEffectLeftAlpha < 0.5f)
+				{
+					sideEffectLeftAlpha += 0.018f;
+					sideEffectRightAlpha += 0.018f;
+				}
+				else
+				{
+					sideEffectLeftAlpha += 0.008f;
+					sideEffectRightAlpha += 0.008f;
+				}
+			}
+		}
+		else if(leftSideFunc)
+		{
+			// set fade out
+			if(sideEffectLeftAlpha < 0.5 && currentEvent == GameEvent.NOEVENT)
+				sideEffectFadeOut = false;
+			else if(sideEffectLeftAlpha > 0.8 || currentEvent != GameEvent.NOEVENT)
+				sideEffectFadeOut = true;
+			
+			// lower or increas alpha
+			if(sideEffectFadeOut && sideEffectLeftAlpha > 0f)
+			{
+				sideEffectLeftAlpha -= 0.008f;
+			}
+			else if(!sideEffectFadeOut)
+			{
+				if(sideEffectLeftAlpha < 0.5f)
+					sideEffectLeftAlpha += 0.018f;
+				else
+					sideEffectLeftAlpha += 0.008f;
+			}
+		}
+		else if(rightSideFunc)
+		{
+			// set fade out
+			if(sideEffectRightAlpha < 0.5 && currentEvent == GameEvent.NOEVENT)
+				sideEffectFadeOut = false;
+			else if(sideEffectRightAlpha > 0.8 || currentEvent != GameEvent.NOEVENT)
+				sideEffectFadeOut = true;
+			
+			// lower or increas alpha
+			if(sideEffectFadeOut && sideEffectRightAlpha > 0f)
+			{
+				sideEffectRightAlpha -= 0.008f;
+			}
+			else if(!sideEffectFadeOut)
+			{
+				if(sideEffectRightAlpha < 0.5f)
+					sideEffectRightAlpha += 0.018f;
+				else
+					sideEffectRightAlpha += 0.008f;
+			}
+		}
+		else if(!leftSideFunc && sideEffectLeftAlpha > 0f)
+		{
+			sideEffectLeftAlpha -= 0.008f;
+		}
+		else if(!rightSideFunc && sideEffectRightAlpha > 0f)
+		{
+			sideEffectRightAlpha -= 0.008f;
+		}
+		
+		if(sideEffectRightAlpha <= 0f)
+		{
+			rightSide = false;
+		}
+
+		if(sideEffectLeftAlpha <= 0f)
 		{
 			leftSide = false;
-			rightSide = false;
 		}
 
 		if(leftSideFunc)
@@ -298,13 +379,13 @@ public class GlobalGameObject : MonoBehaviour
 
 		if(leftSide)
 		{
-			GUI.color = new Color(1f, 1f, 1f, sideEffectAlpha);
+			GUI.color = new Color(1f, 1f, 1f, sideEffectLeftAlpha);
 			Rect sideGlowRect = new Rect(0f, 0f, Screen.width / 10f, Screen.height);
 			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/glow_side_01") as Texture);
 		}
 		if(rightSide)
 		{
-			GUI.color = new Color(1f, 1f, 1f, sideEffectAlpha);
+			GUI.color = new Color(1f, 1f, 1f, sideEffectRightAlpha);
 			Rect sideGlowRect = new Rect(Screen.width - Screen.width / 10f, 0f, Screen.width / 10f, Screen.height);
 			GUI.DrawTextureWithTexCoords(sideGlowRect, Resources.Load("Textures/glow_side_01") as Texture, new Rect(0f, 0f, -1f, 1f));
 		}
@@ -324,9 +405,9 @@ public class GlobalGameObject : MonoBehaviour
 
 		if(bonusEffectAlpha > 0f)
 		{
-			GUI.color = new Color(1f, 1f, 1f, bonusEffectAlpha);
+			GUI.color = new Color(0.4f, 0.4f, 1f, bonusEffectAlpha);
 			Rect sideGlowRect = new Rect(0f, 0f, Screen.width, Screen.height);
-			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/Interface/sprite_button_pause") as Texture);
+			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/Interface/glow_bonus_03") as Texture);
 		}
 
 	}
@@ -522,23 +603,33 @@ public class GlobalGameObject : MonoBehaviour
 		int objectToSpawnIndex = 0;
 
 		// level 1 och 2
-		if(thisLevel == 1 || thisLevel == 2)
+		if(thisLevel == 1)
+		{
+			if(probability < 0.60f) 
+				objectToSpawnIndex = 0; // 60% enemy
+			
+			else if(probability < 0.95f)
+				objectToSpawnIndex = 1; // 35% old man
+
+			else
+				objectToSpawnIndex = 2; // 5% ice cream girl
+		}
+		else if(thisLevel == 2)
 		{
 			if(probability < 0.60f) 
 				objectToSpawnIndex = 0; // 60% enemy
 			
 			else 
 				objectToSpawnIndex = 1; // 40% old man
-
-			
-			// if its time to spawn sister
-			if(setSisterInPlay)
-			{
-				objectToSpawnIndex = 2; 
-				setSisterInPlay = false;
-				sisterInPlay = true;
-			}
 		}
+		// if its time to spawn sister
+		if(setSisterInPlay)
+		{
+			objectToSpawnIndex = 3; 
+			setSisterInPlay = false;
+			sisterInPlay = true;
+		}
+		
 		return objectToSpawnIndex;
 	}
 

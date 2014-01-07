@@ -1,16 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Enemies\PersonInLove.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Buttons\Button.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Game\GlobalGameObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Effects\PopUp.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Effects\CoinPopup.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Effects\ComboPopup.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Effects\MultiplyerPopUp.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Trash\Trash.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Effects\Glow.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Trash\PowerUpTrash.cs" Line="82" Column="106" />
-      <File FileName="Assets\Resources\Scripts\Enemies\PersonInLove.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Buttons\Button.cs" Line="17" Column="3" />
+      <File FileName="Assets\Resources\Scripts\Enemies\Enemy.cs" Line="144" Column="4" />
+      <File FileName="Assets\Resources\Scripts\Menu\Menu.cs" Line="49" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Buttons\QuitButton.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Menu\MenuTree.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

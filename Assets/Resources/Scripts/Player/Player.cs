@@ -368,16 +368,16 @@ public class Player : MonoBehaviour
 		if(additionalMode == Mode.ICECREAM)
 		{
 			GUI.color = new Color(1f, 1f, 1f, fadeToBlue);
-			GUI.DrawTexture(new Rect(0f, 0f, 720f, 1280f), Resources.Load("Textures/Blue") as Texture);
+			GUI.DrawTexture(new Rect(0f, 0f, 1440f, 1280f), Resources.Load("Textures/sprite_powerup_icecream_freezescreen") as Texture);
 			GUI.color = new Color(1f, 1f, 1f, 1f);	
 			
-			if(fadeToBlue < 0.15f)
+			if(fadeToBlue < 0.95f)
 				fadeToBlue += 0.02f;
 		}
 		else if(fadeToBlue > 0f)
 		{
 			GUI.color = new Color(1f, 1f, 1f, fadeToBlue);
-			GUI.DrawTexture(new Rect(0f, 0f, 720f, 1280f), Resources.Load("Textures/Blue") as Texture);
+			GUI.DrawTexture(new Rect(0f, 0f, 1440f, 1280f), Resources.Load("Textures/sprite_powerup_icecream_freezescreen") as Texture);
 			GUI.color = new Color(1f, 1f, 1f, 1f);	
 
 			fadeToBlue -= 0.02f;

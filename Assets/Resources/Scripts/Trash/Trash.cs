@@ -9,7 +9,7 @@ public class Trash : MonoBehaviour
 	public Vector3 dir;
 	public int hitGround = 0;
 	public bool canBePickedUp = false;
-	public float[,] velocityY = new float[,] {{200f, 220f, 240f, 260f, 300f, 400f}, {260f, 300f, 330f, 360f, 400f, 450f}};
+	public float[,] velocityY = new float[,] {{150f, 180f, 210f, 250f, 290f, 380f}, {260f, 300f, 330f, 360f, 400f, 450f}};
 	public float alternativeSpeed = 200;
 	public int currentState = 0;
 	public int kindsOfSprites = 4;

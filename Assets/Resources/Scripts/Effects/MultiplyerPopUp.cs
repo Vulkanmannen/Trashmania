@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MultiplyerPopUp : MonoBehaviour {
 
-	public string[] multiplyerTextures = {"sprite_combo_2x", "sprite_combo_3x", "sprite_combo_4x", "sprite_combo_5x", "sprite_combo_6x"};
+	public string[] multiplyerTextures = {"sprite_combo_1x", "sprite_combo_2x", "sprite_combo_3x", "sprite_combo_4x", "sprite_combo_5x", "sprite_combo_6x"};
 
 	private GlobalGameObject globalGameObject;
 	private bool playdEndAnimation = false;

@@ -7,7 +7,7 @@ public class PowerUpTrash : Trash
 	public float timeInPowerUp = 12;
 	private bool pickedUp = false;
 	private CameraMovement myCamera;
-	private float alpha = 0f;
+	//private float alpha = 0f;
 
 	// start
 	protected override void start()

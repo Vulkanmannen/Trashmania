@@ -5,7 +5,6 @@ using System.Collections;
 public class Button : MonoBehaviour {
 
 	public Texture texture;	
-	public Texture textureDown;	
 	
 	public enum Level {STARTMENU, LEVEL1, LEVEL2, SHOP};
 	public Level level = Level.LEVEL1;
@@ -28,12 +27,12 @@ public class Button : MonoBehaviour {
 	
 	public void onPress()
 	{
-		renderer.material.mainTexture = textureDown;
+		renderer.material.SetColor("_Color", new Color(0.3f,0.1f,0.3f,1f));
 		canBePressed = true;
 	}
 	public void onNotPressedNoMore()
 	{
-		renderer.material.mainTexture = texture;
+		renderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 1f));
 		canBePressed = false;
 	}
 	
