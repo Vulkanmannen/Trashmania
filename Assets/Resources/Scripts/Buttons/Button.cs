@@ -5,15 +5,17 @@ using System.Collections;
 public class Button : MonoBehaviour {
 
 	public Texture texture;	
-	
+	public Texture pressedTexture;
+
 	public enum Level {STARTMENU, LEVEL1, LEVEL2, SHOP};
 	public Level level = Level.LEVEL1;
 	
-	private bool canBePressed = false;
+	protected bool canBePressed = false;
 	
 	void Start()
 	{	
-		renderer.material.mainTexture = texture;
+		if(renderer)
+			renderer.material.mainTexture = texture;
 	}
 	
 	void Update()
@@ -25,14 +27,16 @@ public class Button : MonoBehaviour {
 		}
 	}
 	
-	public void onPress()
+	public virtual void onPress()
 	{
-		renderer.material.SetColor("_Color", new Color(0.3f,0.1f,0.3f,1f));
+		if(renderer)
+			renderer.material.mainTexture = pressedTexture;
 		canBePressed = true;
 	}
 	public void onNotPressedNoMore()
 	{
-		renderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 1f));
+		if(renderer)
+			renderer.material.mainTexture = texture;
 		canBePressed = false;
 	}
 	

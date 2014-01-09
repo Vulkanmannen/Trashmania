@@ -18,6 +18,8 @@ public class GlobalGameObject : MonoBehaviour
 	public int points = 0;
 	public int numberOfCaughtTrash = 0;
 	public int numberOfTrashToWin = 100; 
+	public int numberOfTrashToGetTwoStars = 200;
+	public int numberOfTrashToGetThreeStars = 300;
 
 	public int numberOfNormalTrash = 0;
 	public int numberOfGlasTrash = 0;
@@ -636,7 +638,7 @@ public class GlobalGameObject : MonoBehaviour
 	public void saveScore()
 	{
 		// savePoints
-		int myPoints = points;
+		int myPoints = numberOfCaughtTrash;
 		for(int i = 0; i < 10; ++i)
 		{
 			string highScore = "AllTimeHighScore" + i.ToString();
@@ -649,10 +651,22 @@ public class GlobalGameObject : MonoBehaviour
 		}
 
 		// unlock next level
-		if(points >= pointsToUnlockNextLevel)
+		if(numberOfCaughtTrash >= numberOfTrashToWin)
 		{
 			string nextLevel = "LevelUnlocked" + (thisLevel + 1).ToString();
 			PlayerPrefs.SetInt(nextLevel, 1);
+
+			string starsOnThisLevel = "LevelStars" + thisLevel.ToString();
+			int stars = PlayerPrefs.GetInt(starsOnThisLevel);
+
+			if(numberOfCaughtTrash >= numberOfTrashToGetThreeStars)
+				PlayerPrefs.SetInt(starsOnThisLevel, 3);
+
+			else if(numberOfCaughtTrash >= numberOfTrashToGetTwoStars && stars < 2)
+				PlayerPrefs.SetInt(starsOnThisLevel, 2);
+
+			else if(stars < 1)
+				PlayerPrefs.SetInt(starsOnThisLevel, 1);
 		}
 	}
 }

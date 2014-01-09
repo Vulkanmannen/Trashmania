@@ -15,7 +15,13 @@ public class SaveVariables : MonoBehaviour
 				string level = "LevelUnlocked" + i.ToString();
 				PlayerPrefs.SetInt(level, 0);
 			}
-		
+
+			for( int i = 1; i <= 4; ++i)
+			{
+				string level = "LevelStars" + i.ToString();
+				PlayerPrefs.SetInt(level, 0);
+			}
+			
 			for( int i = 0; i < 10; ++i)
 			{
 				string highScore = "AllTimeHighScore" + i.ToString();
@@ -23,7 +29,7 @@ public class SaveVariables : MonoBehaviour
 			}
 		
 			PlayerPrefs.SetInt("CurrentLevel", 1);
-		
+
 			//  current menu in startMenu
 			PlayerPrefs.SetString("CurrentMenu", "StartMenu");
 		}
