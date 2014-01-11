@@ -1,11 +1,19 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Game\GlobalGameObject.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Buttons\ItemButtonShop.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Game\GlobalGameObject.cs" Line="666" Column="43" />
-      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="36" Column="5" />
-      <File FileName="Assets\Resources\Scripts\Menu\MenuTree.cs" Line="46" Column="4" />
-      <File FileName="Assets\Resources\Scripts\Menu\ThreeStars.cs" Line="9" Column="5" />
+      <File FileName="Assets\Resources\Scripts\Menu\Shop.cs" Line="7" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Menu\MenuTree.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Game\GlobalGameObject.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Menu\ThreeStars.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Menu\Menu.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Buttons\ShopTab.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Buttons\ShopTapButton.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Buttons\Button.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Menu\SpeechBubble.cs" Line="6" Column="7" />
+      <File FileName="Assets\Resources\Scripts\Game\EnemyPath.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Buttons\ItemButtonShop.cs" Line="16" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

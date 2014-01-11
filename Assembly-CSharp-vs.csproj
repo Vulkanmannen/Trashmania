@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_WEBPLAYER;WEBPLUG;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_GENERICS;ENABLE_SUBSTANCE;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_3_0;UNITY_4_3;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_GENERICS;ENABLE_SUBSTANCE;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_3_0;UNITY_4_3;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;1</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -51,9 +51,12 @@
      <Compile Include="Assets\Resources\Scripts\Buttons\Button.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeMenuButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeToLevelIfAvailable.cs" />
+     <Compile Include="Assets\Resources\Scripts\Buttons\ItemButtonShop.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\LoadCurrentLevel.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\PieceOfMap.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\QuitButton.cs" />
+     <Compile Include="Assets\Resources\Scripts\Buttons\ShopTab.cs" />
+     <Compile Include="Assets\Resources\Scripts\Buttons\ShopTapButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ToStartMenuFromGame.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\UnpauseButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\CoinPopup.cs" />
@@ -84,7 +87,9 @@
      <Compile Include="Assets\Resources\Scripts\HighScore.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu\Menu.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu\MenuTree.cs" />
+     <Compile Include="Assets\Resources\Scripts\Menu\Shop.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu\ShowResult.cs" />
+     <Compile Include="Assets\Resources\Scripts\Menu\SpeechBubble.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu\ThreeStars.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\TrashCanCollider.cs" />

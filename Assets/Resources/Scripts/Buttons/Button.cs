@@ -2,12 +2,13 @@
 using System.Collections;
 
 
-public class Button : MonoBehaviour {
+public class Button : MonoBehaviour 
+{
 
 	public Texture texture;	
 	public Texture pressedTexture;
 
-	public enum Level {STARTMENU, LEVEL1, LEVEL2, SHOP};
+	public enum Level {STARTMENU, LEVEL1, LEVEL2};
 	public Level level = Level.LEVEL1;
 	
 	protected bool canBePressed = false;
@@ -33,7 +34,7 @@ public class Button : MonoBehaviour {
 			renderer.material.mainTexture = pressedTexture;
 		canBePressed = true;
 	}
-	public void onNotPressedNoMore()
+	public virtual void onNotPressedNoMore()
 	{
 		if(renderer)
 			renderer.material.mainTexture = texture;
