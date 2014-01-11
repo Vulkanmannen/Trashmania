@@ -41,6 +41,7 @@ public class MenuTree : MonoBehaviour
 				else if(menu.name == prevMenu)
 					menu.GetComponent<Animation>().Play("MenuOutAnimation");
 			}
+
 			prevMenu = currentMenu;
 		}
 	}

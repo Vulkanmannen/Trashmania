@@ -1,0 +1,9 @@
+info face="font" size=32 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1
+common lineHeight=150 base=26 scaleW=701 scaleH=101 pages=1 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
+page id=0 file="font.png"
+chars count=12
+char id=48 x=0 y=0 width=700 height=100 xoffset=0 yoffset=50 xadvance=770 page=0 chnl=0 letter="0"
+char id=32 x=0 y=0 width=0 height=0 xoffset=0 yoffset=0 xadvance=489 page=0 chnl=0 letter=" "
+char id=9 x=0 y=0 width=0 height=0 xoffset=0 yoffset=0 xadvance=3912 page=0 chnl=0 letter="	"
+
+kernings count=0

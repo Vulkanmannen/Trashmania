@@ -37,12 +37,12 @@ public class Menu : MonoBehaviour {
 		}
 		
 		// -----------------------------BackButton-----------------------------
-		if(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
-		{
+		//if(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+		//{
 			if(currentMenu && Input.GetKey(KeyCode.Escape))
 			{
 				transform.parent.GetComponent<MenuTree>().currentMenu = backMenu;
 			}
-		}
+		//}
 	}
 }

@@ -1,9 +1,17 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: f13acd6c0a990ae4c8c7b8799901ba5d
 TrueTypeFontImporter:
   serializedVersion: 2
   fontSize: 100
   forceTextureCase: -1
+=======
+guid: dc803b699a8f978478894e2b1b29f80a
+TrueTypeFontImporter:
+  serializedVersion: 2
+  fontSize: 16
+  forceTextureCase: -2
+>>>>>>> origin/master
   characterSpacing: 1
   characterPadding: 0
   includeFontData: 1

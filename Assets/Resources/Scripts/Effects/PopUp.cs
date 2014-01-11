@@ -4,7 +4,7 @@ using System.Collections;
 public class PopUp : MonoBehaviour {
 
 	public float timeOnScreen = 2;
-	public bool playdEndAnimation = false;
+	protected bool playdEndAnimation = false;
 	
 	void Start () 
 	{

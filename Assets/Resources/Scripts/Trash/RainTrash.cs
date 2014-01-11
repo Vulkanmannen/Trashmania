@@ -26,4 +26,16 @@ public class RainTrash : Trash
 		globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
 		destroyAndPoff(totalPoints.ToString());
 	}
+	// fixed update
+	protected override void myFixedUpdate()
+	{
+		// get current stage
+		currentState = globalGameObject.GetComponent<GlobalGameObject>().currentState;
+		
+
+		rigidbody.velocity = new Vector3((bounce ? rigidbody.velocity.x : 0f), -alternativeSpeed, 0f) + dir;
+
+		
+		myXVelocity = rigidbody.velocity.x;
+	}
 }

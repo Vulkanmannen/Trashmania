@@ -239,7 +239,7 @@ public class Player : MonoBehaviour
 			{
 				GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.WALK, 12, true);
 				animationMode = AnimationMode.WALK;
-				transform.localScale = new Vector3(15, 18, 20);
+				transform.localScale = new Vector3(15, 18, 100);
 			}	
 
 			// ---------------------------------trash can--------------------------------------------
@@ -368,16 +368,16 @@ public class Player : MonoBehaviour
 		if(additionalMode == Mode.ICECREAM)
 		{
 			GUI.color = new Color(1f, 1f, 1f, fadeToBlue);
-			GUI.DrawTexture(new Rect(0f, 0f, 720f, 1280f), Resources.Load("Textures/Blue") as Texture);
+			GUI.DrawTexture(new Rect(0f, 0f, 1440f, 1280f), Resources.Load("Textures/sprite_powerup_icecream_freezescreen") as Texture);
 			GUI.color = new Color(1f, 1f, 1f, 1f);	
 			
-			if(fadeToBlue < 0.15f)
+			if(fadeToBlue < 0.95f)
 				fadeToBlue += 0.02f;
 		}
 		else if(fadeToBlue > 0f)
 		{
 			GUI.color = new Color(1f, 1f, 1f, fadeToBlue);
-			GUI.DrawTexture(new Rect(0f, 0f, 720f, 1280f), Resources.Load("Textures/Blue") as Texture);
+			GUI.DrawTexture(new Rect(0f, 0f, 1440f, 1280f), Resources.Load("Textures/sprite_powerup_icecream_freezescreen") as Texture);
 			GUI.color = new Color(1f, 1f, 1f, 1f);	
 
 			fadeToBlue -= 0.02f;
@@ -460,7 +460,7 @@ public class Player : MonoBehaviour
 		mode = Mode.NORMAL;
 		GameObject collider = GameObject.FindWithTag("TrashCollider");
 		collider.GetComponent<TrashCanCollider>().offset.y = 100;
-		collider.GetComponent<TrashCanCollider>().transform.localScale = new Vector3(73f, 5f, 2f);
+		collider.GetComponent<TrashCanCollider>().transform.localScale = new Vector3(73f, 5f, 100f);
 		collider.GetComponent<TrashCanCollider>().transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
 		
 		if(oldMode == Mode.TRUCK)
@@ -475,12 +475,12 @@ public class Player : MonoBehaviour
 		mode = Mode.TRUCK;
 		
 		// set size of object
-		transform.localScale = new Vector3(30, 18, 20);
+		transform.localScale = new Vector3(30, 18, 100);
 		
 		// set collider to new pos
 		GameObject collider = GameObject.FindWithTag("TrashCollider");
 		collider.GetComponent<TrashCanCollider>().offset.y = 240;
-		collider.GetComponent<TrashCanCollider>().transform.localScale = new Vector3(255f, 5f, 2f);
+		collider.GetComponent<TrashCanCollider>().transform.localScale = new Vector3(255f, 5f, 100f);
 		collider.GetComponent<TrashCanCollider>().transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 5.3f));
 		
 		// set animation

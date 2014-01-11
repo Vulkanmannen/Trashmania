@@ -7,6 +7,6 @@ public class ChangeMenuButton : Button
 	
 	public override void action()
 	{
-		transform.parent.parent.GetComponent<MenuTree>().currentMenu = changeTo;
+		transform.parent.GetComponent<MenuTree>().currentMenu = changeTo;
 	}
 }
