@@ -7,26 +7,45 @@ public class ItemButtonShop : MonoBehaviour {
 	public string itemName;
 	public Texture image;
 	public Texture costImage;
-	
-	public enum ItemButtonType {SKIN, COIN, LIVES, POWERUP};
-	public ItemButtonType type = ItemButtonType.SKIN;
+
+	public ItemButtonStruct.ItemButtonType type = ItemButtonStruct.ItemButtonType.SKIN;
 	
 	public int value = 5;
 
-	public void setInfo(int newCost, string newName, string imageTexture, string costTexture, int newValue, ItemButtonType newType)
+	public int number = 0;
+
+	public void setInfo(ItemButtonStruct item)
 	{
-		cost = newCost;
-		itemName = newName;
-		
-		string textureName = "Textures/Shop" + imageTexture;
-		image = Resources.Load(textureName) as Texture;
-		
-		textureName = "Textures/Shop" + costTexture;
-		image = Resources.Load(textureName) as Texture;
-		
-		value = newValue;
-		type = newType;
+		cost = item.cost;
+		itemName = item.itemName;
+
+		string getImage = "Textures/Shop/" + item.image;
+		image = Resources.Load(getImage) as Texture;
+
+		getImage = "Textures/Shop/" + item.costImage;
+		costImage = Resources.Load(getImage) as Texture;
+
+		value = item.value;
+		type = item.type;
+
+		foreach(Transform info in GetComponentsInChildren<Transform>())
+		{
+			if(info.name == "cost")
+			{
+				info.renderer.material.mainTexture = costImage;
+			}
+			else if(info.name == "costText")
+			{
+				info.GetComponent<TextMesh>().text = cost.ToString();
+			}
+			else if(info.name == "image")
+			{
+				info.renderer.material.mainTexture = image;
+			}
+			else if(info.name == "name")
+			{
+				info.GetComponent<TextMesh>().text = itemName;
+			}
+		}
 	}
-
-
 }

@@ -5,6 +5,7 @@ public class ShopTapButton : Button
 {
 	public bool activeButton = false; 
 	public string tabName = "skins";
+	public int tab = 0;
 
 	void Start()
 	{	
@@ -36,7 +37,7 @@ public class ShopTapButton : Button
 
 	public override void action()
 	{
-		transform.parent.GetComponent<ShopTab>().changeActiveTab(tabName);
+		transform.parent.GetComponent<ShopTab>().changeActiveTab(tabName, tab);
 	}	
 
 }

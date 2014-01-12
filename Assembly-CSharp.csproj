@@ -50,8 +50,11 @@
      <Compile Include="Assets\Resources\Scripts\AnimationScriptCan.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\Button.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeMenuButton.cs" />
+     <Compile Include="Assets\Resources\Scripts\Buttons\ChangeSideShop.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeToLevelIfAvailable.cs" />
+     <Compile Include="Assets\Resources\Scripts\Buttons\CloseZoomdWindow.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ItemButtonShop.cs" />
+     <Compile Include="Assets\Resources\Scripts\Buttons\ItemButtonShopPress.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\LoadCurrentLevel.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\PieceOfMap.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\QuitButton.cs" />
