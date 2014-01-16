@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour 
 {
@@ -15,8 +16,6 @@ public class Player : MonoBehaviour
 	public Mode mode = Mode.NORMAL;
 	public Mode additionalMode = Mode.NORMAL;
 
-	public Mode[] powerUp;
-
 	public GlobalGameObject globalGameObject;
 	public GlobalGameObject.GameEvent currentEvent;
 	
@@ -29,12 +28,16 @@ public class Player : MonoBehaviour
 	
 	public bool isLeft = false;
 	public bool wasLeft = false;
+
+	public Texture[] textures;
+
 	private float turningTimer = 0;
 	private float modeTimer =  0;	
 	private float additionalModeTimer =  0;
 	private float fadeToBlue = 0;
 	private ArrowGradient power;
 	private bool bulgeing = false;
+	private List<Mode> powerUp = new List<Mode>();
 
 	//private float[] fingerPosY = {0f, 0f, 0f};
 	//private float[] fingerPosX = {0f, 0f, 0f};
@@ -49,6 +52,16 @@ public class Player : MonoBehaviour
 
 		// trash bulge
 		GetComponentInChildren<AnimationScriptCan>().setAnimation(1, 1, false, 0);
+
+		// skin
+		renderer.material.mainTexture = textures[PlayerPrefs.GetInt("Equiped")];
+
+		// powerup
+		int size = PlayerPrefs.GetInt("PowerUpSlots");
+		for(int i = 0; i < size; ++i)
+		{
+			powerUp.Add(Mode.NORMAL);
+		}
 	}
 	
 	// Update is called once per frame
@@ -332,7 +345,7 @@ public class Player : MonoBehaviour
 	{
 		if(globalGameObject.currentEvent != GlobalGameObject.GameEvent.GAMEOVER)
 		{
-			for(int i = 0; i < powerUp.Length; ++i)
+			for(int i = 0; i < powerUp.Count; ++i)
 			{
 				Rect rectButton = new Rect(Screen.width - Screen.width / 4.8f, Screen.height / 2f - (Screen.width / 4.5f + 10) * i, Screen.width / 4.5f, Screen.width / 4.5f);
 				Rect rect = new Rect(Screen.width - Screen.width / 4.8f, Screen.height / 2f - (Screen.width / 4.5f + 10) * i, Screen.width / 4.5f, Screen.width / 4.5f);
@@ -515,7 +528,7 @@ public class Player : MonoBehaviour
 	public void addPowerUp(Player.Mode newPowerUp)
 	{
 		bool added = false;
-		for(int i = 0; i < powerUp.Length; ++i)
+		for(int i = 0; i < powerUp.Count; ++i)
 		{
 			if(powerUp[i] == Mode.NORMAL)
 			{

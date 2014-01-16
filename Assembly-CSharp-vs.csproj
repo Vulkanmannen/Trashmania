@@ -49,10 +49,12 @@
      <Compile Include="Assets\Resources\Scripts\AnimationScript.cs" />
      <Compile Include="Assets\Resources\Scripts\AnimationScriptCan.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\Button.cs" />
+     <Compile Include="Assets\Resources\Scripts\Buttons\ByeButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeMenuButton.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeSideShop.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeToLevelIfAvailable.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\CloseZoomdWindow.cs" />
+     <Compile Include="Assets\Resources\Scripts\Buttons\Equip.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ItemButtonShop.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ItemButtonShopPress.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\LoadCurrentLevel.cs" />
@@ -92,6 +94,7 @@
      <Compile Include="Assets\Resources\Scripts\Menu\MenuTree.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu\Shop.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu\ShowResult.cs" />
+     <Compile Include="Assets\Resources\Scripts\Menu\ShowSavedVariable.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu\SpeechBubble.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu\ThreeStars.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\Player.cs" />

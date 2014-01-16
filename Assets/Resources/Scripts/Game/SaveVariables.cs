@@ -27,7 +27,20 @@ public class SaveVariables : MonoBehaviour
 				string highScore = "AllTimeHighScore" + i.ToString();
 				PlayerPrefs.SetInt(highScore, 0);
 			}
-		
+
+			// items
+			for( int i = 0; i < 8; ++i)
+			{
+				string items = "BoughtItem" + i.ToString();
+				PlayerPrefs.SetInt(items, 0);
+			}
+
+			// equiped
+			PlayerPrefs.SetInt("Equiped", 0);
+
+			// slots
+			PlayerPrefs.SetInt("PowerUpSlots", 1);
+
 			PlayerPrefs.SetInt("CurrentLevel", 1);
 
 			//  current menu in startMenu
@@ -38,5 +51,6 @@ public class SaveVariables : MonoBehaviour
 			PlayerPrefs.SetInt("Coins", 7);
 		}
 		//PlayerPrefs.DeleteAll();
+
 	}
 }

@@ -17,6 +17,13 @@ public class Button : MonoBehaviour
 	{	
 		if(renderer)
 			renderer.material.mainTexture = texture;
+
+		myStart();
+	}
+
+	public virtual void myStart()
+	{
+
 	}
 	
 	void Update()
