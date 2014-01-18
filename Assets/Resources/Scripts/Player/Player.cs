@@ -534,6 +534,7 @@ public class Player : MonoBehaviour
 			{
 				added = true;
 				powerUp[i] = newPowerUp;
+				break;
 			}
 		}
 

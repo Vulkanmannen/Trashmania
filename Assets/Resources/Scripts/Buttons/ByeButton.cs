@@ -31,7 +31,7 @@ public class ByeButton : Button
 			PlayerPrefs.SetInt("Coins", money);
 		}
 
-		if(type == ItemButtonStruct.ItemButtonType.SKIN)
+		if(type == ItemButtonStruct.ItemButtonType.SKIN || type == ItemButtonStruct.ItemButtonType.POWERUP)
 		{
 			if(cost < money)
 			{
@@ -53,6 +53,21 @@ public class ByeButton : Button
 				// money
 				money -= cost;
 				PlayerPrefs.SetInt("Coins", money);
+			}
+		}
+
+		if(type == ItemButtonStruct.ItemButtonType.POWERUP)
+		{
+			switch(item.itemName)
+			{
+			
+			case "TwoRutor" :
+			{
+				PlayerPrefs.SetInt("PowerUpSlots", 2);		
+			}
+			break;
+
+			default : {} break;
 			}
 		}
 	}

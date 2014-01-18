@@ -10,7 +10,9 @@ public class Button : MonoBehaviour
 
 	public enum Level {STARTMENU, LEVEL1, LEVEL2};
 	public Level level = Level.LEVEL1;
-	
+
+	public bool active = true;
+
 	protected bool canBePressed = false;
 	
 	void Start()
@@ -27,6 +29,11 @@ public class Button : MonoBehaviour
 	}
 	
 	void Update()
+	{
+		myUpdate();
+	}
+
+	protected virtual void myUpdate()
 	{
 		if(canBePressed && !Input.GetMouseButton(0))
 		{

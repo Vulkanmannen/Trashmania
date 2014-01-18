@@ -24,15 +24,15 @@ public class ItemButtonShopPress : Button
 		if(!shop.zoom)
 		{
 			renderer.material.mainTexture = pressedTexture;
-			canBePressed = true;
 		}
+		canBePressed = true;
 	}
 	public override void onNotPressedNoMore()
 	{
 		if(!shop.zoom)
 		{
 			renderer.material.mainTexture = texture;
-			canBePressed = false;
 		}
+		canBePressed = false;
 	}
 }

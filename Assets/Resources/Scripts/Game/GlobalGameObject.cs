@@ -381,13 +381,13 @@ public class GlobalGameObject : MonoBehaviour
 
 		if(leftSide)
 		{
-			GUI.color = new Color(1f, 1f, 1f, sideEffectLeftAlpha);
+			GUI.color = new Color(1f, 0.9f, 0.2f, sideEffectLeftAlpha);
 			Rect sideGlowRect = new Rect(0f, 0f, Screen.width / 10f, Screen.height);
 			GUI.DrawTexture(sideGlowRect, Resources.Load("Textures/glow_side_01") as Texture);
 		}
 		if(rightSide)
 		{
-			GUI.color = new Color(1f, 1f, 1f, sideEffectRightAlpha);
+			GUI.color = new Color(1f, 0.9f, 0.2f, sideEffectRightAlpha);
 			Rect sideGlowRect = new Rect(Screen.width - Screen.width / 10f, 0f, Screen.width / 10f, Screen.height);
 			GUI.DrawTextureWithTexCoords(sideGlowRect, Resources.Load("Textures/glow_side_01") as Texture, new Rect(0f, 0f, -1f, 1f));
 		}
@@ -569,11 +569,8 @@ public class GlobalGameObject : MonoBehaviour
 		{
 			saveScore();
 
-			GameObject.FindWithTag("GameOverMenu").animation.Play("PauseMenuInAnimation");
-			//GameObject newObject = (GameObject)Instantiate(popup, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));
-			//newObject.transform.parent = myCamera.transform;
-			//newObject.GetComponent<PopUp>().setTexture(gameOverTexture);
-			//newObject.GetComponent<PopUp>().timeOnScreen = gameOverPopupTime;
+			ShowResult deadScreen = GameObject.FindWithTag("GameOverMenu").GetComponent<ShowResult>();
+			deadScreen.setShowScore();
 		}
 		
 		// CatchFive
@@ -649,6 +646,11 @@ public class GlobalGameObject : MonoBehaviour
 				PlayerPrefs.SetInt(highScore, tempPoints);
 			}
 		}
+
+		// add coins
+		int coins = PlayerPrefs.GetInt("Coins");
+		coins += myPoints / 50;
+		PlayerPrefs.SetInt("Coins", coins);
 
 		// unlock next level
 		if(numberOfCaughtTrash >= numberOfTrashToWin)

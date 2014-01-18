@@ -4,11 +4,12 @@ using System.Collections;
 public class ThreeStars : MonoBehaviour 
 {
 	public string thisLevel = "LevelStars1";
+
 	void Start() 
 	{
-		//PlayerPrefs.SetInt(thisLevel, 0);
+		int stars;
 
-		int stars = PlayerPrefs.GetInt(thisLevel);
+		stars = PlayerPrefs.GetInt(thisLevel);
 
 		for(int i = 0; i < stars; ++i)
 		{

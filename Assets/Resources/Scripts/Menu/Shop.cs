@@ -101,16 +101,13 @@ public class Shop : MonoBehaviour
 		zoomAnimation.Play("ZoomWindowInAnimation");
 		zoomdItem = side * 4 + item;
 		setInfo();
-		Debug.Log("HejDå");
 	}
 
 	public void zoomOutItem()
 	{
-
 		zoomAnimation.Play("ZoomWindowOutAnimation");
 		setInfo();
 		zoom = false;
-		Debug.Log("Hej");
 	}
 
 	void setInfo()
@@ -169,7 +166,7 @@ public class Shop : MonoBehaviour
 		items[index].Add(item);
 		item = new ItemButtonStruct(23,		"PolarBear",	"menu_shop_close",			"menu_shop_sprite_coin",	0,		ItemButtonStruct.ItemButtonType.SKIN,		PlayerPrefs.GetInt("BoughtItem6") == 1 ? true : false,	equiped == 6);
 		items[index].Add(item);
-		item = new ItemButtonStruct(56,		"PolarBear",	"menu_shop_sprite_coin",	"menu_shop_byebutton",		0,		ItemButtonStruct.ItemButtonType.POWERUP,	PlayerPrefs.GetInt("BoughtItem7") == 1 ? true : false,	equiped == 7);
+		item = new ItemButtonStruct(56,		"TwoRutor",		"menu_shop_sprite_coin",	"menu_shop_byebutton",		0,		ItemButtonStruct.ItemButtonType.POWERUP,	PlayerPrefs.GetInt("BoughtItem7") == 1 ? true : false,	equiped == 7);
 		items[index].Add(item);
 		
 		index = 2;
