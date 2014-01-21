@@ -27,6 +27,38 @@ public class MenuTree : MonoBehaviour
 		}
 
 		prevMenu = currentMenu;
+
+		// regenerate lives
+
+		int lives = PlayerPrefs.GetInt("Lives");
+
+		if(lives < 5)
+		{
+			bool wasOverFourLives = PlayerPrefs.GetInt("WasOverFourLives") == 1;
+			System.DateTime time = System.DateTime.Now;
+
+			if(wasOverFourLives)
+			{
+				PlayerPrefs.SetInt("WasOverFourLives", 0);
+				PlayerPrefs.SetInt("Day", time.Day);
+				PlayerPrefs.SetInt("Hoer", time.Hour);
+			}
+
+			int day = PlayerPrefs.GetInt("Day");
+			int hoer = PlayerPrefs.GetInt("Hoer");
+
+			if(day != time.Day)
+			{
+				PlayerPrefs.SetInt("Lives", 5);
+				PlayerPrefs.SetInt("Day", time.Day);
+			}
+			else if(hoer < time.Hour - 3)
+			{
+				lives++;
+				PlayerPrefs.SetInt("Lives", lives);
+			}
+			PlayerPrefs.SetInt("Hoer", time.Hour);
+		}
 	}
 	
 	void Update() 

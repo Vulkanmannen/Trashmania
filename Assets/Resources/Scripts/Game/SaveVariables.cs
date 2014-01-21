@@ -5,6 +5,8 @@ public class SaveVariables : MonoBehaviour
 {
 	void Start () 
 	{
+		PlayerPrefs.DeleteAll();
+
 		if(PlayerPrefs.GetInt("LodedVariables") != 1)
 		{
 			PlayerPrefs.SetInt("LodedVariables", 1);
@@ -49,8 +51,28 @@ public class SaveVariables : MonoBehaviour
 			// lives and coins
 			PlayerPrefs.SetInt("Lives", 5);
 			PlayerPrefs.SetInt("Coins", 7);
-		}
-		//PlayerPrefs.DeleteAll();
 
+			// regenerate lives
+			System.DateTime time = System.DateTime.Now;
+
+			PlayerPrefs.SetInt("WasOverFourLives", 1);
+			PlayerPrefs.SetInt("Day", time.Day);
+			PlayerPrefs.SetInt("Hoer", time.Hour);
+
+			// achievements
+			for( int i = 0; i < 5; ++i)
+			{
+				string achievements = "Achievement" + i.ToString();
+				PlayerPrefs.SetInt(achievements, 0);
+			}
+
+			// jewels
+			for( int i = 0; i < 4; ++i)
+			{
+				string jewels = "Jewel" + i.ToString();
+				PlayerPrefs.SetInt(jewels, 0);
+			}
+
+		}
 	}
 }

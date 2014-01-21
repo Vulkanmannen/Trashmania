@@ -1,16 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Menu\ShowResult.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Trash\Jewel.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Buttons\Button.cs" Line="38" Column="46" />
-      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Menu\Shop.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Buttons\ItemButtonShop.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Menu\ShowResult.cs" Line="57" Column="69" />
-      <File FileName="Assets\Resources\Scripts\Buttons\ToStartMenuFromGame.cs" Line="15" Column="23" />
-      <File FileName="Assets\Resources\Scripts\Buttons\LoadCurrentLevel.cs" Line="39" Column="2" />
-      <File FileName="Assets\Resources\Scripts\Game\GlobalGameObject.cs" Line="19" Column="37" />
-      <File FileName="Assets\Resources\Scripts\Menu\ThreeStars.cs" Line="22" Column="3" />
+      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="74" Column="5" />
+      <File FileName="Assets\Resources\Scripts\Menu\Achievements.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Buttons\ToStartMenuFromGame.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Buttons\LoadCurrentLevel.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Game\GetAchievement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Game\GlobalGameObject.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Player\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Enemies\PersonInLove.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Enemies\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Trash\Heart.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Trash\Trash.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Trash\Jewel.cs" Line="6" Column="11" />
+      <File FileName="Assets\Resources\Scripts\Menu\ShowJewel.cs" Line="17" Column="44" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

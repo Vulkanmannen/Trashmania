@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 
 	public GlobalGameObject globalGameObject;
 	public GlobalGameObject.GameEvent currentEvent;
+	public GetAchievement achievements;
 	
 	//public bool jumpPressed = false;
 	//public float jumpSpeed = 250;
@@ -47,6 +48,7 @@ public class Player : MonoBehaviour
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 		
 		globalGameObject = GameObject.FindWithTag("GlobalGameObject").GetComponent<GlobalGameObject>();
+		achievements = globalGameObject.GetComponent<GetAchievement>();
 
 		power = GameObject.FindWithTag("Power").GetComponent<ArrowGradient>();
 
@@ -330,6 +332,9 @@ public class Player : MonoBehaviour
 				{
 					if(raycastHit.transform.GetComponent<Trash>())
 					{
+						if(raycastHit.transform.GetComponent<BonusTrashCatchFive>())
+							achievements.starsWhitIcecream++;
+						
 						raycastHit.transform.GetComponent<Trash>().hitTrashCollider();
 					}
 				}
@@ -464,6 +469,8 @@ public class Player : MonoBehaviour
 		if(oldMode == Mode.ICECREAM)
 		{
 			Time.timeScale = 1f;
+			achievements.numberOfIcecream++;
+			achievements.starsWhitIcecream = 0;
 		}
 	}
 	

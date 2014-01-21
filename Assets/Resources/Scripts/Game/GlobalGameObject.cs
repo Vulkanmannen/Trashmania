@@ -72,14 +72,29 @@ public class GlobalGameObject : MonoBehaviour
 	//private bool gameOverPopupTimeRunOut = false;
 	
 	public GameObject myCamera;
+	public GetAchievement achievements;
 
 	void Start()
 	{
 		myCamera = GameObject.FindWithTag("MainCamera");
+		achievements = gameObject.GetComponent<GetAchievement>();
 		
 		doubleBigTrashTimer = Time.timeSinceLevelLoad + 20f;
 
 		PlayerPrefs.SetInt("CurrentLevel", thisLevel);
+
+		if(thisLevel > 1)
+		{
+			int lives = PlayerPrefs.GetInt("Lives");
+
+			if(lives > 4)
+				PlayerPrefs.SetInt("WasOverFourLives", 1);
+
+			lives--;
+			PlayerPrefs.SetInt("Lives", lives);
+		}
+
+		regenerateLives();
 	}
 	
 	void Update ()
@@ -632,6 +647,39 @@ public class GlobalGameObject : MonoBehaviour
 		return objectToSpawnIndex;
 	}
 
+	void regenerateLives()
+	{
+		int lives = PlayerPrefs.GetInt("Lives");
+		
+		if(lives < 5)
+		{
+			bool wasOverFourLives = PlayerPrefs.GetInt("WasOverFourLives") == 1;
+			System.DateTime time = System.DateTime.Now;
+			
+			if(wasOverFourLives)
+			{
+				PlayerPrefs.SetInt("WasOverFourLives", 0);
+				PlayerPrefs.SetInt("Day", time.Day);
+				PlayerPrefs.SetInt("Hoer", time.Hour);
+			}
+			
+			int day = PlayerPrefs.GetInt("Day");
+			int hoer = PlayerPrefs.GetInt("Hoer");
+			
+			if(day != time.Day)
+			{
+				PlayerPrefs.SetInt("Lives", 5);
+				PlayerPrefs.SetInt("Day", time.Day);
+			}
+			else if(hoer < time.Hour - 3)
+			{
+				lives++;
+				PlayerPrefs.SetInt("Lives", lives);
+			}
+			PlayerPrefs.SetInt("Hoer", time.Hour);
+		}
+	}
+
 	public void saveScore()
 	{
 		// savePoints
@@ -649,7 +697,7 @@ public class GlobalGameObject : MonoBehaviour
 
 		// add coins
 		int coins = PlayerPrefs.GetInt("Coins");
-		coins += myPoints / 50;
+		coins += numberOfCaughtTrash / 50;
 		PlayerPrefs.SetInt("Coins", coins);
 
 		// unlock next level

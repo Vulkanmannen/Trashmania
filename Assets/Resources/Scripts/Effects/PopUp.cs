@@ -29,11 +29,16 @@ public class PopUp : MonoBehaviour {
 	{
 		if(timeOnScreen < Time.timeSinceLevelLoad && !playdEndAnimation)
 		{
-			GetComponent<Animation>().Play("PopupOutAnimation");
-			playdEndAnimation = true;
+			close();
 		}
 		else if(!GetComponent<Animation>().IsPlaying("PopupOutAnimation") && playdEndAnimation)
 			Destroy(this.gameObject);
+	}
+
+	public void close()
+	{
+		GetComponent<Animation>().Play("PopupOutAnimation");
+		playdEndAnimation = true;
 	}
 	
 	public void setTexture(string texture)

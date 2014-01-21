@@ -30,11 +30,14 @@ public class Trash : MonoBehaviour
 	protected int rotationDir = 0;
 	
 	public float myXVelocity = 0;
-	
+	protected GetAchievement achievements;
+
 	void Start ()
 	{
 		globalGameObject = GameObject.FindWithTag("GlobalGameObject");
-		
+
+		achievements = globalGameObject.GetComponent<GetAchievement>();
+
 		rotationDir = (Random.Range(-100, 101) > 0 ? 1 : -1);
 		
 		thisLevel = globalGameObject.GetComponent<GlobalGameObject>().thisLevel;
@@ -134,6 +137,11 @@ public class Trash : MonoBehaviour
 
 	public virtual void hitTrashCollider()
 	{
+		if(gameObject.GetComponentInChildren<AnimationScript>().index == 2)
+			achievements.sameKindInARow++;
+		else
+			achievements.sameKindInARow = 0;
+
 		globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;	
 		globalGameObject.GetComponent<GlobalGameObject>().numberOfCaughtTrash++;
 		globalGameObject.GetComponent<GlobalGameObject>().numberOfNormalTrash++;

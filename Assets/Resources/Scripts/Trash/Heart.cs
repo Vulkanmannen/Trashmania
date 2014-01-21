@@ -26,6 +26,7 @@ public class Heart : Trash
 	}
 	public override void hitTrashCollider()
 	{
+		achievements.heartBonus++;
 		int totalPoints = points;
 		globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
 		destroyAndPoff(totalPoints.ToString());

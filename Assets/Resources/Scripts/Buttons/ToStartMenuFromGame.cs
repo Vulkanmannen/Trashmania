@@ -10,8 +10,13 @@ public class ToStartMenuFromGame : Button
 		if(active)
 		{
 			GlobalGameObject globalGameObject = GameObject.FindWithTag("GlobalGameObject").GetComponent<GlobalGameObject>();
-			globalGameObject.pause = false;
-			globalGameObject.saveScore();
+
+			if(globalGameObject.pause)
+			{
+				globalGameObject.saveScore();
+				globalGameObject.pause = false;
+			}
+
 			Time.timeScale = 1;
 			PlayerPrefs.SetString("CurrentMenu", menu);
 			Application.LoadLevel(0);
@@ -29,13 +34,13 @@ public class ToStartMenuFromGame : Button
 		}
 	}
 
-	public virtual void onPress()
+	public override void onPress()
 	{
 		if(active)
 			renderer.material.mainTexture = pressedTexture;
 		canBePressed = true;
 	}
-	public virtual void onNotPressedNoMore()
+	public override void onNotPressedNoMore()
 	{
 		if(active)
 			renderer.material.mainTexture = texture;

@@ -3,11 +3,13 @@ using System.Collections;
 
 public class CoinPopup : PopUp 
 {
-	
+	GetAchievement achievement;
+
 	// myStart
 	protected override void myStart()
 	{
 		GetComponent<Animation>().Play("PopupCoinInAnimation");
+		achievement = GameObject.FindWithTag("GlobalGameObject").GetComponent<GetAchievement>();
 	}
 	
 	// myUpdate
@@ -19,6 +21,9 @@ public class CoinPopup : PopUp
 			playdEndAnimation = true;
 		}
 		else if(!GetComponent<Animation>().IsPlaying("PopupCoinOutAnimation") && playdEndAnimation)
+		{
+			achievement.moneyGone = true;
 			Destroy(this.gameObject);
+		}
 	}
 }

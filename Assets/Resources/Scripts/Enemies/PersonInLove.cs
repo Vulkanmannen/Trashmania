@@ -11,7 +11,7 @@ public class PersonInLove : Enemy
 	public bool thrownPrize = false;
 	
 	public PersonInLove partner;
-	
+
 	// start
 	protected override void myStart()
 	{

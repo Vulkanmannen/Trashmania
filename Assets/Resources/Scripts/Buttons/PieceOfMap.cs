@@ -11,6 +11,9 @@ public class PieceOfMap : MonoBehaviour
 
 	void Start () 
 	{
+		string unlockedLevel = transform.parent.GetComponent<ChangeToLevelIfAvailable>().unlockedLevel;
+		locked = PlayerPrefs.GetInt(unlockedLevel) != 1;
+
 		renderer.material.mainTexture = textures[textureIndex];
 	}
 	
