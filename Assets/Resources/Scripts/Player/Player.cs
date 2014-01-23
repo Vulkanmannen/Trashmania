@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
 	public bool wasLeft = false;
 
 	public Texture[] textures;
+	public bool playedPowerup = false;
+	private bool startedPowerupAnimation = false;
 
 	private float turningTimer = 0;
 	private float modeTimer =  0;	
@@ -360,9 +362,20 @@ public class Player : MonoBehaviour
 
 				if(powerUp[i] != Mode.NORMAL)
 				{
-					GUI.DrawTextureWithTexCoords(rect, Resources.Load("Textures/Interface/spritesheet_powerups_01") as Texture, new Rect(0.125f * ((float)powerUp[i] - 1f), -1f, 0.125f, 1f), true);
-
-
+					if(!startedPowerupAnimation)
+					{
+						GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/PopUpPowerup"), transform.position + new Vector3(0f, 60f, 20f), transform.rotation);
+						newObject.transform.parent = transform;
+	
+						newObject.GetComponent<PopUpPowerup>().setTexture((int)powerUp[i] - 1);
+						startedPowerupAnimation = true;
+						playedPowerup = false;
+					}
+					else if(playedPowerup)
+					{
+						GUI.DrawTextureWithTexCoords(rect, Resources.Load("Textures/Interface/spritesheet_powerups_01") as Texture, new Rect(0.125f * ((float)powerUp[i] - 1f), -1f, 0.125f, 1f), true);
+						startedPowerupAnimation = false;
+					}
 					Event e = Event.current;
 				
 					if(e.type == EventType.MouseUp)
@@ -506,6 +519,9 @@ public class Player : MonoBehaviour
 		// set animation
 		GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.TOTRUCK, 7, false, 20, false, 8);
 		animationMode = AnimationMode.TOTRUCK;
+
+		// increase to get gem
+		globalGameObject.GetComponent<GetJewel>().numberOfTrucks++;
 	}
 	//---------------------------------------------Collision-----------------------------------------------
 	//-----------------------------------------------------------------------------------------------------

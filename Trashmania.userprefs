@@ -1,20 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Trash\Jewel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Player\Player.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="74" Column="5" />
-      <File FileName="Assets\Resources\Scripts\Menu\Achievements.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Buttons\ToStartMenuFromGame.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Buttons\LoadCurrentLevel.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Game\GetAchievement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Menu\MenuTree.cs" Line="28" Column="1" />
       <File FileName="Assets\Resources\Scripts\Game\GlobalGameObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Player\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Enemies\PersonInLove.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Game\GetJewel.cs" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\Enemies\Enemy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Trash\Heart.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Trash\Trash.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Trash\Jewel.cs" Line="6" Column="11" />
-      <File FileName="Assets\Resources\Scripts\Menu\ShowJewel.cs" Line="17" Column="44" />
+      <File FileName="Assets\Resources\Scripts\Player\Player.cs" Line="367" Column="86" />
+      <File FileName="Assets\Resources\Scripts\Trash\PowerUpTrash.cs" Line="89" Column="78" />
+      <File FileName="Assets\Resources\Scripts\Effects\PopUp.cs" Line="6" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Effects\PopUpPowerup.cs" Line="40" Column="64" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

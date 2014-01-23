@@ -5,7 +5,7 @@ public class SaveVariables : MonoBehaviour
 {
 	void Start () 
 	{
-		PlayerPrefs.DeleteAll();
+		//PlayerPrefs.DeleteAll();
 
 		if(PlayerPrefs.GetInt("LodedVariables") != 1)
 		{
@@ -55,7 +55,6 @@ public class SaveVariables : MonoBehaviour
 			// regenerate lives
 			System.DateTime time = System.DateTime.Now;
 
-			PlayerPrefs.SetInt("WasOverFourLives", 1);
 			PlayerPrefs.SetInt("Day", time.Day);
 			PlayerPrefs.SetInt("Hoer", time.Hour);
 

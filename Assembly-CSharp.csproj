@@ -74,6 +74,7 @@
      <Compile Include="Assets\Resources\Scripts\Effects\MultiplyerFont.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\MultiplyerPopUp.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\PopUp.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\PopUpPowerup.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\myParticle.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\CorporateGuy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />

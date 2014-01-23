@@ -67,7 +67,8 @@ public class GlobalGameObject : MonoBehaviour
 	private float bonusEffectAlpha = 0f;
 
 	private int numberOfEnemies = 0;
-	
+	private float red = 1;
+	private bool fadeToRed = false;
 	//private float gameOverPopupTime = 3f;
 	//private bool gameOverPopupTimeRunOut = false;
 	
@@ -87,14 +88,18 @@ public class GlobalGameObject : MonoBehaviour
 		{
 			int lives = PlayerPrefs.GetInt("Lives");
 
-			if(lives > 4)
-				PlayerPrefs.SetInt("WasOverFourLives", 1);
-
 			lives--;
 			PlayerPrefs.SetInt("Lives", lives);
+
+			if(lives == 4)
+			{
+				System.DateTime time = System.DateTime.Now;
+				PlayerPrefs.SetInt("Day", time.Day);
+				PlayerPrefs.SetInt("Hoer", time.Hour);
+			}
 		}
 
-		regenerateLives();
+
 	}
 	
 	void Update ()
@@ -255,15 +260,22 @@ public class GlobalGameObject : MonoBehaviour
 		style.fontSize = Screen.width / 5;
 		style.normal.textColor = Color.white;
 
+		// under ten seconds fade to red
+		if(points <= 10f && fadeToRed)
+			red -= 0.025f;
+		else if(red < 1f)
+			red += 0.025f;
+		
+		if(red < 0.35f)
+			fadeToRed = false;
+		else if(red >= 1f)
+			fadeToRed = true;
+
+		GUI.color = new Color(1f, red, red, 1f);
+
 		GUI.Label(new Rect(Screen.width / 6 + 10, 10, 30, 30), points.ToString(), style); 
 		GUI.DrawTexture(new Rect(10, 10, Screen.width / 6, Screen.width / 6 ), Resources.Load("Textures/Interface/sprite_clock") as Texture);
 
-		// combo multiplyer
-		//GUI.color = new Color(1, 1, 1, 1);
-		//if(comboMultiplyer > 0)
-		//{
-		//	GUI.DrawTexture(new Rect(0f, Screen.height - Screen.width / 2.5f, Screen.width / 5f, Screen.width / 5f), Resources.Load("Textures/Interface/" + popupComboTextures[5 + comboMultiplyer - 1]) as Texture);
-		//}
 		//-------------------------------------Pause------------------------------------------------------------
 		//------------------------------------------------------------------------------------------------------
 		
@@ -646,39 +658,7 @@ public class GlobalGameObject : MonoBehaviour
 		
 		return objectToSpawnIndex;
 	}
-
-	void regenerateLives()
-	{
-		int lives = PlayerPrefs.GetInt("Lives");
-		
-		if(lives < 5)
-		{
-			bool wasOverFourLives = PlayerPrefs.GetInt("WasOverFourLives") == 1;
-			System.DateTime time = System.DateTime.Now;
-			
-			if(wasOverFourLives)
-			{
-				PlayerPrefs.SetInt("WasOverFourLives", 0);
-				PlayerPrefs.SetInt("Day", time.Day);
-				PlayerPrefs.SetInt("Hoer", time.Hour);
-			}
-			
-			int day = PlayerPrefs.GetInt("Day");
-			int hoer = PlayerPrefs.GetInt("Hoer");
-			
-			if(day != time.Day)
-			{
-				PlayerPrefs.SetInt("Lives", 5);
-				PlayerPrefs.SetInt("Day", time.Day);
-			}
-			else if(hoer < time.Hour - 3)
-			{
-				lives++;
-				PlayerPrefs.SetInt("Lives", lives);
-			}
-			PlayerPrefs.SetInt("Hoer", time.Hour);
-		}
-	}
+	
 
 	public void saveScore()
 	{

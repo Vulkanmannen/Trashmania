@@ -21,33 +21,33 @@ public class PowerUpTrash : Trash
 	// fixed update
 	protected override void myFixedUpdate()
 	{
-		if(!pickedUp)
-		{
+		//if(!pickedUp)
+		//{
 			currentState = globalGameObject.GetComponent<GlobalGameObject>().currentState;
 
 			rigidbody.velocity = new Vector3((bounce ? rigidbody.velocity.x : 0f), +-velocityY[thisLevel - 1, currentState], 0f) + dir;
 			
 			myXVelocity = rigidbody.velocity.x;
-		}
-		else
-		{
-			//GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, alpha));
-			//if(alpha < 0.3)
-			//	alpha += 0.01f;
-
-			Vector3 head = myCamera.transform.position + new Vector3(280f, -80f, 0f);
-			head.z = -50f;
-
-			Vector3 dir = head - transform.position;
-
-			rigidbody.velocity = dir.normalized * 500f;
-
-			if(dir.magnitude < 60)
-			{
-				GameObject.FindWithTag("myPlayer").GetComponent<Player>().addPowerUp(mode);
-				Destroy(gameObject);
-			}
-		}
+		//}
+		//else
+		//{
+		//	//GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, alpha));
+		//	//if(alpha < 0.3)
+		//	//	alpha += 0.01f;
+		//
+		//	Vector3 head = myCamera.transform.position + new Vector3(280f, -80f, 0f);
+		//	head.z = -50f;
+		//
+		//	Vector3 dir = head - transform.position;
+		//
+		//	rigidbody.velocity = dir.normalized * 500f;
+		//
+		//	if(dir.magnitude < 60)
+		//	{
+		//		GameObject.FindWithTag("myPlayer").GetComponent<Player>().addPowerUp(mode);
+		//		Destroy(gameObject);
+		//	}
+		//}
 	}
 
 	// spin
@@ -78,12 +78,16 @@ public class PowerUpTrash : Trash
 
 	public override void hitTrashCollider()
 	{
-		pickedUp = true;
-		GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, 0.6f));
-		GetComponent<BoxCollider>().isTrigger = true;
-		createPoffWhenDestroyed();
+		//pickedUp = true;
+		//GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, 0.6f));
+		//GetComponent<BoxCollider>().isTrigger = true;
+		//createPoffWhenDestroyed();
 
 		Destroy(transform.Find("particle_poweruptrail").gameObject);
 		Destroy(transform.Find("Glow").gameObject);
+
+		GameObject.FindWithTag("myPlayer").GetComponent<Player>().addPowerUp(mode);
+
+		destroyAndPoff("");
 	}
 }
