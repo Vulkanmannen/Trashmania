@@ -1,16 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Player\Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Game\PowerupButtonWraper.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Menu\MenuTree.cs" Line="28" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="8" Column="5" />
       <File FileName="Assets\Resources\Scripts\Game\GlobalGameObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Game\GetJewel.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Enemies\Enemy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Player\Player.cs" Line="367" Column="86" />
-      <File FileName="Assets\Resources\Scripts\Trash\PowerUpTrash.cs" Line="89" Column="78" />
-      <File FileName="Assets\Resources\Scripts\Effects\PopUp.cs" Line="6" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Effects\PopUpPowerup.cs" Line="40" Column="64" />
+      <File FileName="Assets\Resources\Scripts\Player\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Trash\PowerUpTrash.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Effects\PopUpPowerup.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Game\PowerupButton.cs" Line="34" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Menu\Menu.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Game\PowerupButtonWraper.cs" Line="13" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
 	public GlobalGameObject globalGameObject;
 	public GlobalGameObject.GameEvent currentEvent;
 	public GetAchievement achievements;
+	public GameObject myCamera;
 	
 	//public bool jumpPressed = false;
 	//public float jumpSpeed = 250;
@@ -51,6 +52,7 @@ public class Player : MonoBehaviour
 		
 		globalGameObject = GameObject.FindWithTag("GlobalGameObject").GetComponent<GlobalGameObject>();
 		achievements = globalGameObject.GetComponent<GetAchievement>();
+		myCamera = GameObject.FindWithTag("MainCamera");
 
 		power = GameObject.FindWithTag("Power").GetComponent<ArrowGradient>();
 
@@ -364,9 +366,9 @@ public class Player : MonoBehaviour
 				{
 					if(!startedPowerupAnimation)
 					{
-						GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/PopUpPowerup"), transform.position + new Vector3(0f, 60f, 20f), transform.rotation);
-						newObject.transform.parent = transform;
-	
+						GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/PopUpPowerup"), transform.localPosition + new Vector3(0f, 0f, 0f), Quaternion.Euler(new Vector3(90, 180, 0)));
+						newObject.transform.parent = myCamera.transform;
+
 						newObject.GetComponent<PopUpPowerup>().setTexture((int)powerUp[i] - 1);
 						startedPowerupAnimation = true;
 						playedPowerup = false;

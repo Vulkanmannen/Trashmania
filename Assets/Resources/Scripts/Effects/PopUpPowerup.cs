@@ -2,43 +2,28 @@
 using System.Collections;
 
 public class PopUpPowerup : MonoBehaviour {
-
-	public float timeOnScreen = 2;
-	protected bool playdEndAnimation = false;
 	
+	public bool closePopUp = false;
+
+	Player player;
+
 	void Start () 
 	{
-		timeOnScreen = timeOnScreen + Time.timeSinceLevelLoad;
-		
-		myStart();
-	}
-	
-	// myStart
-	protected virtual void myStart()
-	{
+		player = GameObject.FindWithTag("myPlayer").GetComponent<Player>();
+
 		GetComponent<Animation>().Play("PowerupInAnimation");
 	}
 	
 	void Update () 
 	{
-		myUpdate();
-	}
-	
-	// myUpdate
-	protected virtual void myUpdate()
-	{
-		if(timeOnScreen < Time.timeSinceLevelLoad && !playdEndAnimation)
-		{
-			close();
-		}
-		else if(!GetComponent<Animation>().IsPlaying("PowerupInAnimation") && playdEndAnimation)
+		if(!GetComponent<Animation>().IsPlaying("PowerupOutAnimation") && closePopUp)
 			Destroy(this.gameObject);
 	}
-	
+
 	public void close()
 	{
-		transform.parent.GetComponent<Player>().playedPowerup = true;
-		playdEndAnimation = true;
+		GetComponent<Animation>().Play("PowerupOutAnimation");
+		closePopUp = true;
 	}
 	
 	public void setTexture(int index)

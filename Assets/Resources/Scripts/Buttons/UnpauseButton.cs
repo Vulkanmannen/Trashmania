@@ -5,6 +5,6 @@ public class UnpauseButton : Button
 {
 	public override void action()
 	{
-		GameObject.FindWithTag("GlobalGameObject").GetComponent<GlobalGameObject>().unpause();		
+		GameObject.FindWithTag("GlobalGameObject").GetComponent<GlobalGameObject>().unpauseAndPlayAnimation();		
 	}
 }

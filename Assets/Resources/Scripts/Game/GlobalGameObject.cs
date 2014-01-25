@@ -176,9 +176,16 @@ public class GlobalGameObject : MonoBehaviour
 			{
 				startEvent(GameEvent.GAMEOVER);
 			}
+
+			bool canPause = true;
+			if(GameObject.FindWithTag("Tutorial"))
+				if(GameObject.FindWithTag("Tutorial").animation.isPlaying)
+					canPause = false;
+
 			
-			if(pause && !GameObject.FindWithTag("PauseMenu").animation.isPlaying)
+			if(pause && !GameObject.FindWithTag("PauseMenu").animation.isPlaying && canPause)
 				Time.timeScale = 0;	
+
 			//--------------------------------------Combo-----------------------------------------------------------
 			//------------------------------------------------------------------------------------------------------
 			if(trashInARow > howManyToGetCombo - 1)
@@ -197,6 +204,9 @@ public class GlobalGameObject : MonoBehaviour
 				GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/ComboPopup") as GameObject, myCamera.transform.position + new Vector3(0, 0, 100), Quaternion.Euler(new Vector3(90, 180, 0)));			
 				newObject.GetComponent<ComboPopup>().setTexture(comboMultiplyer - 1);
 				newObject.transform.parent = myCamera.transform;
+
+				if(comboMultiplyer == 1 && PlayerPrefs.GetInt("ComboTutorial") == 0)
+					GetComponent<ShowTutorial>().firstCombo  = true;
 			}
 			
 			
@@ -293,11 +303,11 @@ public class GlobalGameObject : MonoBehaviour
 			{
 				if(!pause)
 				{
-					pauseFunc();
+					pauseAndPlayAnimation();
 				}
 				else
 				{
-					unpause();
+					unpauseAndPlayAnimation();
 				}
 			}
 		}
@@ -463,6 +473,12 @@ public class GlobalGameObject : MonoBehaviour
 			}
 		}
 	}
+	
+	public void unpauseAndPlayAnimation()
+	{
+		unpause();
+		GameObject.FindWithTag("PauseMenu").animation.Play("PauseMenuOutAnimation");
+	}
 	public void unpause()
 	{
 		if(pause)
@@ -491,12 +507,15 @@ public class GlobalGameObject : MonoBehaviour
 			
 			Time.timeScale = 1;
 			pause = false;
-		
-			GameObject.FindWithTag("PauseMenu").animation.Play("PauseMenuOutAnimation");
 		}
 	}
-	
-	private void pauseFunc()
+
+	public void pauseAndPlayAnimation()
+	{
+		pauseFunc();
+		GameObject.FindWithTag("PauseMenu").animation.Play("PauseMenuInAnimation");
+	}
+	public void pauseFunc()
 	{
 		if(!pause)
 		{
@@ -505,6 +524,8 @@ public class GlobalGameObject : MonoBehaviour
 				if(t.GetComponent<Trash>())
 				{
 					t.GetComponent<Trash>().enabled = false;
+					t.gameObject.rigidbody.velocity = new Vector3();
+
 				}
 				else if(t.GetComponent<Player>())
 				{
@@ -523,10 +544,9 @@ public class GlobalGameObject : MonoBehaviour
 			}
 			
 			pause = true;
-			GameObject.FindWithTag("PauseMenu").animation.Play("PauseMenuInAnimation");
 		}
 	}
-	
+
 	// reset combo
 	public void resetCombo()
 	{

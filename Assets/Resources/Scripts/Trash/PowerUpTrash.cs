@@ -6,17 +6,7 @@ public class PowerUpTrash : Trash
 	public Player.Mode mode = Player.Mode.NORMAL;
 	public float timeInPowerUp = 12;
 	private bool pickedUp = false;
-	private CameraMovement myCamera;
 	//private float alpha = 0f;
-
-	// start
-	protected override void start()
-	{
-		base.start();
-
-		// set camera
-		myCamera = GameObject.FindWithTag("MainCamera").GetComponent<CameraMovement>();
-	}
 
 	// fixed update
 	protected override void myFixedUpdate()
@@ -53,7 +43,7 @@ public class PowerUpTrash : Trash
 	// spin
 	protected override void spin()
 	{
-		if(!pickedUp)
+		//if(!pickedUp)
 			if(rigidbody.angularVelocity.z < 1f && rigidbody.angularVelocity.z > -1f)
 				rigidbody.AddTorque(new Vector3(0f, 0f, 500f*rotationDir));
 	}
@@ -86,7 +76,12 @@ public class PowerUpTrash : Trash
 		Destroy(transform.Find("particle_poweruptrail").gameObject);
 		Destroy(transform.Find("Glow").gameObject);
 
-		GameObject.FindWithTag("myPlayer").GetComponent<Player>().addPowerUp(mode);
+		//GameObject.FindWithTag("myPlayer").GetComponent<Player>().addPowerUp(mode);
+
+
+
+		if(PlayerPrefs.GetInt("PowerupTutorial") == 0)
+			globalGameObject.GetComponent<ShowTutorial>().firstPowerup = true;
 
 		destroyAndPoff("");
 	}

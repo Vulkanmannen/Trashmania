@@ -72,6 +72,10 @@ public class SaveVariables : MonoBehaviour
 				PlayerPrefs.SetInt(jewels, 0);
 			}
 
+			// tutorials
+			PlayerPrefs.SetInt("PowerupTutorial", 0);
+			PlayerPrefs.SetInt("ComboTutorial", 0);
+			PlayerPrefs.SetInt("TrashMeterTutorial", 0);
 		}
 	}
 }

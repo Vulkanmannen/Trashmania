@@ -54,6 +54,7 @@
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeSideShop.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ChangeToLevelIfAvailable.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\ClosePopUp.cs" />
+     <Compile Include="Assets\Resources\Scripts\Buttons\CloseTutorial.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\CloseZoomdWindow.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\Equip.cs" />
      <Compile Include="Assets\Resources\Scripts\Buttons\FrogTap.cs" />
@@ -75,6 +76,7 @@
      <Compile Include="Assets\Resources\Scripts\Effects\MultiplyerPopUp.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\PopUp.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\PopUpPowerup.cs" />
+     <Compile Include="Assets\Resources\Scripts\Effects\Tutorial.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\myParticle.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\CorporateGuy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />
@@ -87,11 +89,15 @@
      <Compile Include="Assets\Resources\Scripts\Game\ArrowPad.cs" />
      <Compile Include="Assets\Resources\Scripts\Game\CameraMovement.cs" />
      <Compile Include="Assets\Resources\Scripts\Game\EnemyPath.cs" />
+     <Compile Include="Assets\Resources\Scripts\Game\FirstTimeOver19.cs" />
      <Compile Include="Assets\Resources\Scripts\Game\GetAchievement.cs" />
      <Compile Include="Assets\Resources\Scripts\Game\GetJewel.cs" />
      <Compile Include="Assets\Resources\Scripts\Game\GlobalGameObject.cs" />
+     <Compile Include="Assets\Resources\Scripts\Game\PowerupButton.cs" />
+     <Compile Include="Assets\Resources\Scripts\Game\PowerupButtonWraper.cs" />
      <Compile Include="Assets\Resources\Scripts\Game\SaveVariables.cs" />
      <Compile Include="Assets\Resources\Scripts\Game\ScoreIndicator.cs" />
+     <Compile Include="Assets\Resources\Scripts\Game\ShowTutorial.cs" />
      <Compile Include="Assets\Resources\Scripts\GlasOnGround.cs" />
      <Compile Include="Assets\Resources\Scripts\GuiButtonBalance.cs" />
      <Compile Include="Assets\Resources\Scripts\Menu\Achievements.cs" />
