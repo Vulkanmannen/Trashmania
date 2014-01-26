@@ -1,15 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Game\PowerupButtonWraper.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Game\SaveVariables.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="8" Column="5" />
-      <File FileName="Assets\Resources\Scripts\Game\GlobalGameObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Player\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Trash\PowerUpTrash.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Effects\PopUpPowerup.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Game\PowerupButton.cs" Line="34" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Menu\Menu.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Game\PowerupButtonWraper.cs" Line="13" Column="2" />
+      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="37" Column="34" />
+      <File FileName="Assets\Resources\Scripts\Menu\Shop.cs" Line="158" Column="67" />
+      <File FileName="Assets\Resources\Scripts\Buttons\ItemButtonShopPress.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Buttons\Equip.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Buttons\ByeButton.cs" Line="84" Column="42" />
+      <File FileName="Assets\Resources\Scripts\Buttons\ItemButtonShop.cs" Line="78" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -20,6 +20,7 @@ public class Trash : MonoBehaviour
 	public bool dontWarnAboutMe = false;
 	public bool isPowerUp = false;
 	public int thisLevel;
+	public bool turndToIce = false;
 
 	protected Vector3 dirMod = new Vector3(0.99f, 0.97f, 0f);
 	public bool onGround = false;

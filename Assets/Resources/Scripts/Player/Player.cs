@@ -352,51 +352,51 @@ public class Player : MonoBehaviour
 	//-------------------------------------------------------------------------------------------------
 	void OnGUI()
 	{
-		if(globalGameObject.currentEvent != GlobalGameObject.GameEvent.GAMEOVER)
-		{
-			for(int i = 0; i < powerUp.Count; ++i)
-			{
-				Rect rectButton = new Rect(Screen.width - Screen.width / 4.8f, Screen.height / 2f - (Screen.width / 4.5f + 10) * i, Screen.width / 4.5f, Screen.width / 4.5f);
-				Rect rect = new Rect(Screen.width - Screen.width / 4.8f, Screen.height / 2f - (Screen.width / 4.5f + 10) * i, Screen.width / 4.5f, Screen.width / 4.5f);
-
-				GUI.DrawTexture(rectButton, Resources.Load("Textures/Interface/sprite_button_powerup") as Texture);
-
-
-				if(powerUp[i] != Mode.NORMAL)
-				{
-					if(!startedPowerupAnimation)
-					{
-						GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/PopUpPowerup"), transform.localPosition + new Vector3(0f, 0f, 0f), Quaternion.Euler(new Vector3(90, 180, 0)));
-						newObject.transform.parent = myCamera.transform;
-
-						newObject.GetComponent<PopUpPowerup>().setTexture((int)powerUp[i] - 1);
-						startedPowerupAnimation = true;
-						playedPowerup = false;
-					}
-					else if(playedPowerup)
-					{
-						GUI.DrawTextureWithTexCoords(rect, Resources.Load("Textures/Interface/spritesheet_powerups_01") as Texture, new Rect(0.125f * ((float)powerUp[i] - 1f), -1f, 0.125f, 1f), true);
-						startedPowerupAnimation = false;
-					}
-					Event e = Event.current;
-				
-					if(e.type == EventType.MouseUp)
-					{
-						if(rectButton.Contains(e.mousePosition))
-						{
-							if(powerUp[i] == Mode.TRUCK)
-								setMode(powerUp[i]);
-							else if(powerUp[i] == Mode.ICECREAM)
-								setAdditionalMode(powerUp[i], 2f);
-							else
-								setAdditionalMode(powerUp[i]);
-
-							powerUp[i] = Mode.NORMAL;
-						}
-					}
-				}
-			}
-		}
+		//if(globalGameObject.currentEvent != GlobalGameObject.GameEvent.GAMEOVER)
+		//{
+		//	for(int i = 0; i < powerUp.Count; ++i)
+		//	{
+		//		Rect rectButton = new Rect(Screen.width - Screen.width / 4.8f, Screen.height / 2f - (Screen.width / 4.5f + 10) * i, Screen.width / 4.5f, Screen.width / 4.5f);
+		//		Rect rect = new Rect(Screen.width - Screen.width / 4.8f, Screen.height / 2f - (Screen.width / 4.5f + 10) * i, Screen.width / 4.5f, Screen.width / 4.5f);
+		//
+		//		GUI.DrawTexture(rectButton, Resources.Load("Textures/Interface/sprite_button_powerup") as Texture);
+		//
+		//
+		//		if(powerUp[i] != Mode.NORMAL)
+		//		{
+		//			if(!startedPowerupAnimation)
+		//			{
+		//				GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/PopUpPowerup"), transform.localPosition + new Vector3(0f, 0f, 0f), Quaternion.Euler(new Vector3(90, 180, 0)));
+		//				newObject.transform.parent = myCamera.transform;
+		//
+		//				newObject.GetComponent<PopUpPowerup>().setTexture((int)powerUp[i] - 1);
+		//				startedPowerupAnimation = true;
+		//				playedPowerup = false;
+		//			}
+		//			else if(playedPowerup)
+		//			{
+		//				GUI.DrawTextureWithTexCoords(rect, Resources.Load("Textures/Interface/spritesheet_powerups_01") as Texture, new Rect(0.125f * ((float)powerUp[i] - 1f), -1f, 0.125f, 1f), true);
+		//				startedPowerupAnimation = false;
+		//			}
+		//			Event e = Event.current;
+		//		
+		//			if(e.type == EventType.MouseUp)
+		//			{
+		//				if(rectButton.Contains(e.mousePosition))
+		//				{
+		//					if(powerUp[i] == Mode.TRUCK)
+		//						setMode(powerUp[i]);
+		//					else if(powerUp[i] == Mode.ICECREAM)
+		//						setAdditionalMode(powerUp[i], 2f);
+		//					else
+		//						setAdditionalMode(powerUp[i]);
+		//
+		//					powerUp[i] = Mode.NORMAL;
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
 
 		if(additionalMode == Mode.ICECREAM)
 		{
@@ -404,7 +404,7 @@ public class Player : MonoBehaviour
 			GUI.DrawTexture(new Rect(0f, 0f, 1440f, 1280f), Resources.Load("Textures/sprite_powerup_icecream_freezescreen") as Texture);
 			GUI.color = new Color(1f, 1f, 1f, 1f);	
 			
-			if(fadeToBlue < 0.95f)
+			if(fadeToBlue < 0.30f)
 				fadeToBlue += 0.02f;
 		}
 		else if(fadeToBlue > 0f)

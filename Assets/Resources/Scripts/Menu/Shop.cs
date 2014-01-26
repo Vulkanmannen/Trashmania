@@ -89,10 +89,15 @@ public class Shop : MonoBehaviour
 
 	public void changeIndex(int newIndex)
 	{
-		index = newIndex;
-		side = 0;
-		zoomdItem = 0;
-		setInfo();
+		if(newIndex < 3 && newIndex >= 0)
+		{
+			index = newIndex;
+			side = 0;
+			zoomdItem = 0;
+			setInfo();
+		}
+		else
+			Debug.Log(newIndex);
 	}
 
 	public void zoomItem(int item)
@@ -133,50 +138,44 @@ public class Shop : MonoBehaviour
 	{
 		index = 0;
 		ItemButtonStruct item;
-		item = new ItemButtonStruct(1,		"10 Coins",		"menu_shop_close",			"menu_shop_sprite_coin",	10,		ItemButtonStruct.ItemButtonType.COIN);
+
+		item = new ItemButtonStruct(2,		"5 Coins",		"shop_icon_coins5",			"menu_shop_coins_icon",	5,		ItemButtonStruct.ItemButtonType.COIN);
 		items[index].Add(item);
-		item = new ItemButtonStruct(2,		"25 Coins",		"menu_shop_sprite_coin",	"menu_shop_byebutton",		25,		ItemButtonStruct.ItemButtonType.COIN);
+		item = new ItemButtonStruct(5,		"15 Coins",		"shop_icon_coins15",		"menu_shop_coins_icon",	15,		ItemButtonStruct.ItemButtonType.COIN);
 		items[index].Add(item);
-		item = new ItemButtonStruct(5,		"75 Coins",		"menu_shop_byebutton",		"menu_shop_sprite_coin",	75,		ItemButtonStruct.ItemButtonType.COIN);
+		item = new ItemButtonStruct(10,		"45 Coins",		"shop_icon_coins50",		"menu_shop_coins_icon",	45,		ItemButtonStruct.ItemButtonType.COIN);
 		items[index].Add(item);
-		item = new ItemButtonStruct(10,		"200 Coins",	"menu_shop_sprite_coin",	"menu_shop_close",			200,	ItemButtonStruct.ItemButtonType.COIN);
+		item = new ItemButtonStruct(15,		"85 Coins",		"shop_icon_coins50",		"menu_shop_coins_icon",	85,		ItemButtonStruct.ItemButtonType.COIN);
 		items[index].Add(item);
-		item = new ItemButtonStruct(20,		"500 Coins",	"menu_shop_byebutton",		"menu_shop_sprite_coin",	500,	ItemButtonStruct.ItemButtonType.COIN);
-		items[index].Add(item);
-		item = new ItemButtonStruct(30,		"1000 Coins",	"menu_shop_sprite_coin",	"menu_shop_sprite_coin",	1000,	ItemButtonStruct.ItemButtonType.COIN);
-		items[index].Add(item);
-		item = new ItemButtonStruct(40,		"2000 Coins",	"menu_shop_close",			"menu_shop_sprite_coin",	2000,	ItemButtonStruct.ItemButtonType.COIN);
-		items[index].Add(item);
-		item = new ItemButtonStruct(50,		"4000 Coins",	"menu_shop_sprite_coin",	"menu_shop_byebutton",		4000,	ItemButtonStruct.ItemButtonType.COIN);
-		items[index].Add(item);
+
 		
 		index = 1;
 		int equiped = PlayerPrefs.GetInt("Equiped");
-		item = new ItemButtonStruct(100,	"PolarBear",	"menu_shop_close",			"menu_shop_sprite_coin",	0,		ItemButtonStruct.ItemButtonType.SKIN,		true, 													equiped == 0);
+		item = new ItemButtonStruct(0,		"Larry",		"shop_icon_larry",			"menu_shop_coins_icon",	0,		ItemButtonStruct.ItemButtonType.SKIN,		true, 													equiped == 0);
 		items[index].Add(item);
-		item = new ItemButtonStruct(120,	"PolarBear",	"menu_shop_sprite_coin",	"menu_shop_byebutton",		0,		ItemButtonStruct.ItemButtonType.SKIN,		PlayerPrefs.GetInt("BoughtItem1") == 1 ? true : false,	equiped == 1);
+		item = new ItemButtonStruct(10,		"PolarBear",	"shop_icon_larrypolarbear",	"menu_shop_coins_icon",	0,		ItemButtonStruct.ItemButtonType.SKIN,		PlayerPrefs.GetInt("BoughtItem1") == 1 ? true : false,	equiped == 1);
 		items[index].Add(item);
-		item = new ItemButtonStruct(49,		"PolarBear",	"menu_shop_byebutton",		"menu_shop_sprite_coin",	0,		ItemButtonStruct.ItemButtonType.SKIN,		PlayerPrefs.GetInt("BoughtItem2") == 1 ? true : false,	equiped == 2);
+		item = new ItemButtonStruct(0,		"1 Powerup",	"shop_icon_powerup1",		"menu_shop_coins_icon",	0,		ItemButtonStruct.ItemButtonType.POWERUP,	PlayerPrefs.GetInt("BoughtItem2") == 1 ? true : false,	equiped == 2);
 		items[index].Add(item);
-		item = new ItemButtonStruct(10,		"PolarBear",	"menu_shop_sprite_coin",	"menu_shop_close",			0,		ItemButtonStruct.ItemButtonType.SKIN,		PlayerPrefs.GetInt("BoughtItem3") == 1 ? true : false,	equiped == 3);
+		item = new ItemButtonStruct(25,		"2 Powerup",	"shop_icon_powerup2",		"menu_shop_coins_icon",	0,		ItemButtonStruct.ItemButtonType.POWERUP,	PlayerPrefs.GetInt("BoughtItem3") == 1 ? true : false,	equiped == 3);
 		items[index].Add(item);
-		item = new ItemButtonStruct(300,	"PolarBear",	"menu_shop_byebutton",		"menu_shop_sprite_coin",	0,		ItemButtonStruct.ItemButtonType.SKIN,		PlayerPrefs.GetInt("BoughtItem4") == 1 ? true : false,	equiped == 4);
+		item = new ItemButtonStruct(85,		"3 Powerup",	"shop_icon_powerup3",		"menu_shop_coins_icon",	0,		ItemButtonStruct.ItemButtonType.POWERUP,	PlayerPrefs.GetInt("BoughtItem4") == 1 ? true : false,	equiped == 4);
 		items[index].Add(item);
-		item = new ItemButtonStruct(93,		"PolarBear",	"menu_shop_sprite_coin",	"menu_shop_sprite_coin",	0,		ItemButtonStruct.ItemButtonType.SKIN,		PlayerPrefs.GetInt("BoughtItem5") == 1 ? true : false,	equiped == 5);
+		item = new ItemButtonStruct(0,		"X1 Coins",		"shop_icon_coingainx1",		"menu_shop_coins_icon",	0,		ItemButtonStruct.ItemButtonType.POWERUP,	PlayerPrefs.GetInt("BoughtItem5") == 1 ? true : false,	equiped == 5);
 		items[index].Add(item);
-		item = new ItemButtonStruct(23,		"PolarBear",	"menu_shop_close",			"menu_shop_sprite_coin",	0,		ItemButtonStruct.ItemButtonType.SKIN,		PlayerPrefs.GetInt("BoughtItem6") == 1 ? true : false,	equiped == 6);
+		item = new ItemButtonStruct(25,		"X2 Coins",		"shop_icon_coingainx2",		"menu_shop_coins_icon",	0,		ItemButtonStruct.ItemButtonType.POWERUP,	PlayerPrefs.GetInt("BoughtItem6") == 1 ? true : false,	equiped == 6);
 		items[index].Add(item);
-		item = new ItemButtonStruct(56,		"TwoRutor",		"menu_shop_sprite_coin",	"menu_shop_byebutton",		0,		ItemButtonStruct.ItemButtonType.POWERUP,	PlayerPrefs.GetInt("BoughtItem7") == 1 ? true : false,	equiped == 7);
+		item = new ItemButtonStruct(85,		"X3 Coins",		"shop_icon_coingainx3",		"menu_shop_coins_icon",	0,		ItemButtonStruct.ItemButtonType.POWERUP,	PlayerPrefs.GetInt("BoughtItem7") == 1 ? true : false,	equiped == 7);
 		items[index].Add(item);
 		
 		index = 2;
-		item = new ItemButtonStruct(10,		"3 Lives",		"menu_shop_close",			"menu_shop_sprite_coin",	3,		ItemButtonStruct.ItemButtonType.LIVES);
+		item = new ItemButtonStruct(5,		"1 Lives",		"shop_icon_life1",			"menu_shop_coins_icon",	1,		ItemButtonStruct.ItemButtonType.LIVES);
 		items[index].Add(item);
-		item = new ItemButtonStruct(20,		"8 Lives",		"menu_shop_sprite_coin",	"menu_shop_byebutton",		8,		ItemButtonStruct.ItemButtonType.LIVES);
+		item = new ItemButtonStruct(20,		"5 Lives",		"shop_icon_life3",			"menu_shop_coins_icon",	5,		ItemButtonStruct.ItemButtonType.LIVES);
 		items[index].Add(item);
-		item = new ItemButtonStruct(30,		"15 Lives",		"menu_shop_byebutton",		"menu_shop_sprite_coin",	15,		ItemButtonStruct.ItemButtonType.LIVES);
+		item = new ItemButtonStruct(35,		"10 Lives",		"shop_icon_life10",			"menu_shop_coins_icon",	10,		ItemButtonStruct.ItemButtonType.LIVES);
 		items[index].Add(item);
-		item = new ItemButtonStruct(50,		"50 Lives",		"menu_shop_sprite_coin",	"menu_shop_close",			50,		ItemButtonStruct.ItemButtonType.LIVES);
+		item = new ItemButtonStruct(45,		"15 Lives",		"shop_icon_life10",			"menu_shop_coins_icon",	15,		ItemButtonStruct.ItemButtonType.LIVES);
 		items[index].Add(item);
 
 

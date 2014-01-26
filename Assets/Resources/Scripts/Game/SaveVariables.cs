@@ -5,7 +5,7 @@ public class SaveVariables : MonoBehaviour
 {
 	void Start () 
 	{
-		//PlayerPrefs.DeleteAll();
+		PlayerPrefs.DeleteAll();
 
 		if(PlayerPrefs.GetInt("LodedVariables") != 1)
 		{
@@ -42,6 +42,8 @@ public class SaveVariables : MonoBehaviour
 
 			// slots
 			PlayerPrefs.SetInt("PowerUpSlots", 1);
+			// coin multiplyer
+			PlayerPrefs.SetInt("CoinMultiplyer",1);
 
 			PlayerPrefs.SetInt("CurrentLevel", 1);
 

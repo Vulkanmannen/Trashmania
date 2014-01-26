@@ -61,12 +61,30 @@ public class ByeButton : Button
 			switch(item.itemName)
 			{
 			
-			case "TwoRutor" :
+			case "shop_icon_coingainx2" :
 			{
 				PlayerPrefs.SetInt("PowerUpSlots", 2);		
 			}
-			break;
+				break;
 
+			case "shop_icon_coingainx3" :
+			{
+				PlayerPrefs.SetInt("PowerUpSlots", 3);		
+			}
+				break;
+
+			case "shop_icon_powerup2" :
+			{
+				PlayerPrefs.SetInt("CoinMultiplyer", 2);		
+			}
+				break;
+				
+			case "shop_icon_powerup3" :
+			{
+				PlayerPrefs.SetInt("CoinMultiplyer", 3);		
+			}
+				break;
+				
 			default : {} break;
 			}
 		}

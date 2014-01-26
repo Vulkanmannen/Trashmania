@@ -73,12 +73,12 @@ public class PowerUpTrash : Trash
 		//GetComponent<BoxCollider>().isTrigger = true;
 		//createPoffWhenDestroyed();
 
-		Destroy(transform.Find("particle_poweruptrail").gameObject);
-		Destroy(transform.Find("Glow").gameObject);
+		//Destroy(transform.Find("particle_poweruptrail").gameObject);
+		//Destroy(transform.Find("Glow").gameObject);
 
 		//GameObject.FindWithTag("myPlayer").GetComponent<Player>().addPowerUp(mode);
 
-
+		GameObject.FindWithTag("PowerupButtonWraper").GetComponent<PowerupButtonWraper>().setMode(mode);
 
 		if(PlayerPrefs.GetInt("PowerupTutorial") == 0)
 			globalGameObject.GetComponent<ShowTutorial>().firstPowerup = true;

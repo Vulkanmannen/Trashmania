@@ -103,6 +103,25 @@ public class ItemButtonShop : MonoBehaviour {
 				}
 				info.transform.localPosition = y;
 			}
+			else if(type == ItemButtonStruct.ItemButtonType.COIN || type == ItemButtonStruct.ItemButtonType.LIVES)
+			{
+				Vector3 y = info.transform.localPosition;
+				
+				if(info.GetComponent<ByeButton>())
+				{
+					y.y = 5;
+				}
+				else if(info.GetComponent<Equip>())
+				{
+					y.y = -100;
+				}
+				else if(info.name == "upgrade")
+				{
+					y.y = -100;
+				}
+				
+				info.transform.localPosition = y;
+			}
 		}
 	}
 }
