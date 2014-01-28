@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 	public float startMoving = 1;
 	public float points;
 	
-	enum AnimationMode {WALK, TOIDLE, IDLE, PICKUP, TURNING, WALKIDLE, TRUCK, TOTRUCK};
+	enum AnimationMode {WALK, WALKIDLE, TURNING, TRUCK, TOTRUCK};
 	AnimationMode animationMode = AnimationMode.WALKIDLE;
 	
 	public enum Mode {NORMAL, TRUCK, SPEED, ICECREAM};
@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
 	private ArrowGradient power;
 	private bool bulgeing = false;
 	private List<Mode> powerUp = new List<Mode>();
-
+	private int skin = 0;
 	//private float[] fingerPosY = {0f, 0f, 0f};
 	//private float[] fingerPosX = {0f, 0f, 0f};
 	
@@ -60,7 +60,13 @@ public class Player : MonoBehaviour
 		GetComponentInChildren<AnimationScriptCan>().setAnimation(1, 1, false, 0);
 
 		// skin
-		renderer.material.mainTexture = textures[PlayerPrefs.GetInt("Equiped")];
+		skin = PlayerPrefs.GetInt("Equiped");
+
+		renderer.material.mainTexture = textures[skin / 5];
+
+		skin = skin % 5;
+
+		GetComponentInChildren<AnimationScript>().setAnimation(1 + 3 * skin, 16);
 
 		// powerup
 		int size = PlayerPrefs.GetInt("PowerUpSlots");
@@ -139,9 +145,7 @@ public class Player : MonoBehaviour
 
 
 			// set velocity 
-		if(	animationMode != AnimationMode.PICKUP 
-			&& animationMode != AnimationMode.TOIDLE
-			&&(!(transform.position.x > 600) || (velocity < 0))
+		if((!(transform.position.x > 600) || (velocity < 0))
 			&&(!(transform.position.x < -600) || (velocity > 0)))
 			rigidbody.velocity = new Vector3(velocity, 0, 0);
 		else
@@ -209,54 +213,32 @@ public class Player : MonoBehaviour
 			// set fps in animation
 			if(animationMode == AnimationMode.WALK)
 				GetComponentInChildren<AnimationScript>().fps = (int)Mathf.Min(Mathf.Abs(velocity)/8f, 50f);
-			
-			// restart idleTimer. Will go into IDLE after 2 seconds of standing still
-			//if(velocity > 0.01f || velocity < -0.01f)
-			//	idleTimer = Time.timeSinceLevelLoad + 2f;
-			
+
 			// set animationMode
 			
 			// set TURNING
 			if(animationMode != AnimationMode.TURNING 
 				&& isLeft != wasLeft
 				&& turningTimer <= Time.timeSinceLevelLoad
-				&& (animationMode != AnimationMode.PICKUP || endOfAnimation) 
-				&& animationMode != AnimationMode.TOIDLE
 				&& animationMode != AnimationMode.TOTRUCK)
 			{
-				GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.TURNING, 15, false, 60);
+				GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.TURNING + 3 * skin, 16, false, 60);
 				animationMode = AnimationMode.TURNING;
 			}
-			// set IDLE
-			//else if(animationMode == AnimationMode.TOIDLE && endOfAnimation)
-			//{
-			//	GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.IDLE, 16, true);
-			//	animationMode = AnimationMode.IDLE;
-			//}
 			// set WALKIDLE
 			else if(velocity < 0.01f && velocity > -0.01f
 				&& animationMode == AnimationMode.WALK)
 			{
-					GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.WALKIDLE, 12, true);
+				GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.WALKIDLE + 3 * skin, 16, true);
 					animationMode = AnimationMode.WALKIDLE;
 			}
-			//// set TOIDLE
-			//else if(animationMode == AnimationMode.WALKIDLE
-			//	&& idleTimer <= Time.timeSinceLevelLoad)
-			//{	
-			//		GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.TOIDLE, 13, false);
-			//		animationMode = AnimationMode.TOIDLE;
-			//}
 			// set WALK
-			else if(animationMode != AnimationMode.WALK 
-				&& (animationMode != AnimationMode.PICKUP || endOfAnimation) 
+			else if(animationMode != AnimationMode.WALK  
 				&& (animationMode != AnimationMode.TURNING || endOfAnimation) 
 				&& (animationMode != AnimationMode.TOTRUCK || endOfAnimation) 
-				&& animationMode != AnimationMode.TOIDLE 
-				//&& (animationMode != AnimationMode.IDLE || (velocity > startMoving || velocity < -startMoving))
 				&& (animationMode != AnimationMode.WALKIDLE || (velocity > startMoving || velocity < -startMoving)))
 			{
-				GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.WALK, 12, true);
+				GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.WALK + 3 * skin, 16, true);
 				animationMode = AnimationMode.WALK;
 				transform.localScale = new Vector3(15, 18, 100);
 			}	
@@ -421,8 +403,8 @@ public class Player : MonoBehaviour
 	{
 		if(mode != Mode.TRUCK)
 		{
-			GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.PICKUP, 16, false);
-			animationMode = AnimationMode.PICKUP;
+			//GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.PICKUP, 16, false);
+			//animationMode = AnimationMode.PICKUP;
 		}
 	}
 	

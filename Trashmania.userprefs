@@ -1,13 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Game\SaveVariables.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Enemies\IceCreamGirl.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="37" Column="34" />
-      <File FileName="Assets\Resources\Scripts\Menu\Shop.cs" Line="158" Column="67" />
-      <File FileName="Assets\Resources\Scripts\Buttons\ItemButtonShopPress.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Buttons\Equip.cs" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Buttons\ByeButton.cs" Line="84" Column="42" />
-      <File FileName="Assets\Resources\Scripts\Buttons\ItemButtonShop.cs" Line="78" Column="17" />
+      <File FileName="Assets\Resources\Scripts\Buttons\PieceOfMap.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Player\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\AnimationScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Game\SaveVariables.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Enemies\Enemy.cs" Line="100" Column="56" />
+      <File FileName="Assets\Resources\Scripts\Enemies\Sister.cs" Line="36" Column="3" />
+      <File FileName="Assets\Resources\Scripts\Enemies\PersonInLove.cs" Line="48" Column="33" />
+      <File FileName="Assets\Resources\Scripts\Enemies\CorporateGuy.cs" Line="38" Column="35" />
+      <File FileName="Assets\Resources\Scripts\Game\GlobalGameObject.cs" Line="151" Column="45" />
+      <File FileName="Assets\Resources\Scripts\Enemies\IceCreamGirl.cs" Line="52" Column="27" />
+      <File FileName="Assets\Resources\Scripts\Trash\PowerUpTrash.cs" Line="81" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -78,6 +78,13 @@
      <Compile Include="Assets\Resources\Scripts\Effects\PopUpPowerup.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\Tutorial.cs" />
      <Compile Include="Assets\Resources\Scripts\Effects\myParticle.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\CorporateGuy.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\Hobo.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\IceCreamGirl.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\OldMan.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\PersonInLove.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\Sister.cs" />
      <Compile Include="Assets\Resources\Scripts\Game\ArrowGradient.cs" />
      <Compile Include="Assets\Resources\Scripts\Game\ArrowPad.cs" />
      <Compile Include="Assets\Resources\Scripts\Game\CameraMovement.cs" />
@@ -118,13 +125,6 @@
      <Compile Include="Assets\Resources\Scripts\Trash\RainTrash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\Trash.cs" />
      <Compile Include="Assets\Resources\Scripts\Trash\TrashStartEvent.cs" />
-     <Compile Include="Assets\Resources\Textures\Shop\Enemies\CorporateGuy.cs" />
-     <Compile Include="Assets\Resources\Textures\Shop\Enemies\Enemy.cs" />
-     <Compile Include="Assets\Resources\Textures\Shop\Enemies\Hobo.cs" />
-     <Compile Include="Assets\Resources\Textures\Shop\Enemies\IceCreamGirl.cs" />
-     <Compile Include="Assets\Resources\Textures\Shop\Enemies\OldMan.cs" />
-     <Compile Include="Assets\Resources\Textures\Shop\Enemies\PersonInLove.cs" />
-     <Compile Include="Assets\Resources\Textures\Shop\Enemies\Sister.cs" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\Nature\TreeCreator\TreeCreatorLeavesFast.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\TerrainShaders\Details\WavingGrass.shader" />
      <None Include="Assets\Resources\Shaders\DefaultResourcesExtra\skybox cubed.shader" />

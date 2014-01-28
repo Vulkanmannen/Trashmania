@@ -147,9 +147,8 @@ public class GlobalGameObject : MonoBehaviour
 			// create object
 			if(timerCount <= 0f && numberOfEnemies < maxEnemies[currentState])
 			{	
-				GameObject newObject = (GameObject)Instantiate(objectToSpawn[probabilitySpawn()], transform.position, transform.rotation);					
+				GameObject newObject = (GameObject)Instantiate(objectToSpawn[probabilitySpawn()], transform.position, transform.rotation);	
 				newObject.transform.parent = transform;	
-				
 				startLeft = !startLeft;	
 				
 				timerCount = timer[currentState] + Random.Range(0f, randomTimeDifMax[currentState]);
@@ -654,24 +653,33 @@ public class GlobalGameObject : MonoBehaviour
 			if(probability < 0.60f) 
 				objectToSpawnIndex = 0; // 60% enemy
 			
+			else if(probability < 0.90f)
+				objectToSpawnIndex = 1; // 30% old man
+
 			else if(probability < 0.95f)
-				objectToSpawnIndex = 1; // 35% old man
+				objectToSpawnIndex = 2; // 5% ice cream girl
 
 			else
-				objectToSpawnIndex = 2; // 5% ice cream girl
+				objectToSpawnIndex = 3; // 5% runner girl
 		}
 		else if(thisLevel == 2)
 		{
 			if(probability < 0.60f) 
 				objectToSpawnIndex = 0; // 60% enemy
 			
-			else 
-				objectToSpawnIndex = 1; // 40% old man
+			else if(probability < 0.90f)
+				objectToSpawnIndex = 1; // 30% old man
+
+			else if(probability < 0.95f)
+				objectToSpawnIndex = 2; // 5% Construction guy
+			
+			else
+				objectToSpawnIndex = 3; // 5% runner girl
 		}
 		// if its time to spawn sister
 		if(setSisterInPlay)
 		{
-			objectToSpawnIndex = 3; 
+			objectToSpawnIndex = 4; 
 			setSisterInPlay = false;
 			sisterInPlay = true;
 		}

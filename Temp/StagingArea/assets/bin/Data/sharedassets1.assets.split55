@@ -1,2866 +1,0 @@
- vec3 x1_14;
-  highp float tmpvar_15;
-  tmpvar_15 = dot (unity_SHAr, normal_10);
-  x1_14.x = tmpvar_15;
-  highp float tmpvar_16;
-  tmpvar_16 = dot (unity_SHAg, normal_10);
-  x1_14.y = tmpvar_16;
-  highp float tmpvar_17;
-  tmpvar_17 = dot (unity_SHAb, normal_10);
-  x1_14.z = tmpvar_17;
-  mediump vec4 tmpvar_18;
-  tmpvar_18 = (normal_10.xyzz * normal_10.yzzx);
-  highp float tmpvar_19;
-  tmpvar_19 = dot (unity_SHBr, tmpvar_18);
-  x2_13.x = tmpvar_19;
-  highp float tmpvar_20;
-  tmpvar_20 = dot (unity_SHBg, tmpvar_18);
-  x2_13.y = tmpvar_20;
-  highp float tmpvar_21;
-  tmpvar_21 = dot (unity_SHBb, tmpvar_18);
-  x2_13.z = tmpvar_21;
-  mediump float tmpvar_22;
-  tmpvar_22 = ((normal_10.x * normal_10.x) - (normal_10.y * normal_10.y));
-  vC_11 = tmpvar_22;
-  highp vec3 tmpvar_23;
-  tmpvar_23 = (unity_SHC.xyz * vC_11);
-  x3_12 = tmpvar_23;
-  tmpvar_9 = ((x1_14 + x2_13) + x3_12);
-  tmpvar_2 = tmpvar_9;
-  gl_Position = tmpvar_3;
-  xlv_TEXCOORD0 = tmpvar_1;
-  xlv_TEXCOORD1 = o_4;
-  xlv_TEXCOORD2 = tmpvar_2;
-}
-
-
-
-#endif
-#ifdef FRAGMENT
-
-varying highp vec3 xlv_TEXCOORD2;
-varying highp vec4 xlv_TEXCOORD1;
-varying highp vec4 xlv_TEXCOORD0;
-uniform sampler2D _LightBuffer;
-uniform lowp vec4 _Color;
-uniform sampler2D _MainTex;
-void main ()
-{
-  lowp vec4 tmpvar_1;
-  mediump vec4 c_2;
-  mediump vec4 light_3;
-  lowp vec4 tmpvar_4;
-  tmpvar_4 = (texture2D (_MainTex, xlv_TEXCOORD0.xy) * _Color);
-  lowp vec4 tmpvar_5;
-  tmpvar_5 = texture2DProj (_LightBuffer, xlv_TEXCOORD1);
-  light_3 = tmpvar_5;
-  mediump vec4 tmpvar_6;
-  tmpvar_6 = max (light_3, vec4(0.001, 0.001, 0.001, 0.001));
-  light_3.w = tmpvar_6.w;
-  highp vec3 tmpvar_7;
-  tmpvar_7 = (tmpvar_6.xyz + xlv_TEXCOORD2);
-  light_3.xyz = tmpvar_7;
-  lowp vec4 c_8;
-  mediump vec3 tmpvar_9;
-  tmpvar_9 = (tmpvar_4.xyz * light_3.xyz);
-  c_8.xyz = tmpvar_9;
-  c_8.w = tmpvar_4.w;
-  c_2 = c_8;
-  tmpvar_1 = c_2;
-  gl_FragData[0] = tmpvar_1;
-}
-
-
-
-#endif"
-}
-SubProgram "gles3 " {
-Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_ON" }
-"!!GLES3#version 300 es
-
-
-#ifdef VERTEX
-
-#define gl_Vertex _glesVertex
-in vec4 _glesVertex;
-#define gl_Color _glesColor
-in vec4 _glesColor;
-#define gl_Normal (normalize(_glesNormal))
-in vec3 _glesNormal;
-#define gl_MultiTexCoord0 _glesMultiTexCoord0
-in vec4 _glesMultiTexCoord0;
-#define gl_MultiTexCoord1 _glesMultiTexCoord1
-in vec4 _glesMultiTexCoord1;
-#define TANGENT vec4(normalize(_glesTANGENT.xyz), _glesTANGENT.w)
-in vec4 _glesTANGENT;
-
-#line 151
-struct v2f_vertex_lit {
-    highp vec2 uv;
-    lowp vec4 diff;
-    lowp vec4 spec;
-};
-#line 187
-struct v2f_img {
-    highp vec4 pos;
-    mediump vec2 uv;
-};
-#line 181
-struct appdata_img {
-    highp vec4 vertex;
-    mediump vec2 texcoord;
-};
-#line 315
-struct SurfaceOutput {
-    lowp vec3 Albedo;
-    lowp vec3 Normal;
-    lowp vec3 Emission;
-    mediump float Specular;
-    lowp float Gloss;
-    lowp float Alpha;
-};
-#line 394
-struct Input {
-    highp vec2 uv_MainTex;
-    highp vec2 uv_BumpMap;
-};
-#line 407
-struct v2f_surf {
-    highp vec4 pos;
-    highp vec4 pack0;
-    highp vec4 screen;
-    highp vec3 vlight;
-};
-#line 67
-struct appdata_full {
-    highp vec4 vertex;
-    highp vec4 tangent;
-    highp vec3 normal;
-    highp vec4 texcoord;
-    highp vec4 texcoord1;
-    lowp vec4 color;
-};
-uniform highp vec4 _Time;
-uniform highp vec4 _SinTime;
-#line 3
-uniform highp vec4 _CosTime;
-uniform highp vec4 unity_DeltaTime;
-uniform highp vec3 _WorldSpaceCameraPos;
-uniform highp vec4 _ProjectionParams;
-#line 7
-uniform highp vec4 _ScreenParams;
-uniform highp vec4 _ZBufferParams;
-uniform highp vec4 unity_CameraWorldClipPlanes[6];
-uniform highp vec4 _WorldSpaceLightPos0;
-#line 11
-uniform highp vec4 _LightPositionRange;
-uniform highp vec4 unity_4LightPosX0;
-uniform highp vec4 unity_4LightPosY0;
-uniform highp vec4 unity_4LightPosZ0;
-#line 15
-uniform highp vec4 unity_4LightAtten0;
-uniform highp vec4 unity_LightColor[8];
-uniform highp vec4 unity_LightPosition[8];
-uniform highp vec4 unity_LightAtten[8];
-#line 19
-uniform highp vec4 unity_SpotDirection[8];
-uniform highp vec4 unity_SHAr;
-uniform highp vec4 unity_SHAg;
-uniform highp vec4 unity_SHAb;
-#line 23
-uniform highp vec4 unity_SHBr;
-uniform highp vec4 unity_SHBg;
-uniform highp vec4 unity_SHBb;
-uniform highp vec4 unity_SHC;
-#line 27
-uniform highp vec3 unity_LightColor0;
-uniform highp vec3 unity_LightColor1;
-uniform highp vec3 unity_LightColor2;
-uniform highp vec3 unity_LightColor3;
-uniform highp vec4 unity_ShadowSplitSpheres[4];
-uniform highp vec4 unity_ShadowSplitSqRadii;
-uniform highp vec4 unity_LightShadowBias;
-#line 31
-uniform highp vec4 _LightSplitsNear;
-uniform highp vec4 _LightSplitsFar;
-uniform highp mat4 unity_World2Shadow[4];
-uniform highp vec4 _LightShadowData;
-#line 35
-uniform highp vec4 unity_ShadowFadeCenterAndType;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_invtrans_modelview0;
-#line 39
-uniform highp mat4 _Object2World;
-uniform highp mat4 _World2Object;
-uniform highp vec4 unity_Scale;
-uniform highp mat4 glstate_matrix_transpose_modelview0;
-#line 43
-uniform highp mat4 glstate_matrix_texture0;
-uniform highp mat4 glstate_matrix_texture1;
-uniform highp mat4 glstate_matrix_texture2;
-uniform highp mat4 glstate_matrix_texture3;
-#line 47
-uniform highp mat4 glstate_matrix_projection;
-uniform highp vec4 glstate_lightmodel_ambient;
-uniform highp mat4 unity_MatrixV;
-uniform highp mat4 unity_MatrixVP;
-#line 51
-uniform lowp vec4 unity_ColorSpaceGrey;
-#line 77
-#line 82
-#line 87
-#line 91
-#line 96
-#line 120
-#line 137
-#line 158
-#line 166
-#line 193
-#line 206
-#line 215
-#line 220
-#line 229
-#line 234
-#line 243
-#line 260
-#line 265
-#line 291
-#line 299
-#line 307
-#line 311
-#line 325
-uniform lowp vec4 _LightColor0;
-uniform lowp vec4 _SpecColor;
-#line 338
-#line 346
-#line 360
-uniform sampler2D _MainTex;
-uniform sampler2D _BumpMap;
-#line 393
-uniform lowp vec4 _Color;
-#line 400
-#line 415
-uniform highp vec4 _MainTex_ST;
-uniform highp vec4 _BumpMap_ST;
-#line 428
-uniform sampler2D _LightBuffer;
-uniform lowp vec4 unity_Ambient;
-#line 284
-highp vec4 ComputeScreenPos( in highp vec4 pos ) {
-    #line 286
-    highp vec4 o = (pos * 0.5);
-    o.xy = (vec2( o.x, (o.y * _ProjectionParams.x)) + o.w);
-    o.zw = pos.zw;
-    return o;
-}
-#line 137
-mediump vec3 ShadeSH9( in mediump vec4 normal ) {
-    mediump vec3 x1;
-    mediump vec3 x2;
-    mediump vec3 x3;
-    x1.x = dot( unity_SHAr, normal);
-    #line 141
-    x1.y = dot( unity_SHAg, normal);
-    x1.z = dot( unity_SHAb, normal);
-    mediump vec4 vB = (normal.xyzz * normal.yzzx);
-    x2.x = dot( unity_SHBr, vB);
-    #line 145
-    x2.y = dot( unity_SHBg, vB);
-    x2.z = dot( unity_SHBb, vB);
-    highp float vC = ((normal.x * normal.x) - (normal.y * normal.y));
-    x3 = (unity_SHC.xyz * vC);
-    #line 149
-    return ((x1 + x2) + x3);
-}
-#line 417
-v2f_surf vert_surf( in appdata_full v ) {
-    #line 419
-    v2f_surf o;
-    o.pos = (glstate_matrix_mvp * v.vertex);
-    o.pack0.xy = ((v.texcoord.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
-    o.pack0.zw = ((v.texcoord.xy * _BumpMap_ST.xy) + _BumpMap_ST.zw);
-    #line 423
-    o.screen = ComputeScreenPos( o.pos);
-    highp vec3 worldN = (mat3( _Object2World) * (v.normal * unity_Scale.w));
-    o.vlight = ShadeSH9( vec4( worldN, 1.0));
-    return o;
-}
-
-out highp vec4 xlv_TEXCOORD0;
-out highp vec4 xlv_TEXCOORD1;
-out highp vec3 xlv_TEXCOORD2;
-void main() {
-    v2f_surf xl_retval;
-    appdata_full xlt_v;
-    xlt_v.vertex = vec4(gl_Vertex);
-    xlt_v.tangent = vec4(TANGENT);
-    xlt_v.normal = vec3(gl_Normal);
-    xlt_v.texcoord = vec4(gl_MultiTexCoord0);
-    xlt_v.texcoord1 = vec4(gl_MultiTexCoord1);
-    xlt_v.color = vec4(gl_Color);
-    xl_retval = vert_surf( xlt_v);
-    gl_Position = vec4(xl_retval.pos);
-    xlv_TEXCOORD0 = vec4(xl_retval.pack0);
-    xlv_TEXCOORD1 = vec4(xl_retval.screen);
-    xlv_TEXCOORD2 = vec3(xl_retval.vlight);
-}
-
-
-#endif
-#ifdef FRAGMENT
-
-#define gl_FragData _glesFragData
-layout(location = 0) out mediump vec4 _glesFragData[4];
-
-#line 151
-struct v2f_vertex_lit {
-    highp vec2 uv;
-    lowp vec4 diff;
-    lowp vec4 spec;
-};
-#line 187
-struct v2f_img {
-    highp vec4 pos;
-    mediump vec2 uv;
-};
-#line 181
-struct appdata_img {
-    highp vec4 vertex;
-    mediump vec2 texcoord;
-};
-#line 315
-struct SurfaceOutput {
-    lowp vec3 Albedo;
-    lowp vec3 Normal;
-    lowp vec3 Emission;
-    mediump float Specular;
-    lowp float Gloss;
-    lowp float Alpha;
-};
-#line 394
-struct Input {
-    highp vec2 uv_MainTex;
-    highp vec2 uv_BumpMap;
-};
-#line 407
-struct v2f_surf {
-    highp vec4 pos;
-    highp vec4 pack0;
-    highp vec4 screen;
-    highp vec3 vlight;
-};
-#line 67
-struct appdata_full {
-    highp vec4 vertex;
-    highp vec4 tangent;
-    highp vec3 normal;
-    highp vec4 texcoord;
-    highp vec4 texcoord1;
-    lowp vec4 color;
-};
-uniform highp vec4 _Time;
-uniform highp vec4 _SinTime;
-#line 3
-uniform highp vec4 _CosTime;
-uniform highp vec4 unity_DeltaTime;
-uniform highp vec3 _WorldSpaceCameraPos;
-uniform highp vec4 _ProjectionParams;
-#line 7
-uniform highp vec4 _ScreenParams;
-uniform highp vec4 _ZBufferParams;
-uniform highp vec4 unity_CameraWorldClipPlanes[6];
-uniform highp vec4 _WorldSpaceLightPos0;
-#line 11
-uniform highp vec4 _LightPositionRange;
-uniform highp vec4 unity_4LightPosX0;
-uniform highp vec4 unity_4LightPosY0;
-uniform highp vec4 unity_4LightPosZ0;
-#line 15
-uniform highp vec4 unity_4LightAtten0;
-uniform highp vec4 unity_LightColor[8];
-uniform highp vec4 unity_LightPosition[8];
-uniform highp vec4 unity_LightAtten[8];
-#line 19
-uniform highp vec4 unity_SpotDirection[8];
-uniform highp vec4 unity_SHAr;
-uniform highp vec4 unity_SHAg;
-uniform highp vec4 unity_SHAb;
-#line 23
-uniform highp vec4 unity_SHBr;
-uniform highp vec4 unity_SHBg;
-uniform highp vec4 unity_SHBb;
-uniform highp vec4 unity_SHC;
-#line 27
-uniform highp vec3 unity_LightColor0;
-uniform highp vec3 unity_LightColor1;
-uniform highp vec3 unity_LightColor2;
-uniform highp vec3 unity_LightColor3;
-uniform highp vec4 unity_ShadowSplitSpheres[4];
-uniform highp vec4 unity_ShadowSplitSqRadii;
-uniform highp vec4 unity_LightShadowBias;
-#line 31
-uniform highp vec4 _LightSplitsNear;
-uniform highp vec4 _LightSplitsFar;
-uniform highp mat4 unity_World2Shadow[4];
-uniform highp vec4 _LightShadowData;
-#line 35
-uniform highp vec4 unity_ShadowFadeCenterAndType;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_invtrans_modelview0;
-#line 39
-uniform highp mat4 _Object2World;
-uniform highp mat4 _World2Object;
-uniform highp vec4 unity_Scale;
-uniform highp mat4 glstate_matrix_transpose_modelview0;
-#line 43
-uniform highp mat4 glstate_matrix_texture0;
-uniform highp mat4 glstate_matrix_texture1;
-uniform highp mat4 glstate_matrix_texture2;
-uniform highp mat4 glstate_matrix_texture3;
-#line 47
-uniform highp mat4 glstate_matrix_projection;
-uniform highp vec4 glstate_lightmodel_ambient;
-uniform highp mat4 unity_MatrixV;
-uniform highp mat4 unity_MatrixVP;
-#line 51
-uniform lowp vec4 unity_ColorSpaceGrey;
-#line 77
-#line 82
-#line 87
-#line 91
-#line 96
-#line 120
-#line 137
-#line 158
-#line 166
-#line 193
-#line 206
-#line 215
-#line 220
-#line 229
-#line 234
-#line 243
-#line 260
-#line 265
-#line 291
-#line 299
-#line 307
-#line 311
-#line 325
-uniform lowp vec4 _LightColor0;
-uniform lowp vec4 _SpecColor;
-#line 338
-#line 346
-#line 360
-uniform sampler2D _MainTex;
-uniform sampler2D _BumpMap;
-#line 393
-uniform lowp vec4 _Color;
-#line 400
-#line 415
-uniform highp vec4 _MainTex_ST;
-uniform highp vec4 _BumpMap_ST;
-#line 428
-uniform sampler2D _LightBuffer;
-uniform lowp vec4 unity_Ambient;
-#line 346
-lowp vec4 LightingLambert_PrePass( in SurfaceOutput s, in mediump vec4 light ) {
-    lowp vec4 c;
-    c.xyz = (s.Albedo * light.xyz);
-    #line 350
-    c.w = s.Alpha;
-    return c;
-}
-#line 272
-lowp vec3 UnpackNormal( in lowp vec4 packednormal ) {
-    #line 274
-    return ((packednormal.xyz * 2.0) - 1.0);
-}
-#line 400
-void surf( in Input IN, inout SurfaceOutput o ) {
-    lowp vec4 c = (texture( _MainTex, IN.uv_MainTex) * _Color);
-    o.Albedo = c.xyz;
-    #line 404
-    o.Alpha = c.w;
-    o.Normal = UnpackNormal( texture( _BumpMap, IN.uv_BumpMap));
-}
-#line 430
-lowp vec4 frag_surf( in v2f_surf IN ) {
-    #line 432
-    Input surfIN;
-    surfIN.uv_MainTex = IN.pack0.xy;
-    surfIN.uv_BumpMap = IN.pack0.zw;
-    SurfaceOutput o;
-    #line 436
-    o.Albedo = vec3( 0.0);
-    o.Emission = vec3( 0.0);
-    o.Specular = 0.0;
-    o.Alpha = 0.0;
-    #line 440
-    o.Gloss = 0.0;
-    surf( surfIN, o);
-    mediump vec4 light = textureProj( _LightBuffer, IN.screen);
-    light = max( light, vec4( 0.001));
-    #line 444
-    light.xyz += IN.vlight;
-    mediump vec4 c = LightingLambert_PrePass( o, light);
-    return c;
-}
-in highp vec4 xlv_TEXCOORD0;
-in highp vec4 xlv_TEXCOORD1;
-in highp vec3 xlv_TEXCOORD2;
-void main() {
-    lowp vec4 xl_retval;
-    v2f_surf xlt_IN;
-    xlt_IN.pos = vec4(0.0);
-    xlt_IN.pack0 = vec4(xlv_TEXCOORD0);
-    xlt_IN.screen = vec4(xlv_TEXCOORD1);
-    xlt_IN.vlight = vec3(xlv_TEXCOORD2);
-    xl_retval = frag_surf( xlt_IN);
-    gl_FragData[0] = vec4(xl_retval);
-}
-
-
-#endif"
-}
-SubProgram "gles " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_ON" }
-"!!GLES
-
-
-#ifdef VERTEX
-
-varying highp vec4 xlv_TEXCOORD3;
-varying highp vec2 xlv_TEXCOORD2;
-varying highp vec4 xlv_TEXCOORD1;
-varying highp vec4 xlv_TEXCOORD0;
-uniform highp vec4 _BumpMap_ST;
-uniform highp vec4 _MainTex_ST;
-uniform highp vec4 unity_LightmapST;
-uniform highp mat4 _Object2World;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp vec4 unity_ShadowFadeCenterAndType;
-uniform highp vec4 _ProjectionParams;
-attribute vec4 _glesMultiTexCoord1;
-attribute vec4 _glesMultiTexCoord0;
-attribute vec4 _glesVertex;
-void main ()
-{
-  highp vec4 tmpvar_1;
-  highp vec4 tmpvar_2;
-  highp vec4 tmpvar_3;
-  tmpvar_3 = (glstate_matrix_mvp * _glesVertex);
-  tmpvar_1.xy = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
-  tmpvar_1.zw = ((_glesMultiTexCoord0.xy * _BumpMap_ST.xy) + _BumpMap_ST.zw);
-  highp vec4 o_4;
-  highp vec4 tmpvar_5;
-  tmpvar_5 = (tmpvar_3 * 0.5);
-  highp vec2 tmpvar_6;
-  tmpvar_6.x = tmpvar_5.x;
-  tmpvar_6.y = (tmpvar_5.y * _ProjectionParams.x);
-  o_4.xy = (tmpvar_6 + tmpvar_5.w);
-  o_4.zw = tmpvar_3.zw;
-  tmpvar_2.xyz = (((_Object2World * _glesVertex).xyz - unity_ShadowFadeCenterAndType.xyz) * unity_ShadowFadeCenterAndType.w);
-  tmpvar_2.w = (-((glstate_matrix_modelview0 * _glesVertex).z) * (1.0 - unity_ShadowFadeCenterAndType.w));
-  gl_Position = tmpvar_3;
-  xlv_TEXCOORD0 = tmpvar_1;
-  xlv_TEXCOORD1 = o_4;
-  xlv_TEXCOORD2 = ((_glesMultiTexCoord1.xy * unity_LightmapST.xy) + unity_LightmapST.zw);
-  xlv_TEXCOORD3 = tmpvar_2;
-}
-
-
-
-#endif
-#ifdef FRAGMENT
-
-varying highp vec4 xlv_TEXCOORD3;
-varying highp vec2 xlv_TEXCOORD2;
-varying highp vec4 xlv_TEXCOORD1;
-varying highp vec4 xlv_TEXCOORD0;
-uniform highp vec4 unity_LightmapFade;
-uniform sampler2D unity_LightmapInd;
-uniform sampler2D unity_Lightmap;
-uniform sampler2D _LightBuffer;
-uniform lowp vec4 _Color;
-uniform sampler2D _MainTex;
-void main ()
-{
-  lowp vec4 tmpvar_1;
-  mediump vec4 c_2;
-  mediump vec3 lmIndirect_3;
-  mediump vec3 lmFull_4;
-  mediump float lmFade_5;
-  mediump vec4 light_6;
-  lowp vec4 tmpvar_7;
-  tmpvar_7 = (texture2D (_MainTex, xlv_TEXCOORD0.xy) * _Color);
-  lowp vec4 tmpvar_8;
-  tmpvar_8 = texture2DProj (_LightBuffer, xlv_TEXCOORD1);
-  light_6 = tmpvar_8;
-  mediump vec4 tmpvar_9;
-  tmpvar_9 = max (light_6, vec4(0.001, 0.001, 0.001, 0.001));
-  light_6.w = tmpvar_9.w;
-  highp float tmpvar_10;
-  tmpvar_10 = ((sqrt(dot (xlv_TEXCOORD3, xlv_TEXCOORD3)) * unity_LightmapFade.z) + unity_LightmapFade.w);
-  lmFade_5 = tmpvar_10;
-  lowp vec3 tmpvar_11;
-  tmpvar_11 = (2.0 * texture2D (unity_Lightmap, xlv_TEXCOORD2).xyz);
-  lmFull_4 = tmpvar_11;
-  lowp vec3 tmpvar_12;
-  tmpvar_12 = (2.0 * texture2D (unity_LightmapInd, xlv_TEXCOORD2).xyz);
-  lmIndirect_3 = tmpvar_12;
-  light_6.xyz = (tmpvar_9.xyz + mix (lmIndirect_3, lmFull_4, vec3(clamp (lmFade_5, 0.0, 1.0))));
-  lowp vec4 c_13;
-  mediump vec3 tmpvar_14;
-  tmpvar_14 = (tmpvar_7.xyz * light_6.xyz);
-  c_13.xyz = tmpvar_14;
-  c_13.w = tmpvar_7.w;
-  c_2 = c_13;
-  tmpvar_1 = c_2;
-  gl_FragData[0] = tmpvar_1;
-}
-
-
-
-#endif"
-}
-SubProgram "gles3 " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_ON" }
-"!!GLES3#version 300 es
-
-
-#ifdef VERTEX
-
-#define gl_Vertex _glesVertex
-in vec4 _glesVertex;
-#define gl_Color _glesColor
-in vec4 _glesColor;
-#define gl_Normal (normalize(_glesNormal))
-in vec3 _glesNormal;
-#define gl_MultiTexCoord0 _glesMultiTexCoord0
-in vec4 _glesMultiTexCoord0;
-#define gl_MultiTexCoord1 _glesMultiTexCoord1
-in vec4 _glesMultiTexCoord1;
-#define TANGENT vec4(normalize(_glesTANGENT.xyz), _glesTANGENT.w)
-in vec4 _glesTANGENT;
-
-#line 151
-struct v2f_vertex_lit {
-    highp vec2 uv;
-    lowp vec4 diff;
-    lowp vec4 spec;
-};
-#line 187
-struct v2f_img {
-    highp vec4 pos;
-    mediump vec2 uv;
-};
-#line 181
-struct appdata_img {
-    highp vec4 vertex;
-    mediump vec2 texcoord;
-};
-#line 315
-struct SurfaceOutput {
-    lowp vec3 Albedo;
-    lowp vec3 Normal;
-    lowp vec3 Emission;
-    mediump float Specular;
-    lowp float Gloss;
-    lowp float Alpha;
-};
-#line 394
-struct Input {
-    highp vec2 uv_MainTex;
-    highp vec2 uv_BumpMap;
-};
-#line 407
-struct v2f_surf {
-    highp vec4 pos;
-    highp vec4 pack0;
-    highp vec4 screen;
-    highp vec2 lmap;
-    highp vec4 lmapFadePos;
-};
-#line 67
-struct appdata_full {
-    highp vec4 vertex;
-    highp vec4 tangent;
-    highp vec3 normal;
-    highp vec4 texcoord;
-    highp vec4 texcoord1;
-    lowp vec4 color;
-};
-uniform highp vec4 _Time;
-uniform highp vec4 _SinTime;
-#line 3
-uniform highp vec4 _CosTime;
-uniform highp vec4 unity_DeltaTime;
-uniform highp vec3 _WorldSpaceCameraPos;
-uniform highp vec4 _ProjectionParams;
-#line 7
-uniform highp vec4 _ScreenParams;
-uniform highp vec4 _ZBufferParams;
-uniform highp vec4 unity_CameraWorldClipPlanes[6];
-uniform highp vec4 _WorldSpaceLightPos0;
-#line 11
-uniform highp vec4 _LightPositionRange;
-uniform highp vec4 unity_4LightPosX0;
-uniform highp vec4 unity_4LightPosY0;
-uniform highp vec4 unity_4LightPosZ0;
-#line 15
-uniform highp vec4 unity_4LightAtten0;
-uniform highp vec4 unity_LightColor[8];
-uniform highp vec4 unity_LightPosition[8];
-uniform highp vec4 unity_LightAtten[8];
-#line 19
-uniform highp vec4 unity_SpotDirection[8];
-uniform highp vec4 unity_SHAr;
-uniform highp vec4 unity_SHAg;
-uniform highp vec4 unity_SHAb;
-#line 23
-uniform highp vec4 unity_SHBr;
-uniform highp vec4 unity_SHBg;
-uniform highp vec4 unity_SHBb;
-uniform highp vec4 unity_SHC;
-#line 27
-uniform highp vec3 unity_LightColor0;
-uniform highp vec3 unity_LightColor1;
-uniform highp vec3 unity_LightColor2;
-uniform highp vec3 unity_LightColor3;
-uniform highp vec4 unity_ShadowSplitSpheres[4];
-uniform highp vec4 unity_ShadowSplitSqRadii;
-uniform highp vec4 unity_LightShadowBias;
-#line 31
-uniform highp vec4 _LightSplitsNear;
-uniform highp vec4 _LightSplitsFar;
-uniform highp mat4 unity_World2Shadow[4];
-uniform highp vec4 _LightShadowData;
-#line 35
-uniform highp vec4 unity_ShadowFadeCenterAndType;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_invtrans_modelview0;
-#line 39
-uniform highp mat4 _Object2World;
-uniform highp mat4 _World2Object;
-uniform highp vec4 unity_Scale;
-uniform highp mat4 glstate_matrix_transpose_modelview0;
-#line 43
-uniform highp mat4 glstate_matrix_texture0;
-uniform highp mat4 glstate_matrix_texture1;
-uniform highp mat4 glstate_matrix_texture2;
-uniform highp mat4 glstate_matrix_texture3;
-#line 47
-uniform highp mat4 glstate_matrix_projection;
-uniform highp vec4 glstate_lightmodel_ambient;
-uniform highp mat4 unity_MatrixV;
-uniform highp mat4 unity_MatrixVP;
-#line 51
-uniform lowp vec4 unity_ColorSpaceGrey;
-#line 77
-#line 82
-#line 87
-#line 91
-#line 96
-#line 120
-#line 137
-#line 158
-#line 166
-#line 193
-#line 206
-#line 215
-#line 220
-#line 229
-#line 234
-#line 243
-#line 260
-#line 265
-#line 291
-#line 299
-#line 307
-#line 311
-#line 325
-uniform lowp vec4 _LightColor0;
-uniform lowp vec4 _SpecColor;
-#line 338
-#line 346
-#line 360
-uniform sampler2D _MainTex;
-uniform sampler2D _BumpMap;
-#line 393
-uniform lowp vec4 _Color;
-#line 400
-#line 416
-uniform highp vec4 unity_LightmapST;
-uniform highp vec4 _MainTex_ST;
-uniform highp vec4 _BumpMap_ST;
-uniform sampler2D _LightBuffer;
-uniform sampler2D unity_Lightmap;
-#line 433
-uniform sampler2D unity_LightmapInd;
-uniform highp vec4 unity_LightmapFade;
-uniform lowp vec4 unity_Ambient;
-#line 284
-highp vec4 ComputeScreenPos( in highp vec4 pos ) {
-    #line 286
-    highp vec4 o = (pos * 0.5);
-    o.xy = (vec2( o.x, (o.y * _ProjectionParams.x)) + o.w);
-    o.zw = pos.zw;
-    return o;
-}
-#line 419
-v2f_surf vert_surf( in appdata_full v ) {
-    #line 421
-    v2f_surf o;
-    o.pos = (glstate_matrix_mvp * v.vertex);
-    o.pack0.xy = ((v.texcoord.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
-    o.pack0.zw = ((v.texcoord.xy * _BumpMap_ST.xy) + _BumpMap_ST.zw);
-    #line 425
-    o.screen = ComputeScreenPos( o.pos);
-    o.lmap.xy = ((v.texcoord1.xy * unity_LightmapST.xy) + unity_LightmapST.zw);
-    o.lmapFadePos.xyz = (((_Object2World * v.vertex).xyz - unity_ShadowFadeCenterAndType.xyz) * unity_ShadowFadeCenterAndType.w);
-    o.lmapFadePos.w = ((-(glstate_matrix_modelview0 * v.vertex).z) * (1.0 - unity_ShadowFadeCenterAndType.w));
-    #line 429
-    return o;
-}
-
-out highp vec4 xlv_TEXCOORD0;
-out highp vec4 xlv_TEXCOORD1;
-out highp vec2 xlv_TEXCOORD2;
-out highp vec4 xlv_TEXCOORD3;
-void main() {
-    v2f_surf xl_retval;
-    appdata_full xlt_v;
-    xlt_v.vertex = vec4(gl_Vertex);
-    xlt_v.tangent = vec4(TANGENT);
-    xlt_v.normal = vec3(gl_Normal);
-    xlt_v.texcoord = vec4(gl_MultiTexCoord0);
-    xlt_v.texcoord1 = vec4(gl_MultiTexCoord1);
-    xlt_v.color = vec4(gl_Color);
-    xl_retval = vert_surf( xlt_v);
-    gl_Position = vec4(xl_retval.pos);
-    xlv_TEXCOORD0 = vec4(xl_retval.pack0);
-    xlv_TEXCOORD1 = vec4(xl_retval.screen);
-    xlv_TEXCOORD2 = vec2(xl_retval.lmap);
-    xlv_TEXCOORD3 = vec4(xl_retval.lmapFadePos);
-}
-
-
-#endif
-#ifdef FRAGMENT
-
-#define gl_FragData _glesFragData
-layout(location = 0) out mediump vec4 _glesFragData[4];
-float xll_saturate_f( float x) {
-  return clamp( x, 0.0, 1.0);
-}
-vec2 xll_saturate_vf2( vec2 x) {
-  return clamp( x, 0.0, 1.0);
-}
-vec3 xll_saturate_vf3( vec3 x) {
-  return clamp( x, 0.0, 1.0);
-}
-vec4 xll_saturate_vf4( vec4 x) {
-  return clamp( x, 0.0, 1.0);
-}
-mat2 xll_saturate_mf2x2(mat2 m) {
-  return mat2( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0));
-}
-mat3 xll_saturate_mf3x3(mat3 m) {
-  return mat3( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0));
-}
-mat4 xll_saturate_mf4x4(mat4 m) {
-  return mat4( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0), clamp(m[3], 0.0, 1.0));
-}
-#line 151
-struct v2f_vertex_lit {
-    highp vec2 uv;
-    lowp vec4 diff;
-    lowp vec4 spec;
-};
-#line 187
-struct v2f_img {
-    highp vec4 pos;
-    mediump vec2 uv;
-};
-#line 181
-struct appdata_img {
-    highp vec4 vertex;
-    mediump vec2 texcoord;
-};
-#line 315
-struct SurfaceOutput {
-    lowp vec3 Albedo;
-    lowp vec3 Normal;
-    lowp vec3 Emission;
-    mediump float Specular;
-    lowp float Gloss;
-    lowp float Alpha;
-};
-#line 394
-struct Input {
-    highp vec2 uv_MainTex;
-    highp vec2 uv_BumpMap;
-};
-#line 407
-struct v2f_surf {
-    highp vec4 pos;
-    highp vec4 pack0;
-    highp vec4 screen;
-    highp vec2 lmap;
-    highp vec4 lmapFadePos;
-};
-#line 67
-struct appdata_full {
-    highp vec4 vertex;
-    highp vec4 tangent;
-    highp vec3 normal;
-    highp vec4 texcoord;
-    highp vec4 texcoord1;
-    lowp vec4 color;
-};
-uniform highp vec4 _Time;
-uniform highp vec4 _SinTime;
-#line 3
-uniform highp vec4 _CosTime;
-uniform highp vec4 unity_DeltaTime;
-uniform highp vec3 _WorldSpaceCameraPos;
-uniform highp vec4 _ProjectionParams;
-#line 7
-uniform highp vec4 _ScreenParams;
-uniform highp vec4 _ZBufferParams;
-uniform highp vec4 unity_CameraWorldClipPlanes[6];
-uniform highp vec4 _WorldSpaceLightPos0;
-#line 11
-uniform highp vec4 _LightPositionRange;
-uniform highp vec4 unity_4LightPosX0;
-uniform highp vec4 unity_4LightPosY0;
-uniform highp vec4 unity_4LightPosZ0;
-#line 15
-uniform highp vec4 unity_4LightAtten0;
-uniform highp vec4 unity_LightColor[8];
-uniform highp vec4 unity_LightPosition[8];
-uniform highp vec4 unity_LightAtten[8];
-#line 19
-uniform highp vec4 unity_SpotDirection[8];
-uniform highp vec4 unity_SHAr;
-uniform highp vec4 unity_SHAg;
-uniform highp vec4 unity_SHAb;
-#line 23
-uniform highp vec4 unity_SHBr;
-uniform highp vec4 unity_SHBg;
-uniform highp vec4 unity_SHBb;
-uniform highp vec4 unity_SHC;
-#line 27
-uniform highp vec3 unity_LightColor0;
-uniform highp vec3 unity_LightColor1;
-uniform highp vec3 unity_LightColor2;
-uniform highp vec3 unity_LightColor3;
-uniform highp vec4 unity_ShadowSplitSpheres[4];
-uniform highp vec4 unity_ShadowSplitSqRadii;
-uniform highp vec4 unity_LightShadowBias;
-#line 31
-uniform highp vec4 _LightSplitsNear;
-uniform highp vec4 _LightSplitsFar;
-uniform highp mat4 unity_World2Shadow[4];
-uniform highp vec4 _LightShadowData;
-#line 35
-uniform highp vec4 unity_ShadowFadeCenterAndType;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_invtrans_modelview0;
-#line 39
-uniform highp mat4 _Object2World;
-uniform highp mat4 _World2Object;
-uniform highp vec4 unity_Scale;
-uniform highp mat4 glstate_matrix_transpose_modelview0;
-#line 43
-uniform highp mat4 glstate_matrix_texture0;
-uniform highp mat4 glstate_matrix_texture1;
-uniform highp mat4 glstate_matrix_texture2;
-uniform highp mat4 glstate_matrix_texture3;
-#line 47
-uniform highp mat4 glstate_matrix_projection;
-uniform highp vec4 glstate_lightmodel_ambient;
-uniform highp mat4 unity_MatrixV;
-uniform highp mat4 unity_MatrixVP;
-#line 51
-uniform lowp vec4 unity_ColorSpaceGrey;
-#line 77
-#line 82
-#line 87
-#line 91
-#line 96
-#line 120
-#line 137
-#line 158
-#line 166
-#line 193
-#line 206
-#line 215
-#line 220
-#line 229
-#line 234
-#line 243
-#line 260
-#line 265
-#line 291
-#line 299
-#line 307
-#line 311
-#line 325
-uniform lowp vec4 _LightColor0;
-uniform lowp vec4 _SpecColor;
-#line 338
-#line 346
-#line 360
-uniform sampler2D _MainTex;
-uniform sampler2D _BumpMap;
-#line 393
-uniform lowp vec4 _Color;
-#line 400
-#line 416
-uniform highp vec4 unity_LightmapST;
-uniform highp vec4 _MainTex_ST;
-uniform highp vec4 _BumpMap_ST;
-uniform sampler2D _LightBuffer;
-uniform sampler2D unity_Lightmap;
-#line 433
-uniform sampler2D unity_LightmapInd;
-uniform highp vec4 unity_LightmapFade;
-uniform lowp vec4 unity_Ambient;
-#line 177
-lowp vec3 DecodeLightmap( in lowp vec4 color ) {
-    #line 179
-    return (2.0 * color.xyz);
-}
-#line 346
-lowp vec4 LightingLambert_PrePass( in SurfaceOutput s, in mediump vec4 light ) {
-    lowp vec4 c;
-    c.xyz = (s.Albedo * light.xyz);
-    #line 350
-    c.w = s.Alpha;
-    return c;
-}
-#line 272
-lowp vec3 UnpackNormal( in lowp vec4 packednormal ) {
-    #line 274
-    return ((packednormal.xyz * 2.0) - 1.0);
-}
-#line 400
-void surf( in Input IN, inout SurfaceOutput o ) {
-    lowp vec4 c = (texture( _MainTex, IN.uv_MainTex) * _Color);
-    o.Albedo = c.xyz;
-    #line 404
-    o.Alpha = c.w;
-    o.Normal = UnpackNormal( texture( _BumpMap, IN.uv_BumpMap));
-}
-#line 436
-lowp vec4 frag_surf( in v2f_surf IN ) {
-    #line 438
-    Input surfIN;
-    surfIN.uv_MainTex = IN.pack0.xy;
-    surfIN.uv_BumpMap = IN.pack0.zw;
-    SurfaceOutput o;
-    #line 442
-    o.Albedo = vec3( 0.0);
-    o.Emission = vec3( 0.0);
-    o.Specular = 0.0;
-    o.Alpha = 0.0;
-    #line 446
-    o.Gloss = 0.0;
-    surf( surfIN, o);
-    mediump vec4 light = textureProj( _LightBuffer, IN.screen);
-    light = max( light, vec4( 0.001));
-    #line 450
-    lowp vec4 lmtex = texture( unity_Lightmap, IN.lmap.xy);
-    lowp vec4 lmtex2 = texture( unity_LightmapInd, IN.lmap.xy);
-    mediump float lmFade = ((length(IN.lmapFadePos) * unity_LightmapFade.z) + unity_LightmapFade.w);
-    mediump vec3 lmFull = DecodeLightmap( lmtex);
-    #line 454
-    mediump vec3 lmIndirect = DecodeLightmap( lmtex2);
-    mediump vec3 lm = mix( lmIndirect, lmFull, vec3( xll_saturate_f(lmFade)));
-    light.xyz += lm;
-    mediump vec4 c = LightingLambert_PrePass( o, light);
-    #line 458
-    return c;
-}
-in highp vec4 xlv_TEXCOORD0;
-in highp vec4 xlv_TEXCOORD1;
-in highp vec2 xlv_TEXCOORD2;
-in highp vec4 xlv_TEXCOORD3;
-void main() {
-    lowp vec4 xl_retval;
-    v2f_surf xlt_IN;
-    xlt_IN.pos = vec4(0.0);
-    xlt_IN.pack0 = vec4(xlv_TEXCOORD0);
-    xlt_IN.screen = vec4(xlv_TEXCOORD1);
-    xlt_IN.lmap = vec2(xlv_TEXCOORD2);
-    xlt_IN.lmapFadePos = vec4(xlv_TEXCOORD3);
-    xl_retval = frag_surf( xlt_IN);
-    gl_FragData[0] = vec4(xl_retval);
-}
-
-
-#endif"
-}
-SubProgram "gles " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_ON" "HDR_LIGHT_PREPASS_ON" }
-"!!GLES
-
-
-#ifdef VERTEX
-
-varying highp vec2 xlv_TEXCOORD2;
-varying highp vec4 xlv_TEXCOORD1;
-varying highp vec4 xlv_TEXCOORD0;
-uniform highp vec4 _BumpMap_ST;
-uniform highp vec4 _MainTex_ST;
-uniform highp vec4 unity_LightmapST;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp vec4 _ProjectionParams;
-attribute vec4 _glesMultiTexCoord1;
-attribute vec4 _glesMultiTexCoord0;
-attribute vec4 _glesVertex;
-void main ()
-{
-  highp vec4 tmpvar_1;
-  highp vec4 tmpvar_2;
-  tmpvar_2 = (glstate_matrix_mvp * _glesVertex);
-  tmpvar_1.xy = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
-  tmpvar_1.zw = ((_glesMultiTexCoord0.xy * _BumpMap_ST.xy) + _BumpMap_ST.zw);
-  highp vec4 o_3;
-  highp vec4 tmpvar_4;
-  tmpvar_4 = (tmpvar_2 * 0.5);
-  highp vec2 tmpvar_5;
-  tmpvar_5.x = tmpvar_4.x;
-  tmpvar_5.y = (tmpvar_4.y * _ProjectionParams.x);
-  o_3.xy = (tmpvar_5 + tmpvar_4.w);
-  o_3.zw = tmpvar_2.zw;
-  gl_Position = tmpvar_2;
-  xlv_TEXCOORD0 = tmpvar_1;
-  xlv_TEXCOORD1 = o_3;
-  xlv_TEXCOORD2 = ((_glesMultiTexCoord1.xy * unity_LightmapST.xy) + unity_LightmapST.zw);
-}
-
-
-
-#endif
-#ifdef FRAGMENT
-
-varying highp vec2 xlv_TEXCOORD2;
-varying highp vec4 xlv_TEXCOORD1;
-varying highp vec4 xlv_TEXCOORD0;
-uniform sampler2D unity_LightmapInd;
-uniform sampler2D unity_Lightmap;
-uniform sampler2D _LightBuffer;
-uniform lowp vec4 _Color;
-uniform sampler2D _BumpMap;
-uniform sampler2D _MainTex;
-void main ()
-{
-  lowp vec4 tmpvar_1;
-  mediump vec4 c_2;
-  mediump vec4 light_3;
-  lowp vec4 tmpvar_4;
-  tmpvar_4 = (texture2D (_MainTex, xlv_TEXCOORD0.xy) * _Color);
-  lowp vec3 tmpvar_5;
-  tmpvar_5 = ((texture2D (_BumpMap, xlv_TEXCOORD0.zw).xyz * 2.0) - 1.0);
-  lowp vec4 tmpvar_6;
-  tmpvar_6 = texture2DProj (_LightBuffer, xlv_TEXCOORD1);
-  light_3 = tmpvar_6;
-  mat3 tmpvar_7;
-  tmpvar_7[0].x = 0.816497;
-  tmpvar_7[0].y = -0.408248;
-  tmpvar_7[0].z = -0.408248;
-  tmpvar_7[1].x = 0.0;
-  tmpvar_7[1].y = 0.707107;
-  tmpvar_7[1].z = -0.707107;
-  tmpvar_7[2].x = 0.57735;
-  tmpvar_7[2].y = 0.57735;
-  tmpvar_7[2].z = 0.57735;
-  mediump vec3 normal_8;
-  normal_8 = tmpvar_5;
-  mediump vec3 scalePerBasisVector_9;
-  mediump vec3 lm_10;
-  lowp vec3 tmpvar_11;
-  tmpvar_11 = (2.0 * texture2D (unity_Lightmap, xlv_TEXCOORD2).xyz);
-  lm_10 = tmpvar_11;
-  lowp vec3 tmpvar_12;
-  tmpvar_12 = (2.0 * texture2D (unity_LightmapInd, xlv_TEXCOORD2).xyz);
-  scalePerBasisVector_9 = tmpvar_12;
-  lm_10 = (lm_10 * dot (clamp ((tmpvar_7 * normal_8), 0.0, 1.0), scalePerBasisVector_9));
-  mediump vec4 tmpvar_13;
-  tmpvar_13.w = 0.0;
-  tmpvar_13.xyz = lm_10;
-  mediump vec4 tmpvar_14;
-  tmpvar_14 = (max (light_3, vec4(0.001, 0.001, 0.001, 0.001)) + tmpvar_13);
-  light_3 = tmpvar_14;
-  lowp vec4 c_15;
-  mediump vec3 tmpvar_16;
-  tmpvar_16 = (tmpvar_4.xyz * tmpvar_14.xyz);
-  c_15.xyz = tmpvar_16;
-  c_15.w = tmpvar_4.w;
-  c_2 = c_15;
-  tmpvar_1 = c_2;
-  gl_FragData[0] = tmpvar_1;
-}
-
-
-
-#endif"
-}
-SubProgram "gles3 " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_ON" "HDR_LIGHT_PREPASS_ON" }
-"!!GLES3#version 300 es
-
-
-#ifdef VERTEX
-
-#define gl_Vertex _glesVertex
-in vec4 _glesVertex;
-#define gl_Color _glesColor
-in vec4 _glesColor;
-#define gl_Normal (normalize(_glesNormal))
-in vec3 _glesNormal;
-#define gl_MultiTexCoord0 _glesMultiTexCoord0
-in vec4 _glesMultiTexCoord0;
-#define gl_MultiTexCoord1 _glesMultiTexCoord1
-in vec4 _glesMultiTexCoord1;
-#define TANGENT vec4(normalize(_glesTANGENT.xyz), _glesTANGENT.w)
-in vec4 _glesTANGENT;
-
-#line 151
-struct v2f_vertex_lit {
-    highp vec2 uv;
-    lowp vec4 diff;
-    lowp vec4 spec;
-};
-#line 187
-struct v2f_img {
-    highp vec4 pos;
-    mediump vec2 uv;
-};
-#line 181
-struct appdata_img {
-    highp vec4 vertex;
-    mediump vec2 texcoord;
-};
-#line 315
-struct SurfaceOutput {
-    lowp vec3 Albedo;
-    lowp vec3 Normal;
-    lowp vec3 Emission;
-    mediump float Specular;
-    lowp float Gloss;
-    lowp float Alpha;
-};
-#line 394
-struct Input {
-    highp vec2 uv_MainTex;
-    highp vec2 uv_BumpMap;
-};
-#line 407
-struct v2f_surf {
-    highp vec4 pos;
-    highp vec4 pack0;
-    highp vec4 screen;
-    highp vec2 lmap;
-};
-#line 67
-struct appdata_full {
-    highp vec4 vertex;
-    highp vec4 tangent;
-    highp vec3 normal;
-    highp vec4 texcoord;
-    highp vec4 texcoord1;
-    lowp vec4 color;
-};
-uniform highp vec4 _Time;
-uniform highp vec4 _SinTime;
-#line 3
-uniform highp vec4 _CosTime;
-uniform highp vec4 unity_DeltaTime;
-uniform highp vec3 _WorldSpaceCameraPos;
-uniform highp vec4 _ProjectionParams;
-#line 7
-uniform highp vec4 _ScreenParams;
-uniform highp vec4 _ZBufferParams;
-uniform highp vec4 unity_CameraWorldClipPlanes[6];
-uniform highp vec4 _WorldSpaceLightPos0;
-#line 11
-uniform highp vec4 _LightPositionRange;
-uniform highp vec4 unity_4LightPosX0;
-uniform highp vec4 unity_4LightPosY0;
-uniform highp vec4 unity_4LightPosZ0;
-#line 15
-uniform highp vec4 unity_4LightAtten0;
-uniform highp vec4 unity_LightColor[8];
-uniform highp vec4 unity_LightPosition[8];
-uniform highp vec4 unity_LightAtten[8];
-#line 19
-uniform highp vec4 unity_SpotDirection[8];
-uniform highp vec4 unity_SHAr;
-uniform highp vec4 unity_SHAg;
-uniform highp vec4 unity_SHAb;
-#line 23
-uniform highp vec4 unity_SHBr;
-uniform highp vec4 unity_SHBg;
-uniform highp vec4 unity_SHBb;
-uniform highp vec4 unity_SHC;
-#line 27
-uniform highp vec3 unity_LightColor0;
-uniform highp vec3 unity_LightColor1;
-uniform highp vec3 unity_LightColor2;
-uniform highp vec3 unity_LightColor3;
-uniform highp vec4 unity_ShadowSplitSpheres[4];
-uniform highp vec4 unity_ShadowSplitSqRadii;
-uniform highp vec4 unity_LightShadowBias;
-#line 31
-uniform highp vec4 _LightSplitsNear;
-uniform highp vec4 _LightSplitsFar;
-uniform highp mat4 unity_World2Shadow[4];
-uniform highp vec4 _LightShadowData;
-#line 35
-uniform highp vec4 unity_ShadowFadeCenterAndType;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_invtrans_modelview0;
-#line 39
-uniform highp mat4 _Object2World;
-uniform highp mat4 _World2Object;
-uniform highp vec4 unity_Scale;
-uniform highp mat4 glstate_matrix_transpose_modelview0;
-#line 43
-uniform highp mat4 glstate_matrix_texture0;
-uniform highp mat4 glstate_matrix_texture1;
-uniform highp mat4 glstate_matrix_texture2;
-uniform highp mat4 glstate_matrix_texture3;
-#line 47
-uniform highp mat4 glstate_matrix_projection;
-uniform highp vec4 glstate_lightmodel_ambient;
-uniform highp mat4 unity_MatrixV;
-uniform highp mat4 unity_MatrixVP;
-#line 51
-uniform lowp vec4 unity_ColorSpaceGrey;
-#line 77
-#line 82
-#line 87
-#line 91
-#line 96
-#line 120
-#line 137
-#line 158
-#line 166
-#line 193
-#line 206
-#line 215
-#line 220
-#line 229
-#line 234
-#line 243
-#line 260
-#line 265
-#line 291
-#line 299
-#line 307
-#line 311
-#line 325
-uniform lowp vec4 _LightColor0;
-uniform lowp vec4 _SpecColor;
-#line 338
-#line 346
-#line 360
-uniform sampler2D _MainTex;
-uniform sampler2D _BumpMap;
-#line 393
-uniform lowp vec4 _Color;
-#line 400
-#line 415
-uniform highp vec4 unity_LightmapST;
-uniform highp vec4 _MainTex_ST;
-uniform highp vec4 _BumpMap_ST;
-#line 428
-uniform sampler2D _LightBuffer;
-uniform sampler2D unity_Lightmap;
-uniform sampler2D unity_LightmapInd;
-uniform highp vec4 unity_LightmapFade;
-#line 432
-uniform lowp vec4 unity_Ambient;
-#line 284
-highp vec4 ComputeScreenPos( in highp vec4 pos ) {
-    #line 286
-    highp vec4 o = (pos * 0.5);
-    o.xy = (vec2( o.x, (o.y * _ProjectionParams.x)) + o.w);
-    o.zw = pos.zw;
-    return o;
-}
-#line 418
-v2f_surf vert_surf( in appdata_full v ) {
-    #line 420
-    v2f_surf o;
-    o.pos = (glstate_matrix_mvp * v.vertex);
-    o.pack0.xy = ((v.texcoord.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
-    o.pack0.zw = ((v.texcoord.xy * _BumpMap_ST.xy) + _BumpMap_ST.zw);
-    #line 424
-    o.screen = ComputeScreenPos( o.pos);
-    o.lmap.xy = ((v.texcoord1.xy * unity_LightmapST.xy) + unity_LightmapST.zw);
-    return o;
-}
-
-out highp vec4 xlv_TEXCOORD0;
-out highp vec4 xlv_TEXCOORD1;
-out highp vec2 xlv_TEXCOORD2;
-void main() {
-    v2f_surf xl_retval;
-    appdata_full xlt_v;
-    xlt_v.vertex = vec4(gl_Vertex);
-    xlt_v.tangent = vec4(TANGENT);
-    xlt_v.normal = vec3(gl_Normal);
-    xlt_v.texcoord = vec4(gl_MultiTexCoord0);
-    xlt_v.texcoord1 = vec4(gl_MultiTexCoord1);
-    xlt_v.color = vec4(gl_Color);
-    xl_retval = vert_surf( xlt_v);
-    gl_Position = vec4(xl_retval.pos);
-    xlv_TEXCOORD0 = vec4(xl_retval.pack0);
-    xlv_TEXCOORD1 = vec4(xl_retval.screen);
-    xlv_TEXCOORD2 = vec2(xl_retval.lmap);
-}
-
-
-#endif
-#ifdef FRAGMENT
-
-#define gl_FragData _glesFragData
-layout(location = 0) out mediump vec4 _glesFragData[4];
-mat2 xll_transpose_mf2x2(mat2 m) {
-  return mat2( m[0][0], m[1][0], m[0][1], m[1][1]);
-}
-mat3 xll_transpose_mf3x3(mat3 m) {
-  return mat3( m[0][0], m[1][0], m[2][0],
-               m[0][1], m[1][1], m[2][1],
-               m[0][2], m[1][2], m[2][2]);
-}
-mat4 xll_transpose_mf4x4(mat4 m) {
-  return mat4( m[0][0], m[1][0], m[2][0], m[3][0],
-               m[0][1], m[1][1], m[2][1], m[3][1],
-               m[0][2], m[1][2], m[2][2], m[3][2],
-               m[0][3], m[1][3], m[2][3], m[3][3]);
-}
-float xll_saturate_f( float x) {
-  return clamp( x, 0.0, 1.0);
-}
-vec2 xll_saturate_vf2( vec2 x) {
-  return clamp( x, 0.0, 1.0);
-}
-vec3 xll_saturate_vf3( vec3 x) {
-  return clamp( x, 0.0, 1.0);
-}
-vec4 xll_saturate_vf4( vec4 x) {
-  return clamp( x, 0.0, 1.0);
-}
-mat2 xll_saturate_mf2x2(mat2 m) {
-  return mat2( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0));
-}
-mat3 xll_saturate_mf3x3(mat3 m) {
-  return mat3( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0));
-}
-mat4 xll_saturate_mf4x4(mat4 m) {
-  return mat4( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0), clamp(m[3], 0.0, 1.0));
-}
-#line 151
-struct v2f_vertex_lit {
-    highp vec2 uv;
-    lowp vec4 diff;
-    lowp vec4 spec;
-};
-#line 187
-struct v2f_img {
-    highp vec4 pos;
-    mediump vec2 uv;
-};
-#line 181
-struct appdata_img {
-    highp vec4 vertex;
-    mediump vec2 texcoord;
-};
-#line 315
-struct SurfaceOutput {
-    lowp vec3 Albedo;
-    lowp vec3 Normal;
-    lowp vec3 Emission;
-    mediump float Specular;
-    lowp float Gloss;
-    lowp float Alpha;
-};
-#line 394
-struct Input {
-    highp vec2 uv_MainTex;
-    highp vec2 uv_BumpMap;
-};
-#line 407
-struct v2f_surf {
-    highp vec4 pos;
-    highp vec4 pack0;
-    highp vec4 screen;
-    highp vec2 lmap;
-};
-#line 67
-struct appdata_full {
-    highp vec4 vertex;
-    highp vec4 tangent;
-    highp vec3 normal;
-    highp vec4 texcoord;
-    highp vec4 texcoord1;
-    lowp vec4 color;
-};
-uniform highp vec4 _Time;
-uniform highp vec4 _SinTime;
-#line 3
-uniform highp vec4 _CosTime;
-uniform highp vec4 unity_DeltaTime;
-uniform highp vec3 _WorldSpaceCameraPos;
-uniform highp vec4 _ProjectionParams;
-#line 7
-uniform highp vec4 _ScreenParams;
-uniform highp vec4 _ZBufferParams;
-uniform highp vec4 unity_CameraWorldClipPlanes[6];
-uniform highp vec4 _WorldSpaceLightPos0;
-#line 11
-uniform highp vec4 _LightPositionRange;
-uniform highp vec4 unity_4LightPosX0;
-uniform highp vec4 unity_4LightPosY0;
-uniform highp vec4 unity_4LightPosZ0;
-#line 15
-uniform highp vec4 unity_4LightAtten0;
-uniform highp vec4 unity_LightColor[8];
-uniform highp vec4 unity_LightPosition[8];
-uniform highp vec4 unity_LightAtten[8];
-#line 19
-uniform highp vec4 unity_SpotDirection[8];
-uniform highp vec4 unity_SHAr;
-uniform highp vec4 unity_SHAg;
-uniform highp vec4 unity_SHAb;
-#line 23
-uniform highp vec4 unity_SHBr;
-uniform highp vec4 unity_SHBg;
-uniform highp vec4 unity_SHBb;
-uniform highp vec4 unity_SHC;
-#line 27
-uniform highp vec3 unity_LightColor0;
-uniform highp vec3 unity_LightColor1;
-uniform highp vec3 unity_LightColor2;
-uniform highp vec3 unity_LightColor3;
-uniform highp vec4 unity_ShadowSplitSpheres[4];
-uniform highp vec4 unity_ShadowSplitSqRadii;
-uniform highp vec4 unity_LightShadowBias;
-#line 31
-uniform highp vec4 _LightSplitsNear;
-uniform highp vec4 _LightSplitsFar;
-uniform highp mat4 unity_World2Shadow[4];
-uniform highp vec4 _LightShadowData;
-#line 35
-uniform highp vec4 unity_ShadowFadeCenterAndType;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_invtrans_modelview0;
-#line 39
-uniform highp mat4 _Object2World;
-uniform highp mat4 _World2Object;
-uniform highp vec4 unity_Scale;
-uniform highp mat4 glstate_matrix_transpose_modelview0;
-#line 43
-uniform highp mat4 glstate_matrix_texture0;
-uniform highp mat4 glstate_matrix_texture1;
-uniform highp mat4 glstate_matrix_texture2;
-uniform highp mat4 glstate_matrix_texture3;
-#line 47
-uniform highp mat4 glstate_matrix_projection;
-uniform highp vec4 glstate_lightmodel_ambient;
-uniform highp mat4 unity_MatrixV;
-uniform highp mat4 unity_MatrixVP;
-#line 51
-uniform lowp vec4 unity_ColorSpaceGrey;
-#line 77
-#line 82
-#line 87
-#line 91
-#line 96
-#line 120
-#line 137
-#line 158
-#line 166
-#line 193
-#line 206
-#line 215
-#line 220
-#line 229
-#line 234
-#line 243
-#line 260
-#line 265
-#line 291
-#line 299
-#line 307
-#line 311
-#line 325
-uniform lowp vec4 _LightColor0;
-uniform lowp vec4 _SpecColor;
-#line 338
-#line 346
-#line 360
-uniform sampler2D _MainTex;
-uniform sampler2D _BumpMap;
-#line 393
-uniform lowp vec4 _Color;
-#line 400
-#line 415
-uniform highp vec4 unity_LightmapST;
-uniform highp vec4 _MainTex_ST;
-uniform highp vec4 _BumpMap_ST;
-#line 428
-uniform sampler2D _LightBuffer;
-uniform sampler2D unity_Lightmap;
-uniform sampler2D unity_LightmapInd;
-uniform highp vec4 unity_LightmapFade;
-#line 432
-uniform lowp vec4 unity_Ambient;
-#line 177
-lowp vec3 DecodeLightmap( in lowp vec4 color ) {
-    #line 179
-    return (2.0 * color.xyz);
-}
-#line 325
-mediump vec3 DirLightmapDiffuse( in mediump mat3 dirBasis, in lowp vec4 color, in lowp vec4 scale, in mediump vec3 normal, in bool surfFuncWritesNormal, out mediump vec3 scalePerBasisVector ) {
-    mediump vec3 lm = DecodeLightmap( color);
-    scalePerBasisVector = DecodeLightmap( scale);
-    #line 329
-    if (surfFuncWritesNormal){
-        mediump vec3 normalInRnmBasis = xll_saturate_vf3((dirBasis * normal));
-        lm *= dot( normalInRnmBasis, scalePerBasisVector);
-    }
-    #line 334
-    return lm;
-}
-#line 353
-mediump vec4 LightingLambert_DirLightmap( in SurfaceOutput s, in lowp vec4 color, in lowp vec4 scale, in bool surfFuncWritesNormal ) {
-    #line 355
-    highp mat3 unity_DirBasis = xll_transpose_mf3x3(mat3( vec3( 0.816497, 0.0, 0.57735), vec3( -0.408248, 0.707107, 0.57735), vec3( -0.408248, -0.707107, 0.57735)));
-    mediump vec3 scalePerBasisVector;
-    mediump vec3 lm = DirLightmapDiffuse( unity_DirBasis, color, scale, s.Normal, surfFuncWritesNormal, scalePerBasisVector);
-    return vec4( lm, 0.0);
-}
-#line 346
-lowp vec4 LightingLambert_PrePass( in SurfaceOutput s, in mediump vec4 light ) {
-    lowp vec4 c;
-    c.xyz = (s.Albedo * light.xyz);
-    #line 350
-    c.w = s.Alpha;
-    return c;
-}
-#line 272
-lowp vec3 UnpackNormal( in lowp vec4 packednormal ) {
-    #line 274
-    return ((packednormal.xyz * 2.0) - 1.0);
-}
-#line 400
-void surf( in Input IN, inout SurfaceOutput o ) {
-    lowp vec4 c = (texture( _MainTex, IN.uv_MainTex) * _Color);
-    o.Albedo = c.xyz;
-    #line 404
-    o.Alpha = c.w;
-    o.Normal = UnpackNormal( texture( _BumpMap, IN.uv_BumpMap));
-}
-#line 433
-lowp vec4 frag_surf( in v2f_surf IN ) {
-    Input surfIN;
-    #line 436
-    surfIN.uv_MainTex = IN.pack0.xy;
-    surfIN.uv_BumpMap = IN.pack0.zw;
-    SurfaceOutput o;
-    o.Albedo = vec3( 0.0);
-    #line 440
-    o.Emission = vec3( 0.0);
-    o.Specular = 0.0;
-    o.Alpha = 0.0;
-    o.Gloss = 0.0;
-    #line 444
-    surf( surfIN, o);
-    mediump vec4 light = textureProj( _LightBuffer, IN.screen);
-    light = max( light, vec4( 0.001));
-    lowp vec4 lmtex = texture( unity_Lightmap, IN.lmap.xy);
-    #line 448
-    lowp vec4 lmIndTex = texture( unity_LightmapInd, IN.lmap.xy);
-    mediump vec4 lm = LightingLambert_DirLightmap( o, lmtex, lmIndTex, true);
-    light += lm;
-    mediump vec4 c = LightingLambert_PrePass( o, light);
-    #line 452
-    return c;
-}
-in highp vec4 xlv_TEXCOORD0;
-in highp vec4 xlv_TEXCOORD1;
-in highp vec2 xlv_TEXCOORD2;
-void main() {
-    lowp vec4 xl_retval;
-    v2f_surf xlt_IN;
-    xlt_IN.pos = vec4(0.0);
-    xlt_IN.pack0 = vec4(xlv_TEXCOORD0);
-    xlt_IN.screen = vec4(xlv_TEXCOORD1);
-    xlt_IN.lmap = vec2(xlv_TEXCOORD2);
-    xl_retval = frag_surf( xlt_IN);
-    gl_FragData[0] = vec4(xl_retval);
-}
-
-
-#endif"
-}
-}
-Program "fp" {
-SubProgram "gles " {
-Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_OFF" }
-"!!GLES"
-}
-SubProgram "gles3 " {
-Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_OFF" }
-"!!GLES3"
-}
-SubProgram "gles " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_OFF" }
-"!!GLES"
-}
-SubProgram "gles3 " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_OFF" }
-"!!GLES3"
-}
-SubProgram "gles " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_ON" "HDR_LIGHT_PREPASS_OFF" }
-"!!GLES"
-}
-SubProgram "gles3 " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_ON" "HDR_LIGHT_PREPASS_OFF" }
-"!!GLES3"
-}
-SubProgram "gles " {
-Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_ON" }
-"!!GLES"
-}
-SubProgram "gles3 " {
-Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_ON" }
-"!!GLES3"
-}
-SubProgram "gles " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_ON" }
-"!!GLES"
-}
-SubProgram "gles3 " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_ON" }
-"!!GLES3"
-}
-SubProgram "gles " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_ON" "HDR_LIGHT_PREPASS_ON" }
-"!!GLES"
-}
-SubProgram "gles3 " {
-Keywords { "LIGHTMAP_ON" "DIRLIGHTMAP_ON" "HDR_LIGHT_PREPASS_ON" }
-"!!GLES3"
-}
-}
- }
-}
-Fallback "Diffuse"
-}          I         Particle Alpha BlendÜM  Shader "Particles/Alpha Blended" {
-Properties {
- _TintColor ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
- _MainTex ("Particle Texture", 2D) = "white" {}
- _InvFade ("Soft Particles Factor", Range(0.01,3)) = 1
-}
-SubShader { 
- Tags { "QUEUE"="Transparent" "IGNOREPROJECTOR"="True" "RenderType"="Transparent" }
- Pass {
-  Tags { "QUEUE"="Transparent" "IGNOREPROJECTOR"="True" "RenderType"="Transparent" }
-  ZWrite Off
-  Cull Off
-  Blend SrcAlpha OneMinusSrcAlpha
-  AlphaTest Greater 0.01
-  ColorMask RGB
-Program "vp" {
-SubProgram "gles " {
-Keywords { "SOFTPARTICLES_OFF" }
-"!!GLES
-
-
-#ifdef VERTEX
-
-varying highp vec2 xlv_TEXCOORD0;
-varying lowp vec4 xlv_COLOR;
-uniform highp vec4 _MainTex_ST;
-uniform highp mat4 glstate_matrix_mvp;
-attribute vec4 _glesMultiTexCoord0;
-attribute vec4 _glesColor;
-attribute vec4 _glesVertex;
-void main ()
-{
-  gl_Position = (glstate_matrix_mvp * _glesVertex);
-  xlv_COLOR = _glesColor;
-  xlv_TEXCOORD0 = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
-}
-
-
-
-#endif
-#ifdef FRAGMENT
-
-varying highp vec2 xlv_TEXCOORD0;
-varying lowp vec4 xlv_COLOR;
-uniform lowp vec4 _TintColor;
-uniform sampler2D _MainTex;
-void main ()
-{
-  gl_FragData[0] = (((2.0 * xlv_COLOR) * _TintColor) * texture2D (_MainTex, xlv_TEXCOORD0));
-}
-
-
-
-#endif"
-}
-SubProgram "gles3 " {
-Keywords { "SOFTPARTICLES_OFF" }
-"!!GLES3#version 300 es
-
-
-#ifdef VERTEX
-
-#define gl_Vertex _glesVertex
-in vec4 _glesVertex;
-#define gl_Color _glesColor
-in vec4 _glesColor;
-#define gl_MultiTexCoord0 _glesMultiTexCoord0
-in vec4 _glesMultiTexCoord0;
-
-#line 151
-struct v2f_vertex_lit {
-    highp vec2 uv;
-    lowp vec4 diff;
-    lowp vec4 spec;
-};
-#line 187
-struct v2f_img {
-    highp vec4 pos;
-    mediump vec2 uv;
-};
-#line 181
-struct appdata_img {
-    highp vec4 vertex;
-    mediump vec2 texcoord;
-};
-#line 324
-struct v2f {
-    highp vec4 vertex;
-    lowp vec4 color;
-    highp vec2 texcoord;
-};
-#line 317
-struct appdata_t {
-    highp vec4 vertex;
-    lowp vec4 color;
-    highp vec2 texcoord;
-};
-uniform highp vec4 _Time;
-uniform highp vec4 _SinTime;
-#line 3
-uniform highp vec4 _CosTime;
-uniform highp vec4 unity_DeltaTime;
-uniform highp vec3 _WorldSpaceCameraPos;
-uniform highp vec4 _ProjectionParams;
-#line 7
-uniform highp vec4 _ScreenParams;
-uniform highp vec4 _ZBufferParams;
-uniform highp vec4 unity_CameraWorldClipPlanes[6];
-uniform highp vec4 _WorldSpaceLightPos0;
-#line 11
-uniform highp vec4 _LightPositionRange;
-uniform highp vec4 unity_4LightPosX0;
-uniform highp vec4 unity_4LightPosY0;
-uniform highp vec4 unity_4LightPosZ0;
-#line 15
-uniform highp vec4 unity_4LightAtten0;
-uniform highp vec4 unity_LightColor[8];
-uniform highp vec4 unity_LightPosition[8];
-uniform highp vec4 unity_LightAtten[8];
-#line 19
-uniform highp vec4 unity_SpotDirection[8];
-uniform highp vec4 unity_SHAr;
-uniform highp vec4 unity_SHAg;
-uniform highp vec4 unity_SHAb;
-#line 23
-uniform highp vec4 unity_SHBr;
-uniform highp vec4 unity_SHBg;
-uniform highp vec4 unity_SHBb;
-uniform highp vec4 unity_SHC;
-#line 27
-uniform highp vec3 unity_LightColor0;
-uniform highp vec3 unity_LightColor1;
-uniform highp vec3 unity_LightColor2;
-uniform highp vec3 unity_LightColor3;
-uniform highp vec4 unity_ShadowSplitSpheres[4];
-uniform highp vec4 unity_ShadowSplitSqRadii;
-uniform highp vec4 unity_LightShadowBias;
-#line 31
-uniform highp vec4 _LightSplitsNear;
-uniform highp vec4 _LightSplitsFar;
-uniform highp mat4 unity_World2Shadow[4];
-uniform highp vec4 _LightShadowData;
-#line 35
-uniform highp vec4 unity_ShadowFadeCenterAndType;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_invtrans_modelview0;
-#line 39
-uniform highp mat4 _Object2World;
-uniform highp mat4 _World2Object;
-uniform highp vec4 unity_Scale;
-uniform highp mat4 glstate_matrix_transpose_modelview0;
-#line 43
-uniform highp mat4 glstate_matrix_texture0;
-uniform highp mat4 glstate_matrix_texture1;
-uniform highp mat4 glstate_matrix_texture2;
-uniform highp mat4 glstate_matrix_texture3;
-#line 47
-uniform highp mat4 glstate_matrix_projection;
-uniform highp vec4 glstate_lightmodel_ambient;
-uniform highp mat4 unity_MatrixV;
-uniform highp mat4 unity_MatrixVP;
-#line 51
-uniform lowp vec4 unity_ColorSpaceGrey;
-#line 77
-#line 82
-#line 87
-#line 91
-#line 96
-#line 120
-#line 137
-#line 158
-#line 166
-#line 193
-#line 206
-#line 215
-#line 220
-#line 229
-#line 234
-#line 243
-#line 260
-#line 265
-#line 291
-#line 299
-#line 307
-#line 311
-#line 315
-uniform sampler2D _MainTex;
-uniform lowp vec4 _TintColor;
-#line 331
-uniform highp vec4 _MainTex_ST;
-#line 340
-uniform sampler2D _CameraDepthTexture;
-uniform highp float _InvFade;
-#line 332
-v2f vert( in appdata_t v ) {
-    v2f o;
-    #line 335
-    o.vertex = (glstate_matrix_mvp * v.vertex);
-    o.color = v.color;
-    o.texcoord = ((v.texcoord.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
-    return o;
-}
-out lowp vec4 xlv_COLOR;
-out highp vec2 xlv_TEXCOORD0;
-void main() {
-    v2f xl_retval;
-    appdata_t xlt_v;
-    xlt_v.vertex = vec4(gl_Vertex);
-    xlt_v.color = vec4(gl_Color);
-    xlt_v.texcoord = vec2(gl_MultiTexCoord0);
-    xl_retval = vert( xlt_v);
-    gl_Position = vec4(xl_retval.vertex);
-    xlv_COLOR = vec4(xl_retval.color);
-    xlv_TEXCOORD0 = vec2(xl_retval.texcoord);
-}
-
-
-#endif
-#ifdef FRAGMENT
-
-#define gl_FragData _glesFragData
-layout(location = 0) out mediump vec4 _glesFragData[4];
-
-#line 151
-struct v2f_vertex_lit {
-    highp vec2 uv;
-    lowp vec4 diff;
-    lowp vec4 spec;
-};
-#line 187
-struct v2f_img {
-    highp vec4 pos;
-    mediump vec2 uv;
-};
-#line 181
-struct appdata_img {
-    highp vec4 vertex;
-    mediump vec2 texcoord;
-};
-#line 324
-struct v2f {
-    highp vec4 vertex;
-    lowp vec4 color;
-    highp vec2 texcoord;
-};
-#line 317
-struct appdata_t {
-    highp vec4 vertex;
-    lowp vec4 color;
-    highp vec2 texcoord;
-};
-uniform highp vec4 _Time;
-uniform highp vec4 _SinTime;
-#line 3
-uniform highp vec4 _CosTime;
-uniform highp vec4 unity_DeltaTime;
-uniform highp vec3 _WorldSpaceCameraPos;
-uniform highp vec4 _ProjectionParams;
-#line 7
-uniform highp vec4 _ScreenParams;
-uniform highp vec4 _ZBufferParams;
-uniform highp vec4 unity_CameraWorldClipPlanes[6];
-uniform highp vec4 _WorldSpaceLightPos0;
-#line 11
-uniform highp vec4 _LightPositionRange;
-uniform highp vec4 unity_4LightPosX0;
-uniform highp vec4 unity_4LightPosY0;
-uniform highp vec4 unity_4LightPosZ0;
-#line 15
-uniform highp vec4 unity_4LightAtten0;
-uniform highp vec4 unity_LightColor[8];
-uniform highp vec4 unity_LightPosition[8];
-uniform highp vec4 unity_LightAtten[8];
-#line 19
-uniform highp vec4 unity_SpotDirection[8];
-uniform highp vec4 unity_SHAr;
-uniform highp vec4 unity_SHAg;
-uniform highp vec4 unity_SHAb;
-#line 23
-uniform highp vec4 unity_SHBr;
-uniform highp vec4 unity_SHBg;
-uniform highp vec4 unity_SHBb;
-uniform highp vec4 unity_SHC;
-#line 27
-uniform highp vec3 unity_LightColor0;
-uniform highp vec3 unity_LightColor1;
-uniform highp vec3 unity_LightColor2;
-uniform highp vec3 unity_LightColor3;
-uniform highp vec4 unity_ShadowSplitSpheres[4];
-uniform highp vec4 unity_ShadowSplitSqRadii;
-uniform highp vec4 unity_LightShadowBias;
-#line 31
-uniform highp vec4 _LightSplitsNear;
-uniform highp vec4 _LightSplitsFar;
-uniform highp mat4 unity_World2Shadow[4];
-uniform highp vec4 _LightShadowData;
-#line 35
-uniform highp vec4 unity_ShadowFadeCenterAndType;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_invtrans_modelview0;
-#line 39
-uniform highp mat4 _Object2World;
-uniform highp mat4 _World2Object;
-uniform highp vec4 unity_Scale;
-uniform highp mat4 glstate_matrix_transpose_modelview0;
-#line 43
-uniform highp mat4 glstate_matrix_texture0;
-uniform highp mat4 glstate_matrix_texture1;
-uniform highp mat4 glstate_matrix_texture2;
-uniform highp mat4 glstate_matrix_texture3;
-#line 47
-uniform highp mat4 glstate_matrix_projection;
-uniform highp vec4 glstate_lightmodel_ambient;
-uniform highp mat4 unity_MatrixV;
-uniform highp mat4 unity_MatrixVP;
-#line 51
-uniform lowp vec4 unity_ColorSpaceGrey;
-#line 77
-#line 82
-#line 87
-#line 91
-#line 96
-#line 120
-#line 137
-#line 158
-#line 166
-#line 193
-#line 206
-#line 215
-#line 220
-#line 229
-#line 234
-#line 243
-#line 260
-#line 265
-#line 291
-#line 299
-#line 307
-#line 311
-#line 315
-uniform sampler2D _MainTex;
-uniform lowp vec4 _TintColor;
-#line 331
-uniform highp vec4 _MainTex_ST;
-#line 340
-uniform sampler2D _CameraDepthTexture;
-uniform highp float _InvFade;
-#line 342
-lowp vec4 frag( in v2f i ) {
-    #line 344
-    return (((2.0 * i.color) * _TintColor) * texture( _MainTex, i.texcoord));
-}
-in lowp vec4 xlv_COLOR;
-in highp vec2 xlv_TEXCOORD0;
-void main() {
-    lowp vec4 xl_retval;
-    v2f xlt_i;
-    xlt_i.vertex = vec4(0.0);
-    xlt_i.color = vec4(xlv_COLOR);
-    xlt_i.texcoord = vec2(xlv_TEXCOORD0);
-    xl_retval = frag( xlt_i);
-    gl_FragData[0] = vec4(xl_retval);
-}
-
-
-#endif"
-}
-SubProgram "gles " {
-Keywords { "SOFTPARTICLES_ON" }
-"!!GLES
-
-
-#ifdef VERTEX
-
-varying highp vec4 xlv_TEXCOORD1;
-varying highp vec2 xlv_TEXCOORD0;
-varying lowp vec4 xlv_COLOR;
-uniform highp vec4 _MainTex_ST;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp vec4 _ProjectionParams;
-attribute vec4 _glesMultiTexCoord0;
-attribute vec4 _glesColor;
-attribute vec4 _glesVertex;
-void main ()
-{
-  highp vec4 tmpvar_1;
-  highp vec4 tmpvar_2;
-  tmpvar_2 = (glstate_matrix_mvp * _glesVertex);
-  highp vec4 o_3;
-  highp vec4 tmpvar_4;
-  tmpvar_4 = (tmpvar_2 * 0.5);
-  highp vec2 tmpvar_5;
-  tmpvar_5.x = tmpvar_4.x;
-  tmpvar_5.y = (tmpvar_4.y * _ProjectionParams.x);
-  o_3.xy = (tmpvar_5 + tmpvar_4.w);
-  o_3.zw = tmpvar_2.zw;
-  tmpvar_1.xyw = o_3.xyw;
-  tmpvar_1.z = -((glstate_matrix_modelview0 * _glesVertex).z);
-  gl_Position = tmpvar_2;
-  xlv_COLOR = _glesColor;
-  xlv_TEXCOORD0 = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
-  xlv_TEXCOORD1 = tmpvar_1;
-}
-
-
-
-#endif
-#ifdef FRAGMENT
-
-varying highp vec4 xlv_TEXCOORD1;
-varying highp vec2 xlv_TEXCOORD0;
-varying lowp vec4 xlv_COLOR;
-uniform highp float _InvFade;
-uniform sampler2D _CameraDepthTexture;
-uniform lowp vec4 _TintColor;
-uniform sampler2D _MainTex;
-uniform highp vec4 _ZBufferParams;
-void main ()
-{
-  lowp vec4 tmpvar_1;
-  tmpvar_1.xyz = xlv_COLOR.xyz;
-  lowp vec4 tmpvar_2;
-  tmpvar_2 = texture2DProj (_CameraDepthTexture, xlv_TEXCOORD1);
-  highp float z_3;
-  z_3 = tmpvar_2.x;
-  highp float tmpvar_4;
-  tmpvar_4 = (xlv_COLOR.w * clamp ((_InvFade * ((1.0/(((_ZBufferParams.z * z_3) + _ZBufferParams.w))) - xlv_TEXCOORD1.z)), 0.0, 1.0));
-  tmpvar_1.w = tmpvar_4;
-  gl_FragData[0] = (((2.0 * tmpvar_1) * _TintColor) * texture2D (_MainTex, xlv_TEXCOORD0));
-}
-
-
-
-#endif"
-}
-SubProgram "gles3 " {
-Keywords { "SOFTPARTICLES_ON" }
-"!!GLES3#version 300 es
-
-
-#ifdef VERTEX
-
-#define gl_Vertex _glesVertex
-in vec4 _glesVertex;
-#define gl_Color _glesColor
-in vec4 _glesColor;
-#define gl_MultiTexCoord0 _glesMultiTexCoord0
-in vec4 _glesMultiTexCoord0;
-
-#line 151
-struct v2f_vertex_lit {
-    highp vec2 uv;
-    lowp vec4 diff;
-    lowp vec4 spec;
-};
-#line 187
-struct v2f_img {
-    highp vec4 pos;
-    mediump vec2 uv;
-};
-#line 181
-struct appdata_img {
-    highp vec4 vertex;
-    mediump vec2 texcoord;
-};
-#line 324
-struct v2f {
-    highp vec4 vertex;
-    lowp vec4 color;
-    highp vec2 texcoord;
-    highp vec4 projPos;
-};
-#line 317
-struct appdata_t {
-    highp vec4 vertex;
-    lowp vec4 color;
-    highp vec2 texcoord;
-};
-uniform highp vec4 _Time;
-uniform highp vec4 _SinTime;
-#line 3
-uniform highp vec4 _CosTime;
-uniform highp vec4 unity_DeltaTime;
-uniform highp vec3 _WorldSpaceCameraPos;
-uniform highp vec4 _ProjectionParams;
-#line 7
-uniform highp vec4 _ScreenParams;
-uniform highp vec4 _ZBufferParams;
-uniform highp vec4 unity_CameraWorldClipPlanes[6];
-uniform highp vec4 _WorldSpaceLightPos0;
-#line 11
-uniform highp vec4 _LightPositionRange;
-uniform highp vec4 unity_4LightPosX0;
-uniform highp vec4 unity_4LightPosY0;
-uniform highp vec4 unity_4LightPosZ0;
-#line 15
-uniform highp vec4 unity_4LightAtten0;
-uniform highp vec4 unity_LightColor[8];
-uniform highp vec4 unity_LightPosition[8];
-uniform highp vec4 unity_LightAtten[8];
-#line 19
-uniform highp vec4 unity_SpotDirection[8];
-uniform highp vec4 unity_SHAr;
-uniform highp vec4 unity_SHAg;
-uniform highp vec4 unity_SHAb;
-#line 23
-uniform highp vec4 unity_SHBr;
-uniform highp vec4 unity_SHBg;
-uniform highp vec4 unity_SHBb;
-uniform highp vec4 unity_SHC;
-#line 27
-uniform highp vec3 unity_LightColor0;
-uniform highp vec3 unity_LightColor1;
-uniform highp vec3 unity_LightColor2;
-uniform highp vec3 unity_LightColor3;
-uniform highp vec4 unity_ShadowSplitSpheres[4];
-uniform highp vec4 unity_ShadowSplitSqRadii;
-uniform highp vec4 unity_LightShadowBias;
-#line 31
-uniform highp vec4 _LightSplitsNear;
-uniform highp vec4 _LightSplitsFar;
-uniform highp mat4 unity_World2Shadow[4];
-uniform highp vec4 _LightShadowData;
-#line 35
-uniform highp vec4 unity_ShadowFadeCenterAndType;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_invtrans_modelview0;
-#line 39
-uniform highp mat4 _Object2World;
-uniform highp mat4 _World2Object;
-uniform highp vec4 unity_Scale;
-uniform highp mat4 glstate_matrix_transpose_modelview0;
-#line 43
-uniform highp mat4 glstate_matrix_texture0;
-uniform highp mat4 glstate_matrix_texture1;
-uniform highp mat4 glstate_matrix_texture2;
-uniform highp mat4 glstate_matrix_texture3;
-#line 47
-uniform highp mat4 glstate_matrix_projection;
-uniform highp vec4 glstate_lightmodel_ambient;
-uniform highp mat4 unity_MatrixV;
-uniform highp mat4 unity_MatrixVP;
-#line 51
-uniform lowp vec4 unity_ColorSpaceGrey;
-#line 77
-#line 82
-#line 87
-#line 91
-#line 96
-#line 120
-#line 137
-#line 158
-#line 166
-#line 193
-#line 206
-#line 215
-#line 220
-#line 229
-#line 234
-#line 243
-#line 260
-#line 265
-#line 291
-#line 299
-#line 307
-#line 311
-#line 315
-uniform sampler2D _MainTex;
-uniform lowp vec4 _TintColor;
-#line 332
-uniform highp vec4 _MainTex_ST;
-uniform sampler2D _CameraDepthTexture;
-#line 344
-uniform highp float _InvFade;
-#line 284
-highp vec4 ComputeScreenPos( in highp vec4 pos ) {
-    #line 286
-    highp vec4 o = (pos * 0.5);
-    o.xy = (vec2( o.x, (o.y * _ProjectionParams.x)) + o.w);
-    o.zw = pos.zw;
-    return o;
-}
-#line 333
-v2f vert( in appdata_t v ) {
-    v2f o;
-    #line 336
-    o.vertex = (glstate_matrix_mvp * v.vertex);
-    o.projPos = ComputeScreenPos( o.vertex);
-    o.projPos.z = (-(glstate_matrix_modelview0 * v.vertex).z);
-    o.color = v.color;
-    #line 340
-    o.texcoord = ((v.texcoord.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
-    return o;
-}
-out lowp vec4 xlv_COLOR;
-out highp vec2 xlv_TEXCOORD0;
-out highp vec4 xlv_TEXCOORD1;
-void main() {
-    v2f xl_retval;
-    appdata_t xlt_v;
-    xlt_v.vertex = vec4(gl_Vertex);
-    xlt_v.color = vec4(gl_Color);
-    xlt_v.texcoord = vec2(gl_MultiTexCoord0);
-    xl_retval = vert( xlt_v);
-    gl_Position = vec4(xl_retval.vertex);
-    xlv_COLOR = vec4(xl_retval.color);
-    xlv_TEXCOORD0 = vec2(xl_retval.texcoord);
-    xlv_TEXCOORD1 = vec4(xl_retval.projPos);
-}
-
-
-#endif
-#ifdef FRAGMENT
-
-#define gl_FragData _glesFragData
-layout(location = 0) out mediump vec4 _glesFragData[4];
-float xll_saturate_f( float x) {
-  return clamp( x, 0.0, 1.0);
-}
-vec2 xll_saturate_vf2( vec2 x) {
-  return clamp( x, 0.0, 1.0);
-}
-vec3 xll_saturate_vf3( vec3 x) {
-  return clamp( x, 0.0, 1.0);
-}
-vec4 xll_saturate_vf4( vec4 x) {
-  return clamp( x, 0.0, 1.0);
-}
-mat2 xll_saturate_mf2x2(mat2 m) {
-  return mat2( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0));
-}
-mat3 xll_saturate_mf3x3(mat3 m) {
-  return mat3( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0));
-}
-mat4 xll_saturate_mf4x4(mat4 m) {
-  return mat4( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0), clamp(m[3], 0.0, 1.0));
-}
-#line 151
-struct v2f_vertex_lit {
-    highp vec2 uv;
-    lowp vec4 diff;
-    lowp vec4 spec;
-};
-#line 187
-struct v2f_img {
-    highp vec4 pos;
-    mediump vec2 uv;
-};
-#line 181
-struct appdata_img {
-    highp vec4 vertex;
-    mediump vec2 texcoord;
-};
-#line 324
-struct v2f {
-    highp vec4 vertex;
-    lowp vec4 color;
-    highp vec2 texcoord;
-    highp vec4 projPos;
-};
-#line 317
-struct appdata_t {
-    highp vec4 vertex;
-    lowp vec4 color;
-    highp vec2 texcoord;
-};
-uniform highp vec4 _Time;
-uniform highp vec4 _SinTime;
-#line 3
-uniform highp vec4 _CosTime;
-uniform highp vec4 unity_DeltaTime;
-uniform highp vec3 _WorldSpaceCameraPos;
-uniform highp vec4 _ProjectionParams;
-#line 7
-uniform highp vec4 _ScreenParams;
-uniform highp vec4 _ZBufferParams;
-uniform highp vec4 unity_CameraWorldClipPlanes[6];
-uniform highp vec4 _WorldSpaceLightPos0;
-#line 11
-uniform highp vec4 _LightPositionRange;
-uniform highp vec4 unity_4LightPosX0;
-uniform highp vec4 unity_4LightPosY0;
-uniform highp vec4 unity_4LightPosZ0;
-#line 15
-uniform highp vec4 unity_4LightAtten0;
-uniform highp vec4 unity_LightColor[8];
-uniform highp vec4 unity_LightPosition[8];
-uniform highp vec4 unity_LightAtten[8];
-#line 19
-uniform highp vec4 unity_SpotDirection[8];
-uniform highp vec4 unity_SHAr;
-uniform highp vec4 unity_SHAg;
-uniform highp vec4 unity_SHAb;
-#line 23
-uniform highp vec4 unity_SHBr;
-uniform highp vec4 unity_SHBg;
-uniform highp vec4 unity_SHBb;
-uniform highp vec4 unity_SHC;
-#line 27
-uniform highp vec3 unity_LightColor0;
-uniform highp vec3 unity_LightColor1;
-uniform highp vec3 unity_LightColor2;
-uniform highp vec3 unity_LightColor3;
-uniform highp vec4 unity_ShadowSplitSpheres[4];
-uniform highp vec4 unity_ShadowSplitSqRadii;
-uniform highp vec4 unity_LightShadowBias;
-#line 31
-uniform highp vec4 _LightSplitsNear;
-uniform highp vec4 _LightSplitsFar;
-uniform highp mat4 unity_World2Shadow[4];
-uniform highp vec4 _LightShadowData;
-#line 35
-uniform highp vec4 unity_ShadowFadeCenterAndType;
-uniform highp mat4 glstate_matrix_mvp;
-uniform highp mat4 glstate_matrix_modelview0;
-uniform highp mat4 glstate_matrix_invtrans_modelview0;
-#line 39
-uniform highp mat4 _Object2World;
-uniform highp mat4 _World2Object;
-uniform highp vec4 unity_Scale;
-uniform highp mat4 glstate_matrix_transpose_modelview0;
-#line 43
-uniform highp mat4 glstate_matrix_texture0;
-uniform highp mat4 glstate_matrix_texture1;
-uniform highp mat4 glstate_matrix_texture2;
-uniform highp mat4 glstate_matrix_texture3;
-#line 47
-uniform highp mat4 glstate_matrix_projection;
-uniform highp vec4 glstate_lightmodel_ambient;
-uniform highp mat4 unity_MatrixV;
-uniform highp mat4 unity_MatrixVP;
-#line 51
-uniform lowp vec4 unity_ColorSpaceGrey;
-#line 77
-#line 82
-#line 87
-#line 91
-#line 96
-#line 120
-#line 137
-#line 158
-#line 166
-#line 193
-#line 206
-#line 215
-#line 220
-#line 229
-#line 234
-#line 243
-#line 260
-#line 265
-#line 291
-#line 299
-#line 307
-#line 311
-#line 315
-uniform sampler2D _MainTex;
-uniform lowp vec4 _TintColor;
-#line 332
-uniform highp vec4 _MainTex_ST;
-uniform sampler2D _CameraDepthTexture;
-#line 344
-uniform highp float _InvFade;
-#line 280
-highp float LinearEyeDepth( in highp float z ) {
-    #line 282
-    return (1.0 / ((_ZBufferParams.z * z) + _ZBufferParams.w));
-}
-#line 345
-lowp vec4 frag( in v2f i ) {
-    highp float sceneZ = LinearEyeDepth( textureProj( _CameraDepthTexture, i.projPos).x);
-    #line 348
-    highp float partZ = i.projPos.z;
-    highp float fade = xll_saturate_f((_InvFade * (sceneZ - partZ)));
-    i.color.w *= fade;
-    return (((2.0 * i.color) * _TintColor) * texture( _MainTex, i.texcoord));
-}
-in lowp vec4 xlv_COLOR;
-in highp vec2 xlv_TEXCOORD0;
-in highp vec4 xlv_TEXCOORD1;
-void main() {
-    lowp vec4 xl_retval;
-    v2f xlt_i;
-    xlt_i.vertex = vec4(0.0);
-    xlt_i.color = vec4(xlv_COLOR);
-    xlt_i.texcoord = vec2(xlv_TEXCOORD0);
-    xlt_i.projPos = vec4(xlv_TEXCOORD1);
-    xl_retval = frag( xlt_i);
-    gl_FragData[0] = vec4(xl_retval);
-}
-
-
-#endif"
-}
-}
-Program "fp" {
-SubProgram "gles " {
-Keywords { "SOFTPARTICLES_OFF" }
-"!!GLES"
-}
-SubProgram "gles3 " {
-Keywords { "SOFTPARTICLES_OFF" }
-"!!GLES3"
-}
-SubProgram "gles " {
-Keywords { "SOFTPARTICLES_ON" }
-"!!GLES"
-}
-SubProgram "gles3 " {
-Keywords { "SOFTPARTICLES_ON" }
-"!!GLES3"
-}
-}
- }
-}
-}                  PauseMenuInAnimation                          zD      ÈBbâŒ>        bâŒ>        ªªª>          ÈBøß Å        øß Å                                pB                                                              €?  €?  €?  €?  €?                                                                 €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                                                                                                                 €?  €?  €?  €?  €?                                                                                                   4                                                                                                                                                                                                                                                 €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                                                          €?                †   ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ                              PauseMenuOutAnimation                                     ÈB*ıÈÂ        *ıÈÂ        ªªª>  zÄ      ÈBÔd-Å        Ôd-Å                                pB                                                              €?  €?  €?  €?  €?                                                                 €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                                                                                                                 €?  €?  €?  €?  €?                                                                                                   4                                                                                                                                                                                                                                                 €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                                                          €?                †   ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ                                  PopupComboOutAnimation                                    ÈB3®±Ä3ıÅ    3®±Ä3ıÅ    «ªª>  ‚Ã  ÒÃ  ÈB™m ÀíÃ    ™m ÀíÃ                           D  €?  €Cì%OÃ    ôzÃì%OÃ    ôzÃ«ªª>      €?    ÷gÅ    Ä*œÄ÷gÅ    Ä*œÄ                    pB                                                             €?  €?  €?  €?  €?                                                                 €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                                                                                                                 €?  €?  €?  €?  €?                                                                                                   4                                                                                                                                                                                                                                                 €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                                                          €?                †   ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ                                  PopupInAnimation                                  €?      @D      ÀC  @D      ÀC«ª*?   D  €?  €C×˜Ä    ÁÆÄ×˜Ä    ÁÆÄUUU?   D  €?  €C¾Ã¤D    b¨D¾Ã¤D    b¨D""b?   D  €?  €C                                            pB                                                             €?  €?  €?  €?  €?                                                                 €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                                                                                                                 €?  €?  €?  €?  €?                                                                                                   4                                                                                                                                                                                                                                                 €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                                                          €?                †   ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ                                  PopupOutAnimation                                  D  €?  €Cì%OÃ    ôzÃì%OÃ    ôzÃ«ªª>      €?    ÷gÅ    Ä*œÄ÷gÅ    Ä*œÄ                    pB                                                             €?  €?  €?  €?  €?                                                                 €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                                                                                                                 €?  €?  €?  €?  €?                                                                                                   4                                                                                                                                                                                                                                                 €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                                                          €?                †   ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ                              SisterJumpAnimation                                   HÂ›+Â›+Â‰ˆ>   ÁwzIÃwzIÃ         spriteOffset.y      r      s         pB                                                              €?  €?  €?  €?  €?                                                                 €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                                                                                                                 €?  €?  €?  €?  €?                                                                                                   4                                                                                                                                                                                                                                                 €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                                                          €?                †   ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ                              SisterLeapAnimation                                    Á®×ºÄ®×ºÄ‰ˆˆ=  HÂGAÃAGAÃA         spriteOffset.y      r      s         pB                                                              €?  €?  €?  €?  €?                                                                 €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                      €?  €?  €?  €?  €?                                                                                                                                 €?  €?  €?  €?  €?                                                                                                   4                                                                                                                                                                                                                                                 €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                              €?  €?  €?  €?  €?                                                          €?                †   ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ                              font_combo1x      €?š™æB       ÿÿÿÿ       e                      €    ff¡Â       €  ğA    !         ˜=  =  –½   @`f¶À  A  –Â  ¸A    "     =  =  H=  ½  `AÀÌlÀ  ÈA  Â  B    #         >  Ü=  ”½  À@`f¶À  \B  ”Â  pB    $     à=  ¼=  ô=  º½    €™Ù¿  tB  ºÂ  pB    %         k>  ">  ¦½  @@`f–À  ¢B  ¦Â  ¦B    &     l>  ¦=  >  ¤½  €?`f–À  –B  ¤Â  ˜B    '     à=   >  À<  ½   A`f¶À  @A  Â  ¨A    (     Â>  ¶=  h=  ´½  @@`föÀ  èA  ´Â   B    )     l>  />  „=  ¶½  €?`f¶À  B  ¶Â  B    *     à>  8=  ¨=  4½  €?03Á  4B  (Â  8B   +         –>  ø=  €½  @@˜™•Á  €B  xÂ  „B   ,     ˜>  î=   =  ½  €@ÌÌrÂ   A  Â  ÀA    -    €?  =  °<   ½  @@ÌÌJÂ   B  0Á  B   .     à>  €=  =  ˆ¼   AffÂ  ˆA  ˆÁ  ÈA    /     ˜>  N>  È=  ¬½  €ÀÀÌ,À  HB  ¬Â  4B    0    €?  ¢=  Ğ=   ½   @`fÖÀ  PB   Â  PB    1     à>  >  €=  ½   @`f–À   B  Â  B    2     ü=  Ÿ>  Ü=  ¤½  €?ÀÌlÀ  \B  ¤Â  XB    3        €¿>  Ü=  ¤½  @@ÀÌlÀ  \B  ¤Â  dB    4     &?  =  ô=  œ½   A`f¶À  tB  œÂ  ˆB    5     n> €>  Ğ=  ˜½  €@03Á  PB  ˜Â  \B    6    € ?  >  Ì=  –½  €@03Á  LB  –Â  TB    7     ¬>  >  Ô=  ½  €@`fÖÀ  TB  Â  dB    8     à=  Å>  À=  –½  €¿`fÖÀ  @B  –Â  4B    9         ç>  È=  œ½    `fÖÀ  HB  œÂ  HB    :    €?  >  =  P½  à@˜™õÁ  A  PÂ  ÈA    ;     E?  €=   =  |½   @ÌÌÂ   A  |Â  ÈA    <     $?  >  à=  h½  à@˜™­Á  `B  hÂ  |B    =     â>  \>  =  x½  €@ÌÌÂ  xB  Â  „B   >    €O?  l=  à=  h½  À@˜™¥Á  `B  hÂ  xB    ?    €?  o>  Ü=  ¢½  AÀÌlÀ  \B  ¢Â  |B    @     R> €Í>  2>  ¸½   À š™>  ²B  ¸Â  ¦B    A     E?  >  >  ˜½  €¿03Á  ˜B  ˜Â  ”B    B    €?  `>  À=  ¦½    €™Ù¿  @B  ¦Â  8B    C     â>   >  >   ½  @@ÀÌlÀ  †B   Â  ŒB    D     Ì=  õ>  ü=  œ½  A`f–À  |B  œÂ  B    E     ?   >  ğ=   ½   @`f–À  pB   Â  €B    F     8?  ]>  Ì=  ½  À@`f¶À  LB  Â  `B    G     Ã> €Æ>   >  ˜½  €@`föÀ  €B  ˜Â  ˆB    H     R?  a>  ğ=  ¦½  à@€™Ù¿  pB  ¦Â  †B    I     ? €Ç>  (=  œ½  À@`f¶À  ¨A  œÂ  ØA    J     Ã>  ğ>  Ü=  ¤½  @À`f–À  \B  ¤Â  PB    K    €1? €˜>  Ø=   ½  à@`f–À  XB   Â  pB    L     ?  É>  ¼=  ¢½  À@ÀÌ,À  <B  ¢Â  TB    M     M? €™>  ä=  ¢½  À@`f¶À  dB  ¢Â  |B    N     %? €È>  ô=   ½  À@ÀÌlÀ  tB   Â  †B    O     û>  ğ>  >  š½  À@`föÀ  †B  šÂ  ’B    P     D?  Â>  ä=   ½   @`f¶À  dB   Â  tB    Q    €? €ò>  >  ¤½  À@`föÀ  –B  ¤Â   B    R     a? €Ã>  ä=  ¦½   @`f–À  dB  ¦Â  tB    S    €E?  ï>  >  ¬½    `f¶À  „B  ¬Â  ‚B    T     f>  ö>  >   ½  €?`f–À  ”B   Â  ”B    U         ?  ì=   ½  à@`fÖÀ  lB   Â  ‚B    V     ğ= À?  Ì=  ½  AÀÌ,À  LB  Â  pB    W         *?  >  ®½  €?03Á  ®B  ”Â  °B   X     `> €?  >  ¤½  €¿ÀÌlÀ  †B  ¤Â  „B    Y        €??  Ø=  ª½  à@ š™>  XB  ªÂ  tB    Z     ´> À?  ø=  –½    `föÀ  xB  –Â  tB    [     > @,?  X=  Â½   @ÀÌlÀ  ØA  ÂÂ  øA    \     ó>  ?  °=  °½  €¿€™Ù¿  0B  °Â  ,B    ]     Ü= €D?  X=  À½  €¿€™Ù¿  ØA  ÀÂ  ĞA    ^        ÀK?  ¼=  @½  @A`f¶À  @B  <Â  pB   _     ´> €-?  À<  Ô½  @Àff©Â  ÔB  @Á  ÌB   `     &> @2?  0=  ¸¼  €¿`f¶À  °A  ¸Á   A    a     Á> À ?  °=  \½    ˜™İÁ  0B  \Â  0B    b     T> À(?  Ğ=   ½  €@€™Ù¿  PB   Â  \B    c     &> @@?  Ì=  \½    ˜™åÁ  LB  \Â  LB    d     ? À?  Ø=  ¦½  €@ 33¿  XB  ¦Â  dB    e        @Y?  Ì=  T½  @@ÌÌÂ  TB  LÂ  \B   f     Á>  6?  ¼=  ¨½     33¿  <B  ¨Â  8B    g     Ğ=  X?  à=  š½   @˜™µÁ  `B  šÂ  pB    h     ñ> @+?  Ô=  ¨½  €@ 33¿  TB  ¨Â  `B    i     ‡>  <?  =  ˜½  À@03Á  A  ˜Â  ÀA    j    €+?  ?  Œ=  ¸½  @@03Á  B  ¸Â  B    k        @n?  Ø=  ¦½  À@€™Ù¿  XB  ¦Â  pB    l     ‡> €P?  =  ¢½  À@ÀÌ,À  A  ¢Â  ÀA    m    €=? À?  Ü=  ½  @@˜™åÁ  B  \Â  ’B   n    €?  #?  ¸=  `½   @˜™İÁ  8B  `Â  HB    o     š> ÀC?  Ø=  X½   A˜™õÁ  XB  XÂ  pB    p     Ü= @k?  Ä=  ˜½   @˜™İÁ  DB  ˜Â  TB    q     ñ> À=?  È=  ’½   A˜™åÁ  HB  ’Â  lB    r     š>  R?  ¬=  `½   @˜™İÁ  ,B  `Â  <B    s    €Y?  ?  ¨=  €½  €?˜™•Á  (B  €Â  ,B    t    €? €4?  œ=  Š½   À03[Á  B  ŠÂ  B    u     +?  &?  ¼=  l½   @˜™ÍÁ  <B  lÂ  LB    v        @|?  È=  \½  €?˜™İÁ  HB  \Â  HB    w     R>  h?  Ø=  |½   À˜™íÁ  |B  XÂ  tB   x     Æ> @Q?  °=  T½   @˜™åÁ  0B  TÂ  4B    y     C?  %?  Ø=  ˜½    ˜™ÍÁ  XB  ˜Â  TB    z     Ü= Àw?   =  D½  €?ÌÌÂ   B  DÂ  $B    {    €'? €=?  ´=  º½  àÀ`f–À  4B  ºÂ  B    |     ? @O?  Ğ<  Ô½  à@ 33¿  PA  ÔÂ   A    }      > €i?  °=  º½  ÀÀ`f¶À  0B  ºÂ  B    ~     ó> €K?  0=  X½  à@ÌÌ*Â  XB  °Á  pB   £     Í>  f?  >  ¤½   @`f–À  ˆB  ¤Â  B        €>?  /?  =  ½   AÀÌlÀ  ˜A  Â  àA         Ì= À?  =  ø¼   A`fÖÀ  A  øÁ  ÈA        €H?  .?  ˆ=  ½  A`f¶À  B  Â  ,B        €>? €9?  x=  $½  à@`f–À  øA  $Â  B     0    ? À4?       €    ff¡Â       €  ÈB                ÍÌÌ=      ÈBff¡B          KBPlanetEarth              BADABB        €?  ˆA       şÿÿÿ               "       ÍÌÌ=$J       @  ÀOS/2ı  I    NPCLTóMßÍ  Ip   6cmap”d[å  ?Ô  ,cvt ñ_-  ´   fpgmƒ3ÂO      glyfø¸    8hdmx³6]  C  headØ]q  I¨   6hhea-0  Ià   $hmtx˜÷Î  =ˆ  pkern ] b  C    loca 
-\Ø  <  tmaxp ½&  J    nameH    ”post	y	J  >ø   Úprepƒìş8  Ì   9   &         J %         z         —         Ñ         °        F
-        Z         n        %          o                Æ        ¥       # ç       
-P        n  	   J %  	   z  	   —  	   Ñ  	   °  	  F
-  	  Z  	   n(c) 2003 Nate Piekos. www.blambot.com ( c )   2 0 0 3   N a t e   P i e k o s .   w w w . b l a m b o t . c o mBadaBoom BB B a d a B o o m   B BRegular R e g u l a rBadaBoom BB B a d a B o o m   B BBadaBoom BB B a d a B o o m   B BMacromedia Fontographer 4.1 4/28/03 M a c r o m e d i a   F o n t o g r a p h e r   4 . 1   4 / 2 8 / 0 3BadaBoomBB B a d a B o o m B B@ ,vE °%E#ah#h`D-ÿ÷ì h Ï • » ‘ W kZ]  @  ¸ÿ…EhDEhDEhDEhDEhD³F +³F +±EhD±EhD     @  Àˆ   V@ @	     Fv/7 ?</<ı<ı</<ı</<ı< 10Ih¹   Iha°@RX87¹ ÿÀ8Y3!%!!@€şÀ ÿ ˆüx@ ÿÜÿê¡   >@@  Fv/7 ?/.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y76'&5476'_# 1&-$/&ŸÑS'5)‹£".&".'t#•Ts†  !Í;'  	 =@
-
-@  Fv/7 /</<.... 10Ih¹  
-Iha°@RX87¹ 
-ÿÀ8Y%;@Áa¹@Áa'®L®L ÿùÿÿ¾â ( . Ÿ@F//@0	+&!	-+'$"	)++,('($#"#   ,$(- "Fv/7 ?<?</ı/ı/ı/ı‡.ÄÄÄÄÄüÄ................ ........10Ih¹ " /Iha°@RX87¹ /ÿÀ8Y7?7777'?'7?Å¬_¬ƒ\
--ZŸ"C
-Ÿ1
-…/1|zg"Â ac Z[—,*—! B,¨;:,•˜S˜‹9W   ÿG×l A …@8BB@C@75/$"@7431* 	5:9<;,;1Fv/7 ///ı/<<ı</<ı<ı<ı<ı.......... ..........10Ih¹ 1 BIha°@RX87¹ BÿÀ8Y4#"32632''"'6732767654#"#"'&7'767'76Ñ +L%%"Pc
-fgg3.7 $()kYjqq3/*N_u20b:§	B!!:©<uL[Šñ'MX‹(0A#  ÿäë ' 4 ? b@&@@@A	('=2+	8/:5# Fv/7 ?//ı/ı/ı/ı........ ......10Ih¹  @Iha°@RX87¹ @ÿÀ8Y676'&'''&547676767>54&7>54&W˜k"^8+TNZ?197A–ú--a6+TNZC4<>42#şÂ4:2#ë1š‡	2'8T<87J_P2'7T<8>ş«(	'),( ÿßÿìP * 9 ]@#::@;)(#71)  +%4 Fv/7 ?/ıı/ı........... ...10Ih¹  :Iha°@RX87¹ :ÿÀ8Y'&54767&547676&76?67"7>76&ğ	]Zk]DK8+=BZM^;28¨(/$)hKPşû("%8')G[!gLH/3[SI8$+G_H=1v"
-–&'*4&2   *ÍD'  5@@   Fv/7 //.. 10Ih¹  Iha°@RX87¹ ÿÀ8YD@Áa'®L  ÿéÿ_¨ˆ  :@@  	Fv/7 ///ı.. 10Ih¹  Iha°@RX87¹ ÿÀ8Y&547¨Ö6¢L%&³5ğ0×Ï,)œH$%¸Ó25*+  ÿËÿ_Šˆ  :@@ 	 Fv/7 ///ı.. 10Ih¹   Iha°@RX87¹ ÿÀ8Y67654'6?5Õ6 %&K³
-5ñÕĞ+*œ€$%H¹Ó33şòş×  !^Âô  Š@;@ 
-
-	 		   	Fv/7 ?/‡.ÄÄÄüÄ‡.ÄÄüÄ.......... ........10Ih¹  Iha°@RX87¹ ÿÀ8Y&'7'7&'7?7Â8<YR
-2q99o)/ENl	gw!&@X'**m
-&
-RFd9d2A   Œjñ  J@@	 	Fv/7 ///ı...... ....10Ih¹ 	 Iha°@RX87¹ ÿÀ8Y7'?7d58…'+oW/,_	™_<#
- ÿŸÿp ß ´  :@@   Fv/7 ///ı.. 10Ih¹  Iha°@RX87¹ ÿÀ8Y7ßW,½‹©­ˆD  # Ünœ  :@@ Fv/7 ///ı.. 10Ih¹  Iha°@RX87¹ ÿÀ8Y'%hµ†
-K™'  ÿî ä ¤  6@@
-  
-Fv/7 ?/.. 10Ih¹ 
- Iha°@RX87¹ ÿÀ8Y72#"'&546™-_8_¤ .K.M ÿ±ÿäuë  6@@ Fv/7 ?/.. 10Ih¹  Iha°@RX87¹ ÿÀ8Y 'Ş—ş®Ü–ë1şmş½ ÿâÿè  % E@&&@'$ 
- 
- Fv/7 ?/ıı/ı.. 10Ih¹  &Iha°@RX87¹ &ÿÀ8Y2#"'&547676"327676'&cj,%[o|k-%ZoY79.	)8-$v=IFRŒvv:HGSv‘øZGD$);/@KIH   3ÿÿŒâ  S@@      Fv/7 ??‡.ÄüÄ.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y7Œg¨XƒâşyşĞ,¾  ÿÎÿôøó   M@!!@"   Fv/7 ??ı/ı...... ..10Ih¹  !Iha°@RX87¹ !ÿÀ8Y67632%&5476767654&#"-/$%K;LM8pUşJ(0¦[+ÍŞ85C]XU?2&%»bGWX0/F  ÿâÿìÜé   S@!!@"
-
-	 	Fv/7 ??.......... ......10Ih¹ 	 !Iha°@RX87¹ !ÿÀ8Y'&'732767654#"7677%¹?f¼õo€	¹	+	a5X"[SUS“	VvfÌ	±	-¨<9¾J ÿçÿÿÏç  W@ @ Fv/7 ??/ı/<ı........ ....10Ih¹  Iha°@RX87¹ ÿÀ8Y77"##7'77%ª20
-
-ac(‡½S:U„Èu»CB(¦Uã×¹  ÿõ Îë ' U@((@)'$!'$ '' Fv/7 ??ıı........ ....10Ih¹  (Iha°@RX87¹ (ÿÀ8Y#"'&54732767654'&#"67%ºmvé	*!6tdC!²'N#.>4r0ˆ>I<5sF&D'/&”ô ÿë àó  + R@,,@-	(!	*$   Fv/7 ??ı/ıı...... ..10Ih¹  ,Iha°@RX87¹ ,ÿÀ8Y2&'&#"632#"'&547676654&#232Gh1w
->C=60*ET[_g0Te&5I	4óq”~HaT[n@P9A…n…ı¼ 
-L  	ÿÿÓ÷  U@ @      Fv/7 ??‡.ÄüÄ.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y	7ÓşÙ£Ì³'÷ı½ ÿÔÿë  * 9 W@!::@;/( #73+%  Fv/7 ?/ı/ıı/ı/ı...... 10Ih¹  :Iha°@RX87¹ :ÿÀ8Y'&54767&54767676'7>54&767654&£Xa]mpA0@-A=TOZ^8,×493$@,&("-%)5¸2dgLH@/DWP8$(BT<83'8XO),'ş!+!!*!     7ı  # L@$$@%  
- 
-Fv/7 ??ı/ı/ı.... .10Ih¹  $Iha°@RX87¹ $ÿÀ8Y'&54767676'7'>54&ğr?0b]moA1.Oœx$?+$"@0DhKI@1DGEñÄ÷ƒ2"#  ÿî k
-1   =@@ 
-
-Fv/7 //.... ..10Ih¹ 
- Iha°@RX87¹ ÿÀ8Y2#"'&5462#"'&546…-_8_r-_8_" .L.M .L.M  ÿŒÿpÍ   B@@ Fv/7 ///ı.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y2#"'&546½_8_GW,½‹Í-L-NşÜ­ˆD    y{  	 G@
-
-@		 Fv/7 ///ı/ı.... ..10Ih¹  
-Iha°@RX87¹ 
-ÿÀ8Y'%'%t´ˆ	L" œ	K|˜(ş
-˜(  ,ÿêïò  " J@##@$" "  Fv/7 ??ı...... ...10Ih¹  #Iha°@RX87¹ #ÿÀ8Y76'&54766326&767676'&°#;0'-# 0&œdˆGŸ=8R55w£".&".'&/^wvAb]!1'( ÿıÿïê 7 C f@(DD@E(=80.
- A.-(
-;4, $ Fv/7 ???/ı/ı........ ...........10Ih¹  DIha°@RX87¹ DÿÀ8Y6763232767654'&#"&54767632'7#"'&5476327676&.-0+!t^s»fM4É'YNˆz°Š©fUÊkNV<)0eP66+# 'é^Q¯[N*$_8-eMxXtiŠn±|k83FV‹e˜~QMS-"9_TC¦.# ÿ‰ÿó§ù 	  `@&@ 
-
-	    Fv/7 ???‡.ÄüÄ...... ....10Ih¹   Iha°@RX87¹ ÿÀ8Y%77#w“[04ÔCh.^w\3şÑşb1}Xëzş} ÿŞÿıàò  ! , L@--@.+% )%
- Fv/7 ??/ı...... ....10Ih¹  -Iha°@RX87¹ -ÿÀ8Y67676326#"'66654#"'67654#"G XL.„¤gH7Qa~'/o	#I¿^……AKM;-6ÍZbş˜&A+7ı!!B-;  ÿè Şó  J@@   Fv/7 ??ıı/ı.. ..10Ih¹  Iha°@RX87¹ ÿÀ8Y2&#"327#"'&547676Eh1q59/149 cfh0Teóq|[KACMwnn@O:A…n…  ÿĞÿÿÔé   ?@@ Fv/7 ??.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y632 67667654GsPZ/A	'şŞ²P.</:Ã&/C`#'°şùmÌg—Ä¯9K\BU  ÿÑÿÿ•ü  n@-@
-
- 	
-
- Fv/7 ??‡.ÄüÄ‡.ÄüÄ...... ....10Ih¹  Iha°@RX87¹ ÿÀ8Y77%Ô 	rAºİwMb-7"Š'º9Í0¹	 ÿĞÿÿ›ü  y@4@
- 		
-
-
-
- 
-Fv/7 ??‡.ÄüÄ‡.ÄüÄ‡.ÄüÄ.... ..10Ih¹ 
- Iha°@RX87¹ ÿÀ8Y7%Õ¯	g[«uVd-6%Œ†ƒ,Í0¹	  ÿáÿèó & f@)''@(!!!  !  
-
-  Fv/7 ??ıı/ı‡.ÄüÄ.... ....10Ih¹  'Iha°@RX87¹ 'ÿÀ8Y"'&54767632&#"327677%j,#Zm{k,o#D<-	)/( J? 	(ur9GCP‰r‹vw^GV")+"4”8ATJ>´  ÿÙÿÿùâ  Y@ @
-
-	
-
-	 Fv/7 ?<?<‡.ÄüÄ...... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y777R¹2S3¹j¬.9¬Â ¿+ şgşâ,{W, ÿëÿÿâ  7@@ Fv/7 ??.. 10Ih¹  Iha°@RX87¹ ÿÀ8Y7f¬h ŸÂ şoşÚ,  ÿ±  â  ;@@
-	 	Fv/7 ??.. ..10Ih¹ 	 Iha°@RX87¹ ÿÀ8Y7"'&/7ÕªgšP  WtÂ şfşã+°  ÿÖÿñ÷é  t@3@
-
-	
-    	 Fv/7 ????‡.ÄüÄ‡.ÄüÄ...... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y767P¬
-WH~Ån´FÂ X3LFR¯şi`y¡,  ÿØÿÿ@â  ?@@	 Fv/7 ??.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y77S¬H'°ˆÑÂ şëêº9  ÿ¨ÿĞ†å  h@)@ 
-   Fv/7 ??//<ı‡.ÄüÄ....... .....10Ih¹   Iha°@RX87¹ ÿÀ8Y77X‡Gï"]æ)Í$ƒnBVb'ş‘S(şºşú43$¶şhıŞ  ÿØÿÏâ  C@@		 	Fv/7 ?<?/.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y77&/&'\­	
-D¬h 4 ¿#9ˆg;$† şoşÚ,!”$
-vo0 ÿâÿè  % E@&&@'$ 
- 
- Fv/7 ?/ıı/ı.. 10Ih¹  &Iha°@RX87¹ &ÿÀ8Y2#"'&547676"327676'&cj,%[o|k-%ZoY79.	)8-$v=IFRŒvv:HGSv‘øZGD$);/@KIH  ÿÓÿÿÒò   B@@		 	Fv/7 ??ı.... .10Ih¹ 	 Iha°@RX87¹ ÿÀ8Y6326?67654#"M›c‡şÅ
-Ÿ,;y]Ã/^½Êzh,píG–7.3 ÿçÿ°  ' Q@((@)
-'! % 	 Fv/7 ?//ıı/ı...... .10Ih¹  (Iha°@RX87¹ (ÿÀ8Y2'#"'&54767676'&#"327hi-h!PHk,%[p
-	(6<0	)v=H°¬*‚[s;v<HFRŒw‘ş1K4+@cOF$)  ÿÒÿÿÔò   `@$  @!
- Fv/7 ??ı‡.ÄüÄ....... ....10Ih¹   Iha°@RX87¹  ÿÀ8Y632#1676767654#"Ld‡©f4ikâ	#"'Ã/^‡ˆ&É0]ƒo,o¡""D"	 ÿãÿì»ò 5 R@66@74*'4.%	2 .Fv/7 ??ı...... .......10Ih¹ . 6Iha°@RX87¹ 6ÿÀ8Y4#"327632#"'6732767654#"#"'&767676¶ ,K%%#+!T0>p;9427 $()k%'‚…`]/*	:@JaB#<u7o’–’#   ÿÿÂì  ?@@ 
-   Fv/7 ??.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y'ÂF?B©\5ìºşëè,
-»  ÿÜÿÿíâ  G@@
-
-		 Fv/7 ?<?<...... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y7777X«E!_F«h TªÂ şúĞ( şfşã,o%J   ÿ÷ğâ  A@@ 
-		   Fv/7 ??.... ...10Ih¹  Iha°@RX87¹ ÿÀ8Y676?3ğw^şöÈV’âşºş‹0Ì®®-ı‚e  ÿøÿü®  t@/@ 
-	
-	 
-
-  Fv/7 ??/‡.ÄüÄ‡.ÄüÄ........ .....10Ih¹  Iha°@RX87¹ ÿÀ8Y77®‡Bà%]Õ0¾'‚fE‹èşšş¬&oş¬'x:$şJæı—"  ÿÿã÷û  H@@	  Fv/7 ???/...... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y%'&''&'77nŸ		0®â'*7‚‚jlFca12W,*e£€j×Ì.˜·   ôÜ  C@@ 	 Fv/7 ??...... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y'77S¡Ø~šjTÃÑş…şÍ
-ß’Z.EEE ÿàÿìÛ  J@@
-
- 
-Fv/7 ??/ı...... ...10Ih¹ 
- Iha°@RX87¹ ÿÀ8Y776?7%ş*|*)6ìşı­*}­Vc•	 *Š--;!»¹1†¹½ >  *ÿäÆë  6@@ Fv/7 ?/.. 10Ih¹  Iha°@RX87¹ ÿÀ8YÖğ¢T¦ëı?—  ÿ‰ÿó§ù 	  `@&@ 
-
-	    Fv/7 ???‡.ÄüÄ...... ....10Ih¹   Iha°@RX87¹ ÿÀ8Y%77#w“[04ÔCh.^w\3şÑşb1}Xëzş} ÿŞÿıàò  ! , L@--@.+% )%
- Fv/7 ??/ı...... ....10Ih¹  -Iha°@RX87¹ -ÿÀ8Y67676326#"'66654#"'67654#"G XL.„¤gH7Qa~'/o	#I¿^……AKM;-6ÍZbş˜&A+7ı!!B-;  ÿè Şó  J@@   Fv/7 ??ıı/ı.. ..10Ih¹  Iha°@RX87¹ ÿÀ8Y2&#"327#"'&547676Eh1q59/149 cfh0Teóq|[KACMwnn@O:A…n…  ÿĞÿÿÔé   ?@@ Fv/7 ??.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y632 67667654GsPZ/A	'şŞ²P.</:Ã&/C`#'°şùmÌg—Ä¯9K\BU  ÿÑÿÿ•ü  n@-@
-
- 	
-
- Fv/7 ??‡.ÄüÄ‡.ÄüÄ...... ....10Ih¹  Iha°@RX87¹ ÿÀ8Y77%Ô 	rAºİwMb-7"Š'º9Í0¹	 ÿĞÿÿ›ü  y@4@
- 		
-
-
-
- 
-Fv/7 ??‡.ÄüÄ‡.ÄüÄ‡.ÄüÄ.... ..10Ih¹ 
- Iha°@RX87¹ ÿÀ8Y7%Õ¯	g[«uVd-6%Œ†ƒ,Í0¹	  ÿáÿèó & f@)''@(!!!  !  
-
-  Fv/7 ??ıı/ı‡.ÄüÄ.... ....10Ih¹  'Iha°@RX87¹ 'ÿÀ8Y"'&54767632&#"327677%j,#Zm{k,o#D<-	)/( J? 	(ur9GCP‰r‹vw^GV")+"4”8ATJ>´  ÿÙÿÿùâ  Y@ @
-
-	
-
-	 Fv/7 ?<?<‡.ÄüÄ...... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y777R¹2S3¹j¬.9¬Â ¿+ şgşâ,{W, ÿëÿÿâ  7@@ Fv/7 ??.. 10Ih¹  Iha°@RX87¹ ÿÀ8Y7f¬h ŸÂ şoşÚ,  ÿ±  â  ;@@
-	 	Fv/7 ??.. ..10Ih¹ 	 Iha°@RX87¹ ÿÀ8Y7"'&/7ÕªgšP  WtÂ şfşã+°  ÿÖÿñ÷é  t@3@
-
-	
-    	 Fv/7 ????‡.ÄüÄ‡.ÄüÄ...... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y767P¬WH~ÅoµFŸÂ X3LFR¯şi`y¡,  ÿØÿÿ@â  ?@@	 Fv/7 ??.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y77S¬H'°ˆÑÂ şëêº9  ÿ¨ÿĞ†å  h@)@ 
-   Fv/7 ??//<ı‡.ÄüÄ....... .....10Ih¹   Iha°@RX87¹ ÿÀ8Y77X‡Gï"]æ)Í$ƒnBVb'ş‘S(şºşú43$¶şhıŞ  ÿØÿÏâ  C@@		 	Fv/7 ?<?/.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y77&/&'\­	
-D¬h 4 ¿#9ˆg;$† şoşÚ,!”$
-vo0 ÿâÿè  % E@&&@'$ 
- 
- Fv/7 ?/ıı/ı.. 10Ih¹  &Iha°@RX87¹ &ÿÀ8Y2#"'&547676"327676'&cj,%[o|k-%ZoY79.	)8-$v=IFRŒvv:HGSv‘øZGD$);/@KIH  ÿÓÿÿÒò   B@@		 	Fv/7 ??ı.... .10Ih¹ 	 Iha°@RX87¹ ÿÀ8Y6326?67654#"M›c‡şÅ
-Ÿ,;y]Ã/^½Êzh,píG–7.3 ÿçÿ°  ' Q@((@)
-'! % 	 Fv/7 ?//ıı/ı...... .10Ih¹  (Iha°@RX87¹ (ÿÀ8Y2'#"'&54767676'&#"327hi-h!PHk,%[p
-	(6<0	)v=H°¬*‚[s;v<HFRŒw‘ş1K4+@cOF$)  ÿÒÿÿÔò   `@$  @!
- Fv/7 ??ı‡.ÄüÄ....... ....10Ih¹   Iha°@RX87¹  ÿÀ8Y632#1676767654#"Ld‡©f4ikâ	#"'Ã/^‡ˆ&É0]ƒo,o¡""D"	 ÿãÿì»ò 5 R@66@74*'4.%	2 .Fv/7 ??ı...... .......10Ih¹ . 6Iha°@RX87¹ 6ÿÀ8Y4#"327632#"'6732767654#"#"'&767676¶ ,K%%#+!T0>p;9427 $()k%'‚…`]/*	:@JaB#<u7o’–’#   ÿÿÂì  ?@@ 
-   Fv/7 ??.... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y'ÂF?B©\5ìºşëè,
-»  ÿÜÿÿíâ  G@@
-
-		 Fv/7 ?<?<...... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y7777X«E!_F«h TªÂ şúĞ( şfşã,o%J   ÿ÷ğâ  A@@ 
-		   Fv/7 ??.... ...10Ih¹  Iha°@RX87¹ ÿÀ8Y676?3ğw^şöÈV’âşºş‹0Ì®®-ı‚e  ÿøÿü®  t@/@ 
-	
-	 
-
-  Fv/7 ??/‡.ÄüÄ‡.ÄüÄ........ .....10Ih¹  Iha°@RX87¹ ÿÀ8Y77®‡Bà%]Õ0¾'‚fE‹èşšş¬&oş¬'x:$şJæı—"  ÿÿã÷û  H@@	  Fv/7 ???/...... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y%'&''&'77nŸ		0®â'*7‚‚jlFca12W,*e£€j×Ì.˜·   ôÜ  C@@ 	 Fv/7 ??...... ..10Ih¹  Iha°@RX87¹ ÿÀ8Y'77S¡Ø~šjTÃÑş…şÍ
-ß’Z.EEE ÿàÿìÛ  J@@
-
- 
-Fv/7 ??/ı...... ...10Ih¹ 
- Iha°@RX87¹ ÿÀ8Y776?7%ş*|*)6ìşı­*}­Vc•	 *Š--;!»¹1†¹½ >  *ÍD'  5@@   Fv/7 //.. 10Ih¹  Iha°@RX87¹ ÿÀ8YD@Áa'®L   *ÍD'  5@@   Fv/7 //.. 10Ih¹  Iha°@RX87¹ ÿÀ8YD@Áa'®L   !Í;'  	 =@
-
-@  Fv/7 /</<.... 10Ih¹  
-Iha°@RX87¹ 
-ÿÀ8Y%;@Áa¹@Áa'®L®L  !Í;'  	 =@
-
-@  Fv/7 /</<.... 10Ih¹  
-Iha°@RX87¹ 
-ÿÀ8Y%;@Áa¹@Áa'®L®L       ~   ~   ~   ~    ~  º    0  J       ’  z  	  	Z  	´  
-  
-p  .  ª  b     È  š  r  ì  ö  ¸  H  Ğ  J    4  Ô  ®  X  î  ¦  ^  >  Ú  2  ¢  R  º  l  ş  ¼  V   &   ğ  !à  "V  "Ø  #R  $  $œ  %  %®  &  &¦  '€  (*  (À  )x  *0  +  +¬  ,  ,t  -$  -Œ  .>  .Ğ  /  0(  0ø  1Â  2²  3(  3ª  4$  4à  5n  5è  6€  6Ö  7,  7œ  8  8  @     Æ   Æ  ,ÿÜï !°ÿùÖ  Cÿß ÷ *dÿé†ÿË  !v  ÿŸ‚ #& ÿ±ïÿâZ 3âÿÎÖÿâÈÿçÄÿõàÿëp 	ÿÔ  ğÿîÿŒ| ² ,ÿı˜ÿ‰ÃÿŞ”ÿè¬ÿĞqÿÑrÿĞéÿáºÿÙ ßÿëMÿ±¸ÿÖNÿØƒÿ¨ÒÿØïÿâpÿÓÿç˜ÿÒ½ÿãm ³ÿÜ Nÿø•ÿƒ çÿàø *˜ÿ‰ÃÿŞ”ÿè¬ÿĞqÿÑrÿĞéÿáºÿÙ ßÿëMÿ±¸ÿÖNÿØƒÿ¨ÒÿØïÿâpÿÓÿç˜ÿÒ½ÿãm ³ÿÜ Nÿø•ÿƒ çÿà ÷ * ÷ *ï !ï ! é                                  \           	 
-                       " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = ? D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ¶ · ´ µ                               ı                                                                  	 X                            ! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ;   <       W = > ? @ A B C D E F G H I J K L M N O P Q R S T U V                                                                                             
- Y                               Z                                                                                                                                   [        ; = Z \ z   ÿÿ     = ? \ a   ÿÿ                   H H ~ ~ ° ° ²ÿÿ       	 
-                        ! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V  W X Y Z                T Uÿø      `		 	  
-
- 
-      	   	
-   			   
-				   	
-	
-	  	 
-				
-	
-  	 	
-
-						
-					
-			  
- 		
-				
-
-			
-					
-			  
- 
-	
-					
-
-	
-			
-
-	
-
-	
-			
-
-	
-
-
-   
-
-	
-
-
-		
-			
-		
-
-		
-
-		
-		
-
-		
-
-
-   
-	
-
-
-
-
-		
-				
-	
-			
-	
-				
-	
-			
-   			
-
-	
-	
-	
-
-
-
-	
-
-				
-	
-
-
-
-	
-
-			   	
-				
-
-	
-		
-
-	
-
-	
-			
-	
-		
-
-	
-
-	
-			    ç                                              @  ğˆÿG  ˆ ¹     €    Æû  ` âuBadaBoom BB     ÿÿÿÿ7ÿÿşBADR00             9É(¿_<õ      ºÓ¡    ºÓ¡ÿ‰ÿGˆ            ˆÿG  ÿ‰ÿ‹                \    \ D        @ 
-   J Ÿ    €A  bA          BadaBoom BB            Bouncy  š™™>š™™>š™?                                  Bouncy2 š™™>š™™>  €?                                  Ice ÍÌÌ=ÍÌÌ=                                 Woodffæ>ffæ>                                          y   !       ×   A       ş          °   r                Enemy                    z   !       Ø   A       ÿ          ±   r                IceCreamGirl             {   !       Ù   A                 ²   r                OldMan                   |   !       Ú   A                ³   r       +  o                SisterLevel1'N               }   r         !       Û          ´   o                PopUp   (N               ~          µ   !       Ü   r                Sprite                         ¶   !       İ   r                 Sprite               €          ·   !       Ş   r       !         Sprite                         ¸   !       ß   r       "         Sprite               ‚          ¹   !       à   r       #         Sprite               ƒ          º   !       á   r       $         Sprite               „          »   !       â   r       %         Sprite               …          ¼   !       ã   r       &         Sprite               †   Æ         Ç         r       '         particle_destroybad_parts                    ‡   Æ         Ç         r       (         particle_destroygood_stars                   ˆ   Æ         Ç         r       )         particle_destroyneutral_parts                ‰          À   !       ä   r       5         Sprite               Š          Á   !       å   r       6         Sprite               ‹          Â   !       æ   r       *         Sprite               Œ          Ã   !       ç   r       7         Sprite                  !       è   A                Ä   6       ö   r       ,         Battery #N              !       é   A                Å   6       ÷   r       -         BonusTrashCatchFive #N                  !       ê   A                Æ   6       ø   r       .         IceCream#N              !       ë   A                Ç   6       ù   r       /      
-   SpeedTrash  #N               ‘   !       ì   A                È   6       ú   r       0         StartTrashCatchFive /N               ’   !       í   A                É   6       û   r       1         StartTrashInLove/N           “   !       î   A                Ê   6       ü   r       2         Trash   #N           ”   !       ï   A       	         Ë   6       ı   r       3      
-   TruckTrash  #N               •   Ç         Æ                particle_destroybad_puff                 –   Ç         Æ                particle_destroygood_puff                —   Ç         Æ                particle_destroyneutral_puff             ˜   !       ğ          Ì   r       8         Glow                 ™   !       ñ          Í   r       9         Glow                 š   !       ò          Î   r       :         Glow                 ›   !       ó          Ï   r       ;         Glow                 œ   !       ô          Ğ   r       <         Glow                    !       õ          Ñ   r       =         Glow                           ½   f       
-      	   PopupText                Ÿ          ¾   f         r       4      	   PopupText                               ¿   f             	   PopupText                ¡          «          ¦          Ò          particle_poweruptrail                ¢          ¬          §          Ó          particle_poweruptrail                £          ­          ¨          Ô          particle_bonustrail                  ¤          ®          ©          Õ          particle_bonustrail                  ¥          ¯          ª          Ö          particle_poweruptrail          L                 €?          B  ÜB  RCiÕ	A       ‰                   M                 €?          B  ÜB  RCiÕ	A       Š                   N                 €?NÚÃ6íÏC  pÁ‚×BQ!<Ckõö@       ‹                   O                 €?¾ÃCˆ¿D  HÂ  ÜB  RCiÕ	A       Œ                   P   dÀ³ô5?ô5¿dÀ³¹
-·ÀV¥ˆÂıÿÇB   D  €?  €C                    Q       ô5?ô5¿              €¿ff¦?    ff¦?                   R       ô5?ô5¿              €¿ff¦?    ff¦?                   S       ô5?ô5¿              €¿ff¦?    ff¦?                   T       ô5?ô5¿              €¿ff¦?    ff¦?                   U       ô5?ô5¿              €¿ff¦?    ff¦?        ‘           V       ô5?ô5¿              €¿ff¦?    ff¦?        ’           W       ô5?ô5¿              €¿ff¦?    ff¦?        “           X       ô5?ô5¿              €¿ff¦?    ff¦?        ”           Y                 €?            ®GBffB  €?       •                          Z                 €?            …ëB×£*B  €?       –       Ÿ                   [                 €?            Ãõ#BÍÌCB  €?       —                           \       ô5?ô5¿                §‹.@    2Ã?        y           ]       ô5?ô5¿                §‹.@    2Ã?        z           ^       ô5?ô5¿                 @    ’K¹?        {           _       ô5?ô5¿                ¿a@    †a˜?        |           `                 €?               B   B   A       ~       ˜                   a                 €?               B   B   A                          b                 €?               B   B   A       ¡       €       ™                   c                 €?X*„C           B   B   A       ¢              š                   d                 €?              úB  úB   A       £       ‚       ›                   e                 €?]gC          úB  úB   A       ¤       ƒ       œ                   f                 €?               B   B   A       „                   g                 €?+oÃ           B   B   A       ¥       …                          h                 €?              €?  €?  €?        †           i                 €?              €?  €?  €?        ‡           j                 €?              €?  €?  €?        ˆ           k       ô5¿ô5?                §™Ù?ÎÌL=¢™Ù?                   l       ô5¿ô5?           €    š™Ù?ÎÌL=š™Ù?                   m       ô5¿ô5?                 ™Ù?ÏÌL=Ÿ™Ù?                   n   dÀ³ô5¿ô5?dÀ³    Âõ½    ffÆ?ÎÌL=ffÆ?        ‘           o       ô5¿ô5?        ‘Âõ½    ffÆ?ÎÌL=ffÆ?        ’           p       ô5¿ô5?                 ™Ù?ÏÌL=Ÿ™Ù?        ”           q                 €?           Áe‡A@~ZA@  €?        †           r                 €?           Á÷Q&@ @  €?        ‡           s                 €?           Á¹"@ä¾@  €?        ˆ           t                 €?            ÍÌL<ÍÌL<ÍÌL=                   u                 €?            ÍÌL<ÍÌL<ÍÌL=                   v                 €?            o<o<ÍÌL=        ‘           w                 €?            o<o<ÍÌL=        ’           x                 €?            ÍÌL<ÍÌL<ÍÌL=        ”           t      ‘Öÿ”~îÿ”3ùcbÌ=»uùÿ                        š™™¾                  –C    )\=           u      ‘Öÿ”~îÿ”3ùcbÌ=»uùÿ                        š™™¾                  –C    )\=           v       ¼vÿbÄÿÿØ’cêÿÿ=5î¡ÿ                        š™™¾                  –C    )\=           w       ¼vÿbÄÿÿØ’cêÿÿ=5î¡ÿ                        š™™¾                  –C    )\=           x      ‘Öÿ”~îÿ”3ùcbÌ=»uùÿ                        š™™¾                  –C    )\=           t       pB  ÜB  €?  @@  à@   A                          fC  C                      HB  ğA    €>      €>  €?        u       pB  ÜB  €?  @@  à@   A                          fC  C                      HB  ğA    €>      €>  €?        v       pB  ÜB  €?  @@  à@   A                          fC  C                      HB  ğA    €>      €>  €?        w       pB  ÜB  €?  @@  à@   A                          fC  C                      HB  ğA    €>      €>  €?        x       pB  ÜB  €?  @@  à@   A                          fC  C                      HB  ğA    €>      €>  €?        L    ÿ  €?  €?                                                      M    ÿ  €?  €?                                                      N    ÿ  €?  €?                                                      O    ÿ  €?  €?                                                       P   ÿ  €?  €?                                                      Q     ÿ  €?  €?                                                      R     ÿ  €?  €?                                                      S     ÿ  €?  €?                                                      T     ÿ  €?  €?                                                      U     ÿ  €?  €?                                                      V     ÿ  €?  €?                                                      W     ÿ  €?  €?                                                      X     ÿ  €?  €?                                                      q   ÿ  €?  €?                                                      r   ÿ  €?  €?                                                      s   ÿ  €?  €?                                                      \     ÿ  €?  €?                                                      ]     ÿ  €?  €?                                                      ^     ÿ  €?  €?                                                      _     ÿ  €?  €?                                                      `    ÿ  €?  €?                                                      a    ÿ  €?  €?                                                      b    ÿ  €?  €?                                                      c    ÿ  €?  €?                                                      d    ÿ  €?  €?                                                      e    ÿ  €?  €?                                                      f    ÿ  €?  €?                                                      g    ÿ  €?  €?                                                      k   ÿ  €?  €?                                                      l   ÿ  €?  €?                                                      m   ÿ  €?  €?                                                      n   ÿ  €?  €?                                                      o   ÿ  €?  €?                                                      p   ÿ  €?  €?                                                      t   ÿ  €?  €?                                                        @@      €>        €?        u   ÿ  €?  €?                                                        @@      €>        €?        v   ÿ  €?  €?                                                        @@      €>        €?        w   ÿ  €?  €?                                                        @@      €>        €?        x   ÿ  €?  €?                                                        @@      €>        €?        L      Ú'      M      Ú'      N      Ú'      O      Ú'      P      A       Q      B       R      B       S      B       T      B       U      B       V      B       W      B       X      B       \      B       ]      B       ^      B       _      B       `      ß'      a      ß'      b      ß'      c      ß'      d      ß'      e      ß'      f      ß'      g      ß'      k      B       l      B       m      B       n      B       o      B       p      B       `     €?            8           a     €?            8           b     €?            8           c     €?            8           d     €?            8           e     €?            8           f     €?            8           g     €?            8           L               €?  €?  €?                    M               €?  €?  €?                    N               €?  €?  €?                    O               €?  €?  €?                    `       J        €?  €?  €?                    a       J        €?  €?  €?                    b       J        €?  €?  €?                    c       J        €?  €?  €?                    d       J        €?  €?  €?                    e       J        €?  €?  €?                    f       J        €?  €?  €?                    g       J        €?  €?  €?                    q           
-×£<  €?    €@             G   ûä,ÿ    r           ìQ¸=  €?    €@               F   ûä,ÿ    s           
-×£<  €?    €@             G   ûä,ÿ    O          D          E       D                       P          B          C       A       B                       Y   ÍÌÌ>      €?           À?         €?                                             4B         €?          €?  €?                                   €?                      ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ      ´B       9ã>                       €?                              €?          €?  €?                                   €?                         A              ff¦?  4B   @  €?  €?  €?                        A         €?                                   €?                          ÍÌÌ=                      €?                                  €?                    ÚÉ?         €?                       €¿                    >BBÿtÿ \\\                 Ç!aœÜÿÿ          ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                 €?  €?  €?  €?                           €?  €?  €?  €?                             €?                    €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                           €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                ÈB      €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                            €?      €?         €?          €?  €?                                   €?                           €?    ÚI?         €?          €?  €?                                   €?                            €?    ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                                                               @        
-×#<ÿÿÿÿ       ?                                                        Z      ?      €?           €?         €?                                             ŒB         €?          €?  €?                                   €?                      ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ      ÈB       š™?                       €?                              €?          €?  €?                                   €?                         À    –           €?  4B   @  €?  €?  €?                         A         €?                                   €?                          ÍÌÌ=                      €?                                  €?                    ÚÉ?         €?                       €¿                    ÿõ¿ÿÿŞ ÿğÓ\ \\\                 Ç``œÜÿÿ          ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                 €?  €?  €?  €?                           €?  €?  €?  €?                             €?                    €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                           €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                ÈB      €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                            €?      €?         €?          €?  €?                                   €?                           €?    ÚI?         €?          €?  €?                                   €?                            €?    ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                                                               @        
-×#<ÿÿÿÿ       ?                                                        [   ÍÌÌ>      €?           À?         €?                                             4B         €?          €?  €?                                   €?                      ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ      ´B       9ã>                       €?                              €?          €?  €?                                   €?                         @              ff¦?  4B   @  €?  €?  €?                        A         €?                                   €?                          ÍÌÌ=                      €?                                  €?                    ÚÉ?         €?                       €¿                    Ä´šÿ‹ƒÿ\\\ \\\                   ‡‡ÿÿÿÿ          ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                 €?  €?  €?  €?                           €?  €?  €?  €?                             €?                    €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                           €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                ÈB      €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                            €?      €?         €?          €?  €?                                   €?                           €?    ÚI?         €?          €?  €?                                   €?                            €?    ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                                                               @        
-×#<ÿÿÿÿ       ?                                                        h   ÍÌÌ>      €?           €?         €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                      ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ       A         €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                       33³>  ÈA   @  €?  €?  €?                                    €?          €?  €?                                   €?                                                   A              @   @  €?  €?                                   €?                         ÛI?         €?          €?  €?                                   €?                            ÿ©                           Lÿÿ          ]]ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                 €?  €?  €?  €?                           €?  €?  €?  €?                             €?                    €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                           €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                €?      €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                            €?      €?         €?          €?  €?                                   €?                           €?    ÛI?         €?          €?  €?                                   €?                            €?    ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                                                              €?        
-×#<ÿÿÿÿ       ?                                                        i      ?      €?           €?         €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                      ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ      ÈA         €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                       33³>  ÈA   @  €?  €?  €?                                    €?          €?  €?                                   €?                                                   A              @   @  €?  €?                                   €?                         ÛI?         €?          €?  €?                                   €?                         ÿÿÿÿÿÊX                           NNÿÿ          ]]ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                 €?  €?  €?  €?                           €?  €?  €?  €?                             €?                    €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                           €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                €?      €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                            €?      €?         €?          €?  €?                                   €?                           €?    ÛI?         €?          €?  €?                                   €?                            €?    ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                                                              €?        
-×#<ÿÿÿÿ       ?                                                        j   ÍÌÌ>      €?           €?         €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                      ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ       A         €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                       33³>  ÈA   @  €?  €?  €?                                    €?          €?  €?                                   €?                                                   A              @   @  €?  €?                                   €?                         ÛI?         €?          €?  €?                                   €?                         ÿÿÿÿ€€€                           Lÿÿ          ]]ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                 €?  €?  €?  €?                           €?  €?  €?  €?                             €?                    €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                           €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                   €?          €?  €?                                   €?                                €?      €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                        €?         €?          €?  €?                                   €?                            €?      €?         €?          €?  €?                                   €?                           €?    ÛI?         €?          €?  €?                                   €?                            €?    ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ                          ÿÿ              ÿÿ              ÿÿÿÿÿÿÿÿ         €?                                                              €?        
-×#<ÿÿÿÿ       ?                                                        Y   ÿ  €?  €?                                                     ?           @      €?                                            Z   ÿ  €?  €?                                                     ?           @      €?                                            [   ÿ  €?  €?                                                     ?           @      €?                                            h   ÿ  €?  €?                                                    €?           @      €?                                            i   ÿ  €?  €?                                                    €?           @      €?                                            j   ÿ  €?  €?                                                    €?           @      €?                                            L                   ff¦?ff¦?ff¦?ff¦?ff¦?ff¦?     €@  €@  €@  €@  €@  €@                                zD  zD  /D  D  úC  ÈC     C  C  C  C  C  C     zC  zC  zC  zC  zC  zC   ú   ^  Â  ô  ô  &         f       c       g       `     ğA  4C       B  HB      ÈÂ  ÈÂ                                                                                                                  M         R          ff¦?ff¦?ff¦?ff¦?ff¦?ff¦?     €@  €@  €@  €@  €@  €@                                zD  zD  /D  D  úC  ÈC     C  C  C  C  C  C     zC  zC  zC  zC  zC  zC   ú   ^  Â  ô  ô  &         b     ğA  4C       B  HB      ŒB   Â                                 ÈÁ                                                                        N                     €?  €?  €?  €?  €?  €?     €@  €@  €@  €@  €@  €@                                zD  zD  /D  D  úC  ÈC     C  C  C  C  C  C     zC  zC  zC  zC  zC  zC   ú   ^  Â  ô  ô  &         f       c       g       `     ğA  4C       B  HB      ÈÂ  šÂ                                 ğÁ                             
-   
-                                         P         i          @        Q         ‘                                              A        R         ‘                                              A        S         ‘                                             A        T         ‘                                             A        U         ‘                                              A        V         ‘                                             A        W         ‘                                               A        X         ‘                                              A        Y         ^         HB        Z         ^          @        [         ^          @        ^         ‘                                                    O         s          ff¦?ff¦?ff¦?ff¦?ff¦?ff¦?      A   A   A   A   A   A     pA  pA  pA  pA  pA  pA                 ŒB  ğB  HC  fC     HC  HC  \C  \C  pC  ‘C   ,  ,  ,  ,  ,  ,         e       d     ğA  4C       B  HB                        HD €äC  B €åC €äC  B €£C ÀD  B  èÂ ÀD  B €‰Ã  ĞC  B  HÄ  ĞC  B   ¥h;¿_e.?          HÂ                             
-   
-                                              >C  ğB  Â  zC  ‘Ã  Â  ¹Ã  ÜÂ  Â  Ã  zC  Â          Â    a          `         €               
-                         HC              Y       [                                               a         ƒ                                        HC              Z       [                                                       b         Z                                         C              Z       [                                               @    c         Z                                         C              Z       [                                              @A    d         š                                         C              Z       [                                                     e         š                                         C              Z       [                                                     f         Š                                        HC              Z       [                                               g         Z                                         C              Z       [                                              @A    r         ”                                                            \         ‘                                                     ]         ‘                    
-                                 _         ‘                                     	               k         “          ?    <<\?          €?    l         “          ?        xx8?ŸFØ>  €?    m         “          ?        xx8?ŸFØ>  €?    n         “          ?      €>¢FX?  €?  €?    o         “          ?    ğğğ=õc?  €?  €?    p         “          ?        xx8?ŸFØ>  €?
