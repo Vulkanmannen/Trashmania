@@ -13,14 +13,29 @@ public class RainTrash : Trash
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
-			int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
-			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
-			destroyAndPoff(totalPoints.ToString());
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
-			destroyAndPoff("");
+			destroyAndPoff("", 1);
 		}
 	}
+	public override void hitTrashCollider()
+	{
+		int totalPoints = points;
+		globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
+		destroyAndPoff(totalPoints.ToString());
+	}
+	// fixed update
+	protected override void myFixedUpdate()
+	{
+		// get current stage
+		currentState = globalGameObject.GetComponent<GlobalGameObject>().currentState;
+		
 
+		rigidbody.velocity = new Vector3((bounce ? rigidbody.velocity.x : 0f), -alternativeSpeed, 0f) + dir;
+
+		
+		myXVelocity = rigidbody.velocity.x;
+	}
 }

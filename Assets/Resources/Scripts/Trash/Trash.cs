@@ -9,14 +9,18 @@ public class Trash : MonoBehaviour
 	public Vector3 dir;
 	public int hitGround = 0;
 	public bool canBePickedUp = false;
-	public float[] velocityY = {150f, 160f, 170f, 180f, 200f, 220f};
+	public float[,] velocityY = new float[,] {{150f, 180f, 210f, 250f, 290f, 380f}, {260f, 300f, 330f, 360f, 400f, 450f}};
+	public float alternativeSpeed = 200;
 	public int currentState = 0;
 	public int kindsOfSprites = 4;
 	public GameObject[] poffWhenDestroyd;
 	
 	public GameObject globalGameObject;
 	public bool ignoreMe = false;
-	
+	public bool dontWarnAboutMe = false;
+	public bool isPowerUp = false;
+	public int thisLevel;
+
 	protected Vector3 dirMod = new Vector3(0.99f, 0.97f, 0f);
 	public bool onGround = false;
 	protected bool toBeDestroyed = false;
@@ -33,6 +37,8 @@ public class Trash : MonoBehaviour
 		
 		rotationDir = (Random.Range(-100, 101) > 0 ? 1 : -1);
 		
+		thisLevel = globalGameObject.GetComponent<GlobalGameObject>().thisLevel;
+		
 		start();
 	}
 	
@@ -44,9 +50,11 @@ public class Trash : MonoBehaviour
 
 	void Update ()
 	{
+		thisLevel = globalGameObject.GetComponent<GlobalGameObject>().thisLevel;
+
 		if(transform.position.y < -700 || transform.position.x > 700 || transform.position.x < -700)
 			Destroy(this);
-		
+
 		myUpdate();
 	}
 	
@@ -78,9 +86,9 @@ public class Trash : MonoBehaviour
 		
 		// get current stage
 		currentState = globalGameObject.GetComponent<GlobalGameObject>().currentState;
-		
+
 		if(!canBePickedUp)
-			rigidbody.velocity = new Vector3((bounce && !onGround ? rigidbody.velocity.x : 0f), -velocityY[currentState], 0f) + dir;
+			rigidbody.velocity = new Vector3((bounce && !onGround ? rigidbody.velocity.x : 0f), -velocityY[thisLevel - 1, currentState], 0f) + dir;
 		else
 			rigidbody.velocity = new Vector3(0f, -0.5f, rigidbody.velocity.z); // wtf!!
 		
@@ -113,18 +121,25 @@ public class Trash : MonoBehaviour
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
-			globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;	
-			int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
-			globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
-			destroyAndPoff(totalPoints.ToString());
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
 			globalGameObject.GetComponent<GlobalGameObject>().points -= lostPoints;
 			globalGameObject.GetComponent<GlobalGameObject>().resetCombo();
 			string textToShow = "-" + lostPoints.ToString();
-			destroyAndPoff(textToShow);
+			destroyAndPoff(textToShow, 1);
 		}
+	}
+
+	public virtual void hitTrashCollider()
+	{
+		globalGameObject.GetComponent<GlobalGameObject>().trashInARow++;	
+		globalGameObject.GetComponent<GlobalGameObject>().numberOfCaughtTrash++;
+		globalGameObject.GetComponent<GlobalGameObject>().numberOfNormalTrash++;
+		int totalPoints = points * globalGameObject.GetComponent<GlobalGameObject>().comboMultiplyer;
+		globalGameObject.GetComponent<GlobalGameObject>().points += totalPoints;
+		destroyAndPoff(totalPoints.ToString());
 	}
 	
 	// this is run when a trash is picked up, it waits and destroy the trash
@@ -135,23 +150,23 @@ public class Trash : MonoBehaviour
 	}
 	
 	// destroy the trash and create puff
-	public void destroyAndPoff(string textToShow)
+	public void destroyAndPoff(string textToShow, int particleIndex = 0)
 	{
 		if(!destroyed)
 		{
-			createPoffWhenDestroyed(textToShow);
+			createPoffWhenDestroyed(textToShow, particleIndex);
 			Destroy(this.gameObject);
 			destroyed = true;
 		}
 	}
 	
 	// this is run when a trash is destroyed, it creates a poff/popup
-	public void createPoffWhenDestroyed(string textToShow = "")
+	public void createPoffWhenDestroyed(string textToShow = "", int particleIndex = 0)
 	{
-		if(textToShow == "0")
+		if(textToShow == "0" || textToShow == "-0")
 			textToShow = "";
 		
-		GameObject newObject = (GameObject)Instantiate(poffWhenDestroyd[0], transform.position, Quaternion.Euler(new Vector3(90, 180, 0)));
+		GameObject newObject = (GameObject)Instantiate(poffWhenDestroyd[particleIndex], transform.position - new Vector3(0f, 0f, 100f), Quaternion.Euler(new Vector3(0, 0, 0)));
 		newObject.GetComponent<DestroyedTrashPopup>().setText(textToShow);
 		newObject.GetComponent<DestroyedTrashPopup>().timeOnScreen = 0.6f;
 		newObject.transform.parent = transform.parent.transform;

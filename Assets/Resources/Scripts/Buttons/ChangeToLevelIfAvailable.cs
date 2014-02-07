@@ -3,11 +3,20 @@ using System.Collections;
 
 public class ChangeToLevelIfAvailable : Button
 {
-	public bool unlocked = true;
+	public string unlockedLevel = "LevelUnlocked1";
+
+	public override void onPress()
+	{
+		PieceOfMap p = GetComponentInChildren<PieceOfMap>();
+		p.press();
+		canBePressed = true;
+	}
+
 	public override void action()
 	{
-		if(unlocked)
+		if(PlayerPrefs.GetInt(unlockedLevel) == 1)
 		{
+			PlayerPrefs.SetString("CurrentMenu", "Map");
 			Application.LoadLevel((int)level);
 		}
 	}

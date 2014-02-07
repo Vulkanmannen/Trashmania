@@ -4,7 +4,11 @@ TextureImporter:
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
+<<<<<<< HEAD
     enableMipMap: 1
+=======
+    enableMipMap: 0
+>>>>>>> dfff8ceca0192fe32bb8abc1993890dfa9bc3dfa
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -21,7 +25,11 @@ TextureImporter:
   generateCubemap: 0
   seamlessCubemap: 0
   textureFormat: -1
+<<<<<<< HEAD
   maxTextureSize: 1024
+=======
+  maxTextureSize: 2048
+>>>>>>> dfff8ceca0192fe32bb8abc1993890dfa9bc3dfa
   textureSettings:
     filterMode: -1
     aniso: -1
@@ -37,7 +45,11 @@ TextureImporter:
   spritePivot: {x: .5, y: .5}
   spritePixelsToUnits: 100
   alphaIsTransparency: 0
+<<<<<<< HEAD
   textureType: -1
+=======
+  textureType: 5
+>>>>>>> dfff8ceca0192fe32bb8abc1993890dfa9bc3dfa
   buildTargetSettings: []
   spriteSheet:
     sprites: []

@@ -15,13 +15,31 @@ public class PersonInLove : Enemy
 	// start
 	protected override void myStart()
 	{
+		Vector3 scale = transform.localScale;
 		// is  left
 		if(transform.position.x > 700)
 		{
 			isLeft = true;
+
 			nodes.Reverse();
 			// set kind of animation
+			typeOfEnemyIndex = 1;
+
+			scale.x = 95;
+			scale.y = 200;
+			
 		}
+		else
+		{
+			typeOfEnemyIndex = 0;
+			scale.x = 120;
+			scale.y = 220;
+		}
+
+		transform.localScale = scale;
+
+		// set animation
+		GetComponentInChildren<AnimationScript>().row = typeOfEnemy[typeOfEnemyIndex] * 2;
 
 		// set isLeft in animation
 		GetComponentInChildren<AnimationScript>().isLeft = isLeft;
@@ -32,7 +50,23 @@ public class PersonInLove : Enemy
 		
 		dir.x *= (isLeft ? -1 : 1);
 	}
-	
+
+	// fade out
+	protected override void fadeOut()
+	{
+		if(currentEvent != GlobalGameObject.GameEvent.NOEVENT && currentEvent != GlobalGameObject.GameEvent.GAMEOVER && currentEvent != GlobalGameObject.GameEvent.INLOVE)
+		{
+			if(alpha > 0f)
+				alpha -= 0.02f;
+		}
+		else
+		{
+			if(alpha < 1f)
+				alpha += 0.02f;
+		}
+		
+		GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, alpha));
+	}
 	// move
 	protected override void move()
 	{
@@ -50,7 +84,7 @@ public class PersonInLove : Enemy
 		// reach middle
 		if((isLeft && transform.position.x < 50 || !isLeft && transform.position.x > -50) && !waiting && !heartDroped)
 		{
-			GetComponentInChildren<AnimationScript>().setAnimation(1 + typeOfEnemy[0] * 2, 20, true, 20);
+			GetComponentInChildren<AnimationScript>().setAnimation(1 + typeOfEnemy[typeOfEnemyIndex] * 2, 15, true, 20);
 			waiting = true;	
 		}
 		
@@ -102,24 +136,27 @@ public class PersonInLove : Enemy
 					thrownPrize = true;
 					partner.thrownPrize = true;
 					
-					globalGameObject.GetComponent<GlobalGameObject>().startEvent(GlobalGameObject.GameEvent.NOEVENT);
-					
 					GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/Trash/Heart") as GameObject,transform.position + new Vector3(50f * (isLeft ? -1 : 1), 0f, -35f), transform.rotation);
 					newObject.transform.parent = transform.parent;
+
+					Vector3 particlePos = transform.position;
+					particlePos.x = 0;
+					particlePos.z -= 100;
+
+					GameObject newObjectParticle = (GameObject)Instantiate(Resources.Load("Particles/particle_heartexplosion") as GameObject, particlePos, transform.rotation);
+					newObjectParticle.transform.parent = transform.parent;
+
+					HeartParticle hearts = newObjectParticle.GetComponent<HeartParticle>();
+
+					hearts.timeOnScreen = 2.5f;
+
+					hearts.person1 = gameObject.GetComponent<PersonInLove>();
+					hearts.person2 = partner.gameObject.GetComponent<PersonInLove>();
+
 				}
-				// play caught
-				chaughtHearts();
-			}	
-		}
-		
-		// cloud of hearts
-		if(runCaughtHarts && GetComponentInChildren<AnimationScript>().endOfAnimation)
-		{
-			GameObject newObject = (GameObject)Instantiate(Resources.Load("Objects/Particle") as GameObject,transform.position, transform.rotation);
-			newObject.transform.parent = transform.parent;
-			
-			Destroy(this.gameObject);
-			
+			}
+			//if(thrownPrize)
+			//	Destroy(gameObject);
 		}
 	}
 	
@@ -128,14 +165,7 @@ public class PersonInLove : Enemy
 	{
 		heartDroped = true;
 		
-		GetComponentInChildren<AnimationScript>().setAnimation(typeOfEnemy[0] * 2, 20, true, 20);
+		GetComponentInChildren<AnimationScript>().setAnimation(typeOfEnemy[typeOfEnemyIndex] * 2, 15, true, 20);
 		waiting = false;	
-	}
-	
-	// chaught both hearts
-	private void chaughtHearts()
-	{
-		GetComponentInChildren<AnimationScript>().setAnimation(2 + typeOfEnemy[0] * 2, 20, false, 20);
-		partner.GetComponentInChildren<AnimationScript>().setAnimation(2 + typeOfEnemy[0] * 2, 20, false, 20);
 	}
 }

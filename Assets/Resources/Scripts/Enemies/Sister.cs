@@ -8,7 +8,9 @@ public class Sister : Enemy
 	public Vector3[] objectStartPos = new Vector3[5]; 
 	
 	public GameObject bonusObjectToThrow;
-	
+
+	public int turnNode = 3; 
+
 	private int nextNode = 0;
 	private bool thrownPowerup = false;
 	private bool thrownObjects = false;
@@ -32,7 +34,24 @@ public class Sister : Enemy
 		// set to ignore
 		ignoreMe = true;
 	}
-	
+
+	// fadeOut
+	protected override void fadeOut()
+	{
+		if(currentEvent != GlobalGameObject.GameEvent.NOEVENT && currentEvent != GlobalGameObject.GameEvent.GAMEOVER && currentEvent != GlobalGameObject.GameEvent.CATCHFIVE)
+		{
+			if(alpha > 0f)
+				alpha -= 0.02f;
+		}
+		else
+		{
+			if(alpha < 1f)
+				alpha += 0.02f;
+		}
+		
+		GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, alpha));
+	}
+
 	//--------------------------------------------------------------------------
 	//-----------------------------Move-----------------------------------------	
 	protected override void move()
@@ -44,7 +63,7 @@ public class Sister : Enemy
 		if((transform.position.x >= nodes[nextNode].x && !isLeft) || (transform.position.x <= nodes[nextNode].x && isLeft))
 		{
 			// walk between node 3 and 4
-			if(thrownPowerup || nextNode < 3)
+			if(thrownPowerup || nextNode < turnNode)
 				nextNode++;
 			else
 			{
@@ -63,7 +82,7 @@ public class Sister : Enemy
 		}
 		
 		// move enemy
-		if(animationMode == AnimationMode.WALK && currentEvent != GlobalGameObject.GameEvent.INLOVE)
+		if(animationMode == AnimationMode.WALK && (currentEvent == GlobalGameObject.GameEvent.NOEVENT || currentEvent == GlobalGameObject.GameEvent.GAMEOVER || currentEvent == GlobalGameObject.GameEvent.CATCHFIVE))
 		{
 			moveVec = nodes[nextNode] - transform.position;		
 			moveVec.Normalize();
@@ -92,7 +111,8 @@ public class Sister : Enemy
 		{
 			GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.JUMP, 15, false, 20);
 			animationMode = AnimationMode.JUMP;
-			GetComponent<Animation>().Play("SisterJumpAnimation");
+			if(thisLevel == 2)
+				GetComponent<Animation>().Play("SisterJumpAnimation");
 		}
 		// set to waitidle
 		else if(animationMode == AnimationMode.THROW && GetComponentInChildren<AnimationScript>().endOfAnimation && !thrownObjects)
@@ -107,7 +127,8 @@ public class Sister : Enemy
 		{
 			GetComponentInChildren<AnimationScript>().setAnimation((int)AnimationMode.WALK, 15, true, 20);
 			animationMode = AnimationMode.WALK;
-			GetComponent<Animation>().Play("SisterLeapAnimation");
+			if(thisLevel == 2)
+				GetComponent<Animation>().Play("SisterLeapAnimation");
 		}
 	}
 	
@@ -210,8 +231,7 @@ public class Sister : Enemy
 			
 			else
 				objectToThrowIndex = 2; // 25 %
-		}
-		
+		}		
 		
 		return objectToThrowIndex;
 	}

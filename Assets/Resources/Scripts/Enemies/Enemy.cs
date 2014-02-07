@@ -5,12 +5,13 @@ using System.Collections.Generic;
 public class Enemy : MonoBehaviour
 {
 	public float[] speed = {1.3f, 1.3f, 1.3f, 1.3f, 1.3f, 1.3f};
-	public float[] minTime = {2.5f, 2f, 1f, 0.5f, 0.5f, 0.5f};
-	public float[] randomTimeDif = {0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.3f};
-	public float[] distanceToClosestTrashY = {100f, 100f, 100f, 100f, 100f, 100f}; 
-	public float[] minDistanceToClosestTrashX = {0f, 0f, 70f, 120f, 200f, 230f}; 
-	public float[] maxDistanceToClosestTrashX = {200f, 200f, 220f, 220f, 240f, 290f}; 
-	public int []pasThisLineToStartThrow = {250, 300, 350, 350, 400, 400};
+	public float[] minTime = {4f, 4f, 4f, 4f, 4f, 4f};
+	public float[] randomTimeDif = {0f, 0f, 0f, 0f, 0f, 0f};
+	public float[,] distanceToClosestTrashY = new float[,]{{150f, 140f, 130f, 120f, 110f, 100f}, {100f, 100f, 100f, 100f, 100f, 100f}}; 
+	public float[] distanceToClosestTrashYOkToThrow = {1000f, 1000f, 700f, 600f, 500f, 400f}; 
+	public float[] minDistanceToClosestTrashX = {150f, 150f, 150f, 150f, 150f, 150f}; 
+	public float[] maxDistanceToClosestTrashX = {250f, 250f, 250f, 250f, 250f, 250f}; 
+	public int []pasThisLineToStartThrow = {250, 350, 450, 500, 500, 550};
 	public GameObject[] objectToSpawn;
 	
 	public Vector3 dir = new Vector3(30f, 180f, 0f);
@@ -39,16 +40,19 @@ public class Enemy : MonoBehaviour
 	public float xDif;
 	public bool canThrow;
 	public bool firstTrash = true;
+	public int thisLevel = 1;
 	
-	protected float timer = 0f;
+	public float timer = 0f;
 	protected bool throwing = false;
-	protected int typeOfEnemyIndex = 0;
+	public int typeOfEnemyIndex = 0;
+	protected float alpha = 1f;
 	
 	//private bool timeToThrow = false;
 	
 	
 	void Start()
 	{	
+
 		// get path
 		GameObject enemyPath = GameObject.FindWithTag("EnemyPath");
 		nodes = new List<Vector3>(enemyPath.GetComponent<EnemyPath>().nodes);
@@ -58,9 +62,12 @@ public class Enemy : MonoBehaviour
 		
 		// set sprite offset
 		GetComponentInChildren<AnimationScript>().transform.position = transform.position + spriteOffset;
-		
+
+		// set level
+		thisLevel = globalGameObject.GetComponent<GlobalGameObject>().thisLevel;
+
 		// set type
-		typeOfEnemyIndex = Random.Range(0, (typeOfEnemy.Length - 1));
+		typeOfEnemyIndex = Random.Range(0, (typeOfEnemy.Length));
 		GetComponentInChildren<AnimationScript>().row = typeOfEnemy[typeOfEnemyIndex] * 2;
 		
 		// specific
@@ -69,7 +76,7 @@ public class Enemy : MonoBehaviour
 	
 	protected virtual void myStart()
 	{
-		if(globalGameObject.GetComponent<GlobalGameObject>().startLeft)
+		if(globalGameObject.GetComponent<GlobalGameObject>().startLeft || (isLeft && startNode != 0))
 		{
 			nodes.Reverse();
 			isLeft = true;
@@ -112,7 +119,9 @@ public class Enemy : MonoBehaviour
 		
 		// throw
 		throwFunc();
-		
+
+		// fade out
+		fadeOut();
 		
 		// myUpdate
 		myUptade();
@@ -122,6 +131,22 @@ public class Enemy : MonoBehaviour
 	protected virtual void myUptade()
 	{
 		
+	}
+
+	protected virtual void fadeOut()
+	{
+		if(currentEvent != GlobalGameObject.GameEvent.NOEVENT && currentEvent != GlobalGameObject.GameEvent.GAMEOVER)
+		{
+			if(alpha > 0f)
+				alpha -= 0.02f;
+		}
+		else
+		{
+			if(alpha < 1f)
+				alpha += 0.02f;
+		}
+
+		GetComponentInChildren<AnimationScript>().renderer.material.SetColor("_Color",new Color(1f, 1f, 1f, alpha));
 	}
 	
 	//--------------------------------------------------------------------------
@@ -140,7 +165,7 @@ public class Enemy : MonoBehaviour
 		}
 		
 		// move enemy
-		if(!throwing && currentEvent != GlobalGameObject.GameEvent.INLOVE)
+		if(!throwing && (currentEvent == GlobalGameObject.GameEvent.NOEVENT || currentEvent == GlobalGameObject.GameEvent.GAMEOVER))
 		{
 			moveVec = nodes[0] - transform.position;		
 			moveVec.Normalize();
@@ -179,30 +204,31 @@ public class Enemy : MonoBehaviour
 			{
 				if(trash.GetComponent<Trash>() && !trash.GetComponent<Trash>().ignoreMe)
 				{
-					if(yDif > transform.position.y - trash.transform.position.y || firstTrash)
+					if(yDif > transform.position.y + trashStartOffset.y - trash.transform.position.y || firstTrash)
 					{
 						firstTrash = false;
-						yDif = transform.position.y - trash.transform.position.y;
-						xDif = transform.position.x - trash.transform.position.x;
+						yDif = transform.position.y + trashStartOffset.y - trash.transform.position.y;
+						xDif = transform.position.x + (trashStartOffset.x  * (isLeft ? -1 : 1)) - trash.transform.position.x;
 					}
 				}
 			}
 			
-			if(!firstTrash && 
+			if(	!firstTrash && 
 				(	
-					Mathf.Abs(xDif) < minDistanceToClosestTrashX[currentState]  
-				|| 	Mathf.Abs(xDif) > maxDistanceToClosestTrashX[currentState]
-				|| 	yDif < distanceToClosestTrashY[currentState] + Mathf.Abs(trashStartOffset.y))
-				)
+					Mathf.Abs(xDif) < minDistanceToClosestTrashX[currentState] ||
+			 		Mathf.Abs(xDif) > maxDistanceToClosestTrashX[currentState] ||
+			 		yDif < distanceToClosestTrashY[thisLevel - 1, currentState] + Mathf.Abs(trashStartOffset.y)
+			 	)
+			   	&& yDif < distanceToClosestTrashYOkToThrow[currentState] + Mathf.Abs(trashStartOffset.y)
+			  ) 
 			{
 				canThrow = false;
 			}
 			
-			
 			// Throwing
 			if(timer <= Time.timeSinceLevelLoad && canThrow)
 			{
-				if(transform.position.x > -pasThisLineToStartThrow[currentState] && transform.position.x < pasThisLineToStartThrow[currentState])
+				if(transform.position.x + trashStartOffset.x * (isLeft ? -1 : 1) > -pasThisLineToStartThrow[currentState] && transform.position.x + trashStartOffset.x * (isLeft ? -1 : 1) < pasThisLineToStartThrow[currentState])
 				{
 					// set trowing, set animation
 					throwing = true;
@@ -210,7 +236,6 @@ public class Enemy : MonoBehaviour
 					GetComponentInChildren<AnimationScript>().setAnimation(1 + (typeOfEnemy[typeOfEnemyIndex] * 2), throwFrames, false, throwFramerate);
 					
 					timer = Time.timeSinceLevelLoad + minTime[currentState] + Random.Range(0f, randomTimeDif[currentState]);
-					
 											
 					GameObject newObject = (GameObject)Instantiate(objectToSpawn[probabilityThrow()], 
 															transform.position, transform.rotation);
@@ -218,30 +243,21 @@ public class Enemy : MonoBehaviour
 					newObject.transform.position = new Vector3(transform.position.x + trashStartOffset.x * (isLeft ? -1 : 1), transform.position.y + trashStartOffset.y, 0f);
 					newObject.transform.parent = transform.parent.transform;
 					
-					float randomDir = Random.Range(-600f, 601f);
-					if(randomDir <= 0)
-						randomDir = -1;
-					else
-						randomDir = 1;
-					
-					Vector3 tempDir = dir;									
-					tempDir.x += Random.Range(0f, randomDirDif.x);
-					tempDir.x *= randomDir;
-					tempDir.y += Random.Range(0f, randomDirDif.y);
-															
-					newObject.GetComponent<Trash>().dir = tempDir;
-				
-					//timeToThrow = false;
+					//float randomDir = Random.Range(-600f, 601f);
+					//if(randomDir <= 0)
+					//	randomDir = -1;
+					//else
+					//	randomDir = 1;
+					//
+					//Vector3 tempDir = dir;									
+					//tempDir.x += Random.Range(0f, randomDirDif.x);
+					//tempDir.x *= randomDir;
+					//tempDir.y += Random.Range(0f, randomDirDif.y);
+					//										
+					//newObject.GetComponent<Trash>().dir = tempDir;
 				}
 			}
-			// delay trash from appearing
-			//if(timeToThrow && GetComponentInChildren<AnimationScript>().index == GetComponentInChildren<AnimationScript>().numberOfFrames - frameToThrow)
-			//{
-			//
-			//	
-			//}
 		}
-		
 	}
 	
 	protected virtual int probabilityThrow()
@@ -250,32 +266,31 @@ public class Enemy : MonoBehaviour
 		
 		float probability = Random.value;
 		int objectToThrowIndex = 0;
-		
-		// no battery
-		if(!globalGameObject.GetComponent<GlobalGameObject>().canThrowBattery)
+		bool powerUpOnScreen = globalGameObject.GetComponent<GlobalGameObject>().powerUpOnScreen;
+
+		if(thisLevel == 1)
 		{
-			if(probability < 0.90f) 
-				objectToThrowIndex = 0; // 90%
+			if(probability < 0.95f) 
+				objectToThrowIndex = 0; // 95% normal
 			
-			else if(probability < 0.95f)
-				objectToThrowIndex = 1; // 5% 
-			
-			else
-				objectToThrowIndex = 2; // 5%
+			else if(!powerUpOnScreen)
+				objectToThrowIndex = 1; // 5% speed
+
 		}
-		else
+		else if(thisLevel == 2)
 		{
 			if(probability < 0.75f) 
-				objectToThrowIndex = 0; // 75%
+				objectToThrowIndex = 0; // 75% normal
 			
-			else if(probability < 0.80f)
-				objectToThrowIndex = 1; // 5% 
+			else if(probability < 0.90f)
+				objectToThrowIndex = 3; // 15% battery
+
+			else if(probability < 0.95f && !powerUpOnScreen)
+				objectToThrowIndex = 1; // 5% speed
 			
-			else if(probability < 0.85f)
-				objectToThrowIndex = 2; // 5%
-			
-			else 
-				objectToThrowIndex = 3; // 15%
+			else if(!powerUpOnScreen)
+				objectToThrowIndex = 2; // 5% truck
+
 		}
 		
 		return objectToThrowIndex;

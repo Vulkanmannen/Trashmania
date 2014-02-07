@@ -46,11 +46,7 @@ public class BrokenHeart : Trash
 		}
 		if(collision.collider.gameObject.CompareTag("TrashCollider"))
 		{
-			// caught heart
-			if(thrower != null)
-				thrower.heartCaught = true;
-			
-			destroyAndPoff("");
+			hitTrashCollider();
 		}
 		if(collision.collider.name == "Ground")
 		{
@@ -58,8 +54,17 @@ public class BrokenHeart : Trash
 			if(thrower != null)
 				thrower.heartDroped = true;
 			
-			destroyAndPoff("");
+			destroyAndPoff("",1);
 		}
+	}
+
+	public override void hitTrashCollider()
+	{
+		// caught heart
+		if(thrower != null)
+			thrower.heartCaught = true;
+		
+		destroyAndPoff("");
 	}
 	
 	// fixedUpdate
